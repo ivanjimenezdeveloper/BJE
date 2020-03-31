@@ -13,8 +13,11 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
+import model.ejb.LocalizacionEJB;
 import model.ejb.PlantillaEJB;
+import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
+import model.ejb.UsuarioEJB;
 
 /**
  * Servlet implementation class Main
@@ -34,10 +37,29 @@ public class Main extends HttpServlet {
 	@EJB
 	PlantillaEJB plantillaEJB;
 	
+	@EJB
+	LocalizacionEJB localizacionEJB;
+	
+	@EJB
+	UsuarioEJB usuarioEJB;
+	
+	@EJB
+	RestauranteEJB restauranteEJB; 
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		response.getWriter().append(rolEJB.RolPorId(1).getNombre());
+		
 		response.getWriter().append("\n"+plantillaEJB.PlantillaPorId(1).getId());
+		
+		response.getWriter().append("\n"+localizacionEJB.LocalizacionPorId(1).getNombre());
+
+		response.getWriter().append("\n"+usuarioEJB.UsuarioPorId(1).getNombre());
+		
+//		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getGerente());
+
+
+		
 
 	}
 

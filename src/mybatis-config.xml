@@ -3,18 +3,12 @@
 <configuration>
 	<properties resource='jdbc.properties' />
 	<typeAliases>
-		<!-- <typeAlias type='model.entidad.Accidente' alias='Accidente'></typeAlias> -->
-		<!-- <typeAlias type='model.entidad.Tipos' alias='Tipos'></typeAlias> -->
-		<!-- <typeAlias type='model.entidad.Distritos' alias='Distrito'></typeAlias> -->
-		<!-- <typeAlias type='model.entidad.Usuario' alias='Usuario'></typeAlias> -->
-		<!-- <typeAlias type='model.entidad.Sexo' alias='Sexo'></typeAlias> -->
-		<!-- <typeAlias type='model.entidad.Vehiculo' alias='Vehiculo'></typeAlias> -->
 		<typeAlias type="model.entidad.Rol" alias='Rol' />
 		<typeAlias type="model.entidad.Plantilla" alias='Plantilla' />
-
-
-
-		<!-- <typeAlias type='model.entidad.Estadisticas' alias='Est'></typeAlias> -->
+		<typeAlias type="model.entidad.Localizacion" alias='Localizacion' />
+		<typeAlias type="model.entidad.Usuario" alias='Usuario' />
+		<typeAlias type="model.entidad.Restaurante" alias='Restaurante' />
+		
 
 	</typeAliases>
 	<environments default='development'>
@@ -31,5 +25,9 @@
 	<mappers>
 		<mapper resource="model/entidad/dao/mapper/RolMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/PlantillaMapper.xml" />
+		<mapper resource="model/entidad/dao/mapper/LocalizacionMapper.xml" />
+		<mapper resource="model/entidad/dao/mapper/UsuarioMapper.xml" />
+		<mapper resource="model/entidad/dao/mapper/RestauranteMapper.xml" />
+			
 	</mappers>
 </configuration>

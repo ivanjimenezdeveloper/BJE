@@ -6,9 +6,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
 import model.entidad.Plantilla;
-import model.entidad.Rol;
 import model.entidad.dao.mapper.PlantillaMapper;
-import model.entidad.dao.mapper.RolMapper;
 
 public class PlantillaDAO {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(PlantillaDAO.class);
