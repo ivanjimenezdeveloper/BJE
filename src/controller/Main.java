@@ -43,6 +43,7 @@ public class Main extends HttpServlet {
 	@EJB
 	UsuarioEJB usuarioEJB;
 	
+	
 	@EJB
 	RestauranteEJB restauranteEJB; 
 	
@@ -56,7 +57,7 @@ public class Main extends HttpServlet {
 
 		response.getWriter().append("\n"+usuarioEJB.UsuarioPorId(1).getNombre());
 		
-//		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getGerente());
+		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getGerente());
 
 
 		
