@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
+import model.ejb.PlantillaEJB;
 import model.ejb.RolEJB;
 
 /**
@@ -30,9 +31,14 @@ public class Main extends HttpServlet {
 	@EJB
 	RolEJB rolEJB;
 	
+	@EJB
+	PlantillaEJB plantillaEJB;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append(rolEJB.RolPorId(1).getNombre());
+		response.getWriter().append("\n"+plantillaEJB.PlantillaPorId(1).getId());
+
 	}
 
 	/**
