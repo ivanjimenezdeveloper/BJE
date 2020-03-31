@@ -13,10 +13,13 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
+import model.ejb.DiaEJB;
+import model.ejb.HorarioEJB;
 import model.ejb.LocalizacionEJB;
 import model.ejb.PlantillaEJB;
 import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
+import model.ejb.SemanaEJB;
 import model.ejb.UsuarioEJB;
 
 /**
@@ -47,6 +50,15 @@ public class Main extends HttpServlet {
 	@EJB
 	RestauranteEJB restauranteEJB; 
 	
+	@EJB
+	DiaEJB diaEJB;
+	
+	@EJB
+	SemanaEJB semanaEJB;
+	
+	@EJB
+	HorarioEJB horarioEJB;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		response.getWriter().append(rolEJB.RolPorId(1).getNombre());
@@ -58,6 +70,15 @@ public class Main extends HttpServlet {
 		response.getWriter().append("\n"+usuarioEJB.UsuarioPorId(1).getNombre());
 		
 		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getGerente());
+		
+		response.getWriter().append("\n"+diaEJB.diaPorId(1).getFecha());
+		
+		response.getWriter().append("\n"+semanaEJB.semanaPorId(1).getJueves());
+		
+		response.getWriter().append("\n"+horarioEJB.horarioPorId(1).getSemana_1());
+
+
+
 
 
 		
