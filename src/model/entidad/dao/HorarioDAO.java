@@ -1,5 +1,7 @@
 package model.entidad.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +14,7 @@ public class HorarioDAO {
 
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(HorarioDAO.class);
 
-	public Horario horarioPorId(int id) {
+	public ArrayList<Horario> horarioPorId(int id) {
 		SqlSession sqlSession = null;
 		try {
 			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
@@ -20,7 +22,7 @@ public class HorarioDAO {
 			return horarioMapper.HorarioPorId(id);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			Horario t = new Horario();
+			ArrayList<Horario> t = new ArrayList<Horario>();
 			return t;
 		} finally {
 			sqlSession.close();

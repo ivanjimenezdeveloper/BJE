@@ -53,8 +53,8 @@ public class Main extends HttpServlet {
 	@EJB
 	DiaEJB diaEJB;
 	
-	@EJB
-	SemanaEJB semanaEJB;
+//	@EJB
+//	SemanaEJB semanaEJB;
 	
 	@EJB
 	HorarioEJB horarioEJB;
@@ -67,15 +67,15 @@ public class Main extends HttpServlet {
 		
 		response.getWriter().append("\n"+localizacionEJB.LocalizacionPorId(1).getNombre());
 
-		response.getWriter().append("\n"+usuarioEJB.UsuarioPorId(1).getNombre());
+		response.getWriter().append("\n"+usuarioEJB.UsuarioPorId(3).getNombre());
 		
-		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getGerente());
+		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getLocalizacion());
 		
-		response.getWriter().append("\n"+diaEJB.diaPorId(1).getFecha());
+		response.getWriter().append("\n"+diaEJB.diaPorId(3).getFecha());
 		
-		response.getWriter().append("\n"+semanaEJB.semanaPorId(1).getJueves());
+//		response.getWriter().append("\n"+semanaEJB.semanaPorId(1).getJueves());
 		
-		response.getWriter().append("\n"+horarioEJB.horarioPorId(1).getSemana_1());
+		response.getWriter().append("\n"+horarioEJB.horarioPorId(1));
 
 
 
