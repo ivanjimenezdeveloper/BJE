@@ -1,20 +1,20 @@
 package model.entidad;
 
 public class Usuario {
-	private int id, rol, plantilla;
+	private int id, rol;
 	private String correo, nombre, apellido, pass, observaciones;
-
+	private boolean activo;
 	public Usuario(int id, int rol, int plantilla, String correo, String nombre, String apellido, String pass,
-			String observaciones) {
+			String observaciones, boolean activo) {
 		super();
 		this.id = id;
 		this.rol = rol;
-		this.plantilla = plantilla;
 		this.correo = correo;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.pass = pass;
 		this.observaciones = observaciones;
+		this.activo = activo;
 	}
 
 	public Usuario() {
@@ -35,14 +35,6 @@ public class Usuario {
 
 	public void setRol(int rol) {
 		this.rol = rol;
-	}
-
-	public int getPlantilla() {
-		return plantilla;
-	}
-
-	public void setPlantilla(int plantilla) {
-		this.plantilla = plantilla;
 	}
 
 	public String getCorreo() {
@@ -84,6 +76,16 @@ public class Usuario {
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
 	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	
+	
 	
 	
 

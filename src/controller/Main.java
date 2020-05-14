@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
+import javax.servlet.http.HttpSession;
 import model.MyBatisUtil;
 import model.ejb.DiaEJB;
 import model.ejb.HorarioEJB;
@@ -20,7 +22,9 @@ import model.ejb.PlantillaEJB;
 import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
 import model.ejb.SemanaEJB;
+import model.ejb.Sesiones;
 import model.ejb.UsuarioEJB;
+import model.entidad.Usuario;
 
 /**
  * Servlet implementation class Main
@@ -53,30 +57,48 @@ public class Main extends HttpServlet {
 	@EJB
 	DiaEJB diaEJB;
 	
-//	@EJB
-//	SemanaEJB semanaEJB;
+
 	
 	@EJB
 	HorarioEJB horarioEJB;
 	
+	/**
+	 * EJB para trabajar con sesiones
+	 */
+	@EJB
+	Sesiones sesionEJB;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		response.getWriter().append(rolEJB.RolPorId(1).getNombre());
+//		response.getWriter().append(rolEJB.RolPorId(1).getNombre());
 		
-		response.getWriter().append("\n"+plantillaEJB.PlantillaPorId(1).getId());
+//		response.getWriter().append("\n"+plantillaEJB.PlantillaPorId(1).getId());
 		
-		response.getWriter().append("\n"+localizacionEJB.LocalizacionPorId(1).getNombre());
+//		response.getWriter().append("\n"+localizacionEJB.LocalizacionPorId(1).getNombre());
 
-		response.getWriter().append("\n"+usuarioEJB.UsuarioPorId(3).getNombre());
+//		response.getWriter().append("\n"+usuarioEJB.UsuarioPorId(3).getNombre());
 		
-		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getLocalizacion());
+//		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getLocalizacion());
 		
-		response.getWriter().append("\n"+diaEJB.diaPorId(3).getFecha());
+//		response.getWriter().append("\n"+diaEJB.diaPorId(3).getFecha());
 		
 //		response.getWriter().append("\n"+semanaEJB.semanaPorId(1).getJueves());
 		
-		response.getWriter().append("\n"+horarioEJB.horarioPorId(1));
+//		response.getWriter().append("\n"+horarioEJB.horarioPorId(1));
 
+		boolean ver = false;
+		HttpSession sesion = request.getSession(true);
+		
+		// Obtenemos el usuario de la sesion si existe
+		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		
+		if (user == null) {
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.html");
+			rs.forward(request, response);	
+		}else {
+			response.getWriter().append("ESTASLOGGED");
+		}
+		
 
 
 
