@@ -24,4 +24,18 @@ public class UsuarioDAO {
 			sqlSession.close();
 		}
 	}
+	
+	public Usuario existeUsuario(String correo, String pass) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			UsuarioMapper usuarioMapper = sqlSession.getMapper(UsuarioMapper.class);
+			return usuarioMapper.existeUsuario(correo, pass);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			Usuario u = new Usuario();
+			return u;
+		} finally {
+			sqlSession.close();
+		}		
+	}
 }

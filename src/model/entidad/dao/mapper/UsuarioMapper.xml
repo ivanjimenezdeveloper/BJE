@@ -8,4 +8,9 @@
 		WHERE ID = #{id}
   </select>
   
+  	<select id='existeUsuario' resultType='model.entidad.Usuario'>
+		SELECT * FROM USUARIO
+		WHERE CORREO = #{correo} AND PASS = #{pass}
+	</select>
+  
   </mapper>

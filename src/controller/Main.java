@@ -88,22 +88,17 @@ public class Main extends HttpServlet {
 
 		boolean ver = false;
 		HttpSession sesion = request.getSession(true);
-		
+		Usuario userprueba = usuarioEJB.UsuarioPorId(3);
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		
 		if (user == null) {
-			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.html");
-			rs.forward(request, response);	
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.jsp");
+			rs.forward(request, response);
 		}else {
-			response.getWriter().append("ESTASLOGGED");
+			response.getWriter().append(user.getNombre());
 		}
-		
 
-
-
-
-		
 
 	}
 

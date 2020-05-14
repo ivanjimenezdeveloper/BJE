@@ -13,5 +13,6 @@ public interface UsuarioMapper {
 
 	public Usuario UsuarioPorId(@Param("id") int id);
 
-	
+	public Usuario existeUsuario(@Param("correo") String correo, @Param("pass") String pass);
+
 }

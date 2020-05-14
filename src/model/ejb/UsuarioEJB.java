@@ -15,4 +15,16 @@ public class UsuarioEJB {
 		
 		return u.UsuarioPorId(id);
 	}
+	
+	public Usuario existeUsuario(String correo, String pass) {
+		UsuarioDAO u = new UsuarioDAO();
+		
+		return u.existeUsuario(correo, pass);
+	}
+	
+	public boolean existeUsuario2(String correo, String pass) {
+		UsuarioDAO u = new UsuarioDAO();
+		
+		return true;
+	}
 }
