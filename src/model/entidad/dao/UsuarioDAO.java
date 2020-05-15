@@ -2,6 +2,7 @@ package model.entidad.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +52,21 @@ public class UsuarioDAO {
 			logger.error(e.getMessage());
 			ArrayList<Usuario> u = new ArrayList<Usuario>();
 			return u;
+		} finally {
+			sqlSession.close();
+		}		
+	}
+	
+	public void editaUsuario(String nombre, String apellido,
+			int rol, String observaciones, int restaurante, int activo, int id, String correo) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			UsuarioMapper usuarioMapper = sqlSession.getMapper(UsuarioMapper.class);
+			usuarioMapper.editaUsuario(nombre, apellido, rol, observaciones, restaurante, activo, id, correo);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
 		} finally {
 			sqlSession.close();
 		}		

@@ -79,14 +79,43 @@ public class EditarUsuario extends HttpServlet {
 		rs.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+
+		String nombre, apellido, correo, observaciones, activo;
+		boolean activoParam;
+		
+		int rol =0, restaurante=0;
+
+		HttpSession sesion = request.getSession(true);
+
+		Usuario userEdit = (Usuario) sesion.getAttribute("usuarioEditar");
+
+		nombre = request.getParameter("nombre");
+		apellido = request.getParameter("apellido");
+		correo = request.getParameter("correo");
+
+		try {
+			restaurante = Integer.parseInt(request.getParameter("restaurante"));
+			rol = Integer.parseInt(request.getParameter("rol"));
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+
+		observaciones = request.getParameter("observaciones");
+		activo = request.getParameter("activo");
+		activoParam =(activo != null)?true:false;
+
+
+		userEdit.setNombre(nombre);
+		userEdit.setApellido(apellido);
+		userEdit.setCorreo(correo);
+		userEdit.setRestaurante(restaurante);
+		userEdit.setRol(rol);
+		userEdit.setActivo(activoParam);
+		userEdit.setObservaciones(observaciones);
+
+		usuarioEJB.editaUsuario(userEdit);
 	}
 
 }

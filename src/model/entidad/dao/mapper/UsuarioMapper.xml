@@ -4,12 +4,13 @@
 <mapper namespace='model.entidad.dao.mapper.UsuarioMapper'>
 
 	<select id="busquedaUsuarios" resultType="Usuario">
-	SELECT * FROM USUARIO
+		SELECT * FROM USUARIO
 	</select>
-	
+
 	<select resultType="Usuario" id="UsuarioPorId">
 		SELECT * FROM USUARIO
-		WHERE ID = #{id}
+		WHERE ID =
+		#{id}
 	</select>
 
 	<select id='existeUsuario' resultType='model.entidad.Usuario'>
@@ -25,14 +26,20 @@
 	<delete id='borraUsuario'>
 		DELETE FROM USUARIO WHERE ID = #{id}
 	</delete>
-	
+
 	<insert id="registraUsuario">
-	INSERT INTO USUARIO(CORREO, NOMBRE, APELLIDO, PASS, ROL, OBSERVACIONES, RESTAURANTE, ACTIVO)
- VALUES (#{correo}, #{nombre}, #{apellido}, #{pass}, #{rol}, #{observaciones}, #{restaurante}, #{activo})
+		INSERT INTO USUARIO(CORREO, NOMBRE, APELLIDO, PASS, ROL, OBSERVACIONES,
+		RESTAURANTE, ACTIVO)
+		VALUES (#{correo}, #{nombre}, #{apellido}, #{pass}, #{rol},
+		#{observaciones}, #{restaurante}, #{activo})
 	</insert>
-	
-	<update id="editaUsuario">
-	
+
+	<update id="editaUsuario" parameterType='Usuario'>
+		UPDATE USUARIO
+		SET NOMBRE = #{nombre}, APELLIDO = #{apellido}, ROL = #{rol},
+		OBSERVACIONES = #{observaciones}, RESTAURANTE = #{restaurante}, ACTIVO
+		= #{activo}, CORREO = #{correo}
+		WHERE ID = #{id};
 	</update>
 
 </mapper>

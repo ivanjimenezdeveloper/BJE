@@ -35,4 +35,12 @@ public class UsuarioEJB {
 		
 		return u.busquedaUsuarios();
 	}
+	
+	public void editaUsuario (Usuario user) {
+		
+		UsuarioDAO u = new UsuarioDAO();
+		int activo = (user.isActivo())?1:0;
+		u.editaUsuario(user.getNombre(), user.getApellido(), user.getRol(), user.getObservaciones(), user.getRestaurante(), activo, user.getId(), user.getCorreo());
+		
+	}
 }

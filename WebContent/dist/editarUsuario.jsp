@@ -1,3 +1,7 @@
+<%@page import="model.entidad.Rol"%>
+<%@page import="model.entidad.Restaurante"%>
+<%@page import="model.ejb.RestauranteEJB"%>
+<%@page import="model.ejb.RolEJB"%>
 <%@page import="model.entidad.Usuario"%>
 <%@page import="java.util.ArrayList"%>
 
@@ -10,9 +14,12 @@
 	Usuario userEdit = (Usuario) sesion.getAttribute("usuarioEditar");
 	ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
 
+	RolEJB rolEJB = new RolEJB();
+	RestauranteEJB restauranteEJB = new RestauranteEJB();
 	String correo = userEdit.getCorreo();
 	String nombre = userEdit.getNombre();
 	String apellido = userEdit.getApellido();
+	String activo = (userEdit.isActivo() == true)?"checked":"";
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,61 +110,87 @@
 						<div class="col-lg-7">
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
-									<h3 class="text-center font-weight-light my-4">Create
-										Account</h3>
+									<h3 class="text-center font-weight-light my-4">Editar Cuenta</h3>
 								</div>
 								<div class="card-body">
-									<form>
+									<form action="EditarUsuario" method="POST" id="usrform">
 										<div class="form-row">
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="small mb-1" for="inputFirstName">Nombre</label><input
-														class="form-control py-4" id="inputFirstName" type="text"
-														placeholder="Nombre" value="<% out.print(nombre); %>" />
+														class="form-control py-4" name="nombre"
+														id="inputFirstName" type="text" placeholder="Nombre"
+														value="<%out.print(nombre);%>" />
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="small mb-1" for="inputLastName">Apellido</label><input
-														class="form-control py-4" id="inputLastName" type="text"
-														placeholder="Apellido" value="<% out.print(apellido); %>"/>
+														class="form-control py-4" name="apellido"
+														id="inputLastName" type="text" placeholder="Apellido"
+														value="<%out.print(apellido);%>" />
 												</div>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="small mb-1" for="inputEmailAddress">Email</label><input
-												class="form-control py-4" id="inputEmailAddress"
-												type="email" aria-describedby="emailHelp"
-												placeholder="Email" value="<% out.print(correo); %>" />
+												class="form-control py-4" name="correo"
+												id="inputEmailAddress" type="email"
+												aria-describedby="emailHelp" placeholder="Email"
+												value="<%out.print(correo);%>" />
 										</div>
 										<div class="form-row">
 											<div class="col-md-6">
-												<div class="form-group">
-													<label class="small mb-1" for="inputPassword">Password</label><input
-														class="form-control py-4" id="inputPassword"
-														type="password" placeholder="Enter password" />
-												</div>
+												<label>Restaurante</label> <select class="selectpicker"
+													name="restaurante">
+													<%
+														String html = "";
+														ArrayList<Restaurante> restaurantes = restauranteEJB.busquedaRestaurantes();
+
+														for (Restaurante r : restaurantes) {
+
+															html += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
+
+														}
+
+														out.print(html);
+													%>
+												</select>
+
 											</div>
 											<div class="col-md-6">
-												<div class="form-group">
-													<label class="small mb-1" for="inputConfirmPassword">Confirm
-														Password</label><input class="form-control py-4"
-														id="inputConfirmPassword" type="password"
-														placeholder="Confirm password" />
-												</div>
+												<label>Rol</label> <select class="selectpicker" name="rol">
+													<%
+														String htmlRol = "";
+														ArrayList<Rol> roles = rolEJB.busquedaRoles();
+
+														for (Rol r : roles) {
+
+															htmlRol += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
+
+														}
+
+														out.print(htmlRol);
+													%>
+												</select>
 											</div>
+
+											<div class="col-md-6">
+												<label>Activo</label> <input type="checkbox" id="activo"
+													name="activo" value="activo" <% out.print(activo);  %>>
+											</div>
+
+										</div>
+										<div class="form-row">
+										<textarea style="width: 100%;" name="observaciones" form="usrform"><% out.print(userEdit.getObservaciones()); %></textarea>
 										</div>
 										<div class="form-group mt-4 mb-0">
-											<a class="btn btn-primary btn-block" href="login.html">Create
-												Account</a>
+											<input type="submit" class="btn btn-primary btn-block"
+												value="Editar" />
 										</div>
 									</form>
 								</div>
-								<div class="card-footer text-center">
-									<div class="small">
-										<a href="register.html">Have an account? Go to login</a>
-									</div>
-								</div>
+
 							</div>
 						</div>
 					</div>
