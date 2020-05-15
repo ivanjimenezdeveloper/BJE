@@ -2,14 +2,16 @@ package model.entidad;
 
 public class Restaurante {
 	private int id, localizacion;
+	private String nombre;
 
 	public Restaurante() {
 		super();
 	}
 
-	public Restaurante(int id, int localizacion) {
+	public Restaurante(int id, int localizacion, String nombre) {
 		super();
 		this.id = id;
+		this.nombre = nombre;
 
 		this.localizacion = localizacion;
 	}
@@ -28,6 +30,14 @@ public class Restaurante {
 
 	public void setLocalizacion(int localizacion) {
 		this.localizacion = localizacion;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	

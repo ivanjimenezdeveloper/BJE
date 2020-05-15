@@ -1,11 +1,11 @@
 package model.entidad;
 
 public class Usuario {
-	private int id, rol;
+	private int id, rol, restaurante;
 	private String correo, nombre, apellido, pass, observaciones;
 	private boolean activo;
 	public Usuario(int id, int rol, int plantilla, String correo, String nombre, String apellido, String pass,
-			String observaciones, boolean activo) {
+			String observaciones, boolean activo, int restaurante) {
 		super();
 		this.id = id;
 		this.rol = rol;
@@ -15,6 +15,7 @@ public class Usuario {
 		this.pass = pass;
 		this.observaciones = observaciones;
 		this.activo = activo;
+		this.restaurante = restaurante;
 	}
 
 	public Usuario() {
@@ -84,6 +85,15 @@ public class Usuario {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
+
+	public int getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(int restaurante) {
+		this.restaurante = restaurante;
+	}
+	
 	
 	
 	

@@ -1,12 +1,18 @@
+<%@page import="model.entidad.Restaurante"%>
+<%@page import="model.ejb.RolEJB"%>
 <%@page import="model.entidad.Usuario"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="model.entidad.Rol"%>
+
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	RolEJB rolEJB = new RolEJB();
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	Restaurante restaurante = (Restaurante) sesion.getAttribute("restaurante");
 	ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
 %>
 <!DOCTYPE html>
@@ -62,8 +68,7 @@
 						<!-- INICIO DE LA BARRA LATERAL -->
 						<div class="sb-sidenav-menu-heading">Inicio</div>
 
-						<a class="nav-link" href="Main"><div
-								class="sb-nav-link-icon">
+						<a class="nav-link" href="Main"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Home</a> <a class="nav-link" href="ModoTrabajo"><div
 								class="sb-nav-link-icon">
@@ -98,7 +103,7 @@
 					<h1 class="mt-4">Tables</h1>
 					<ol class="breadcrumb mb-4">
 						<li class="breadcrumb-item"><a href="Main">Home</a></li>
-						<li class="breadcrumb-item active">Gestión de usuarios</li>
+						<li class="breadcrumb-item active">Gestión de usuarios ></li>
 					</ol>
 					<div class="card mb-4">
 						<div class="card-body">
@@ -107,7 +112,7 @@
 					</div>
 					<div class="card mb-4">
 						<div class="card-header">
-							<i class="fas fa-table mr-1"></i>Usuarios
+							<i class="fas fa-table mr-1"></i>Usuarios del restaurante: <% out.print(restaurante.getNombre()); %
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -122,7 +127,7 @@
 											<th>Observaciones</th>
 											<th>Activo</th>
 											<th></th>
-											
+
 										</tr>
 									</thead>
 									<tfoot>
@@ -134,31 +139,32 @@
 											<th>Observaciones</th>
 											<th>Activo</th>
 											<th></th>
-											
+
 										</tr>
 									</tfoot>
 									<tbody>
 
 										<%
 											String html = "";
-												for (Usuario u : arrUs) {
-													
-													String observacion = (u.getObservaciones() == null)?"":u.getObservaciones();
+											for (Usuario u : arrUs) {
 
-													html +="<tr>";
-													html +="<td>" +u.getNombre()+"</td>";
-													html +="<td>" +u.getApellido()+"</td>";
-													html +="<td>" +u.getCorreo()+"</td>";
-													html +="<td>" +u.getRol()+"</td>";
-													
-													html +="<td>" + observacion+"</td>";
-													
-													html +="<td>" +u.isActivo()+"</td>";
-													html +="<td> <a class='btn btn-primary' role='button' href='EditarUsuario?id="+u.getId()+"'>EDITAR</a></td>";
-													html += "</tr>";
-												}
+												String observacion = (u.getObservaciones() == null) ? "" : u.getObservaciones();
+
+												html += "<tr>";
+												html += "<td>" + u.getNombre() + "</td>";
+												html += "<td>" + u.getApellido() + "</td>";
+												html += "<td>" + u.getCorreo() + "</td>";
+												html += "<td>" + rolEJB.RolPorId(u.getRol()).getNombre() + "</td>";
+
+												html += "<td>" + observacion + "</td>";
+
+												html += "<td>" + u.isActivo() + "</td>";
+												html += "<td> <a class='btn btn-primary' role='button' href='EditarUsuario?id=" + u.getId()
+														+ "'>EDITAR</a></td>";
+												html += "</tr>";
+											}
 											out.print(html);
-											%>
+										%>
 
 									</tbody>
 								</table>
@@ -171,7 +177,8 @@
 				<div class="container-fluid">
 					<div
 						class="d-flex align-items-center justify-content-between small">
-						<div class="text-muted">Copyright &copy; Better Job Environment 2020</div>
+						<div class="text-muted">Copyright &copy; Better Job
+							Environment 2020</div>
 						<div>
 							<a href="#">Privacy Policy</a> &middot; <a href="#">Terms
 								&amp; Conditions</a>

@@ -19,6 +19,8 @@ import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
 import model.ejb.Sesiones;
 import model.ejb.UsuarioEJB;
+import model.entidad.Restaurante;
+import model.entidad.Rol;
 import model.entidad.Usuario;
 
 /**
@@ -64,15 +66,15 @@ public class GestionUsuario extends HttpServlet {
 		
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		Restaurante restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante());
 		
 		sesion.setAttribute("usuarios", usuarios);
+		sesion.setAttribute("restaurante", restaurante);
 
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/muestraUsuarios.jsp");
 		rs.forward(request, response);
 		
-//		for(Usuario u : usuarios) {
-//			response.getWriter().print(u.getNombre());
-//		}
+
 	
 	}
 

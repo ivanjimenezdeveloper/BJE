@@ -8,4 +8,8 @@
 		WHERE ID = #{id}
   </select>
   
+  	<select id="busquedaRoles" resultType="Rol">
+	SELECT * FROM ROL
+	</select>
+  
   </mapper>

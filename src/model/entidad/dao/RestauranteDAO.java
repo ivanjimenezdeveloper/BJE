@@ -1,5 +1,7 @@
 package model.entidad.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.LoggerFactory;
 
@@ -25,4 +27,22 @@ public class RestauranteDAO {
 			sqlSession.close();
 		}
 	}
+	
+	
+	public ArrayList<Restaurante> busquedaRestaurantes() {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			RestauranteMapper restauranteMapper = sqlSession.getMapper(RestauranteMapper.class);
+			return restauranteMapper.busquedaRestaurantes();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			ArrayList<Restaurante> t = new ArrayList<Restaurante>();
+			return t;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package model.ejb;
 
+import java.util.ArrayList;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -14,5 +16,11 @@ public class RolEJB {
 		RolDAO r = new RolDAO();
 		
 		return r.RolPorId(id);
+	}
+	
+	public ArrayList<Rol> busquedaRoles() {
+		RolDAO r = new RolDAO();
+		
+		return r.busquedaRoles();
 	}
 }

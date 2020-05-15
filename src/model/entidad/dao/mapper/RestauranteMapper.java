@@ -1,5 +1,7 @@
 package model.entidad.dao.mapper;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Param;
 
 import model.entidad.Restaurante;
@@ -11,5 +13,8 @@ import model.entidad.Restaurante;
  */
 public interface RestauranteMapper {
 	public Restaurante RestaurantePorId(@Param("id") int id);
+	
+	public ArrayList<Restaurante> busquedaRestaurantes();
+	
 
 }

@@ -1,5 +1,7 @@
 package model.ejb;
 
+import java.util.ArrayList;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -15,5 +17,12 @@ public class RestauranteEJB {
 		
 		return r.restaurantePorId(id);
 		
+	}
+	
+	public ArrayList<Restaurante> busquedaRestaurantes(){
+		RestauranteDAO r = new RestauranteDAO();
+		
+		
+		return r.busquedaRestaurantes();
 	}
 }
