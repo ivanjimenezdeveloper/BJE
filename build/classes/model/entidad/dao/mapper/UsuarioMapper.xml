@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
   'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
-  <mapper namespace='model.entidad.dao.mapper.UsuarioMapper'>
-  
-  <select resultType="Usuario" id="UsuarioPorId">
-  		SELECT * FROM Usuario
+<mapper namespace='model.entidad.dao.mapper.UsuarioMapper'>
+
+	<select id="busquedaUsuarios" resultType="Usuario">
+	SELECT * FROM USUARIO
+	</select>
+	
+	<select resultType="Usuario" id="UsuarioPorId">
+		SELECT * FROM USUARIO
 		WHERE ID = #{id}
-  </select>
-  
-  	<select id='existeUsuario' resultType='model.entidad.Usuario'>
+	</select>
+
+	<select id='existeUsuario' resultType='model.entidad.Usuario'>
 		SELECT * FROM USUARIO
 		WHERE CORREO = #{correo} AND PASS = #{pass}
 	</select>
-  
-  </mapper>
+
+	<select id='existeUsuario2' resultType='model.entidad.Usuario'>
+		SELECT * FROM USUARIO
+		WHERE CORREO = #{correo}
+	</select>
+
+	<delete id='borraUsuario'>
+		DELETE FROM USUARIO WHERE ID = #{id}
+	</delete>
+	
+	<insert id="registraUsuario">
+	INSERT INTO USUARIO(CORREO, NOMBRE, APELLIDO, PASS, ROL, OBSERVACIONES, RESTAURANTE, ACTIVO)
+ VALUES (#{correo}, #{nombre}, #{apellido}, #{pass}, #{rol}, #{observaciones}, #{restaurante}, #{activo})
+	</insert>
+	
+	<update id="editaUsuario">
+	
+	</update>
+
+</mapper>

@@ -1,5 +1,7 @@
 package model.entidad.dao.mapper;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Param;
 
 import model.entidad.Usuario;
@@ -15,4 +17,5 @@ public interface UsuarioMapper {
 
 	public Usuario existeUsuario(@Param("correo") String correo, @Param("pass") String pass);
 
+	public ArrayList<Usuario> busquedaUsuarios();
 }

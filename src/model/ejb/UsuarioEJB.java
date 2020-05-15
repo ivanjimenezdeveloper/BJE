@@ -1,5 +1,7 @@
 package model.ejb;
 
+import java.util.ArrayList;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -26,5 +28,11 @@ public class UsuarioEJB {
 		UsuarioDAO u = new UsuarioDAO();
 		
 		return true;
+	}
+	
+	public ArrayList<Usuario> busquedaUsuarios(){
+		UsuarioDAO u = new UsuarioDAO();
+		
+		return u.busquedaUsuarios();
 	}
 }

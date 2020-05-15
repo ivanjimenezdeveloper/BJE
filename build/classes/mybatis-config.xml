@@ -4,12 +4,10 @@
 	<properties resource='jdbc.properties' />
 	<typeAliases>
 		<typeAlias type="model.entidad.Rol" alias='Rol' />
-		<typeAlias type="model.entidad.Plantilla" alias='Plantilla' />
 		<typeAlias type="model.entidad.Localizacion" alias='Localizacion' />
 		<typeAlias type="model.entidad.Usuario" alias='Usuario' />
 		<typeAlias type="model.entidad.Restaurante" alias='Restaurante' />
 		<typeAlias type="model.entidad.Dia" alias='Dia' />
-		<typeAlias type="model.entidad.Semana" alias='Semana' />
 		<typeAlias type="model.entidad.Horario" alias='Horario' />
 		
 		
@@ -30,12 +28,10 @@
 	</environments>
 	<mappers>
 		<mapper resource="model/entidad/dao/mapper/RolMapper.xml" />
-		<mapper resource="model/entidad/dao/mapper/PlantillaMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/LocalizacionMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/UsuarioMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/RestauranteMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/DiaMapper.xml" />
-		<mapper resource="model/entidad/dao/mapper/SemanaMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/HorarioMapper.xml" />
 		
 		

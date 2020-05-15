@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -9,12 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.Logger;
 import javax.servlet.http.HttpSession;
-import model.MyBatisUtil;
+
 import model.ejb.DiaEJB;
 import model.ejb.HorarioEJB;
 import model.ejb.LocalizacionEJB;
@@ -25,17 +22,12 @@ import model.ejb.UsuarioEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class Main
+ * Servlet implementation class GestionUsuario
  */
-@WebServlet("/Main")
-public class Main extends HttpServlet {
+@WebServlet("/GestionUsuario")
+public class GestionUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Logger
-	 */
-	private static final Logger logger = (Logger) LoggerFactory.getLogger(Main.class);
-
+       
 	@EJB
 	RolEJB rolEJB;
 	
@@ -54,7 +46,6 @@ public class Main extends HttpServlet {
 	DiaEJB diaEJB;
 	
 
-	
 	@EJB
 	HorarioEJB horarioEJB;
 	
@@ -63,33 +54,32 @@ public class Main extends HttpServlet {
 	 */
 	@EJB
 	Sesiones sesionEJB;
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		boolean ver = false;
+	
+		ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios();
 		HttpSession sesion = request.getSession(true);
+
+		
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		
-		if (user == null) {
-			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.jsp");
-			rs.forward(request, response);
-		}else {
-			
-			if(user.getRol() == 1) {
-				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
-				rs.forward(request, response);
-			}else if(user.getRol() == 2 || user.getRol() == 3) {
-				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexManager.jsp");
-				rs.forward(request, response);
-			}else {
-				
-			}
+		sesion.setAttribute("usuarios", usuarios);
 
-		}
-
-
+		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/muestraUsuarios.jsp");
+		rs.forward(request, response);
+		
+//		for(Usuario u : usuarios) {
+//			response.getWriter().print(u.getNombre());
+//		}
+	
 	}
 
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
 
 }
