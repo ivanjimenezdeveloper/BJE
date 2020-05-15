@@ -70,25 +70,8 @@ public class Main extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		response.getWriter().append(rolEJB.RolPorId(1).getNombre());
-		
-//		response.getWriter().append("\n"+plantillaEJB.PlantillaPorId(1).getId());
-		
-//		response.getWriter().append("\n"+localizacionEJB.LocalizacionPorId(1).getNombre());
-
-//		response.getWriter().append("\n"+usuarioEJB.UsuarioPorId(3).getNombre());
-		
-//		response.getWriter().append("\n"+restauranteEJB.RestaurantePorId(1).getLocalizacion());
-		
-//		response.getWriter().append("\n"+diaEJB.diaPorId(3).getFecha());
-		
-//		response.getWriter().append("\n"+semanaEJB.semanaPorId(1).getJueves());
-		
-//		response.getWriter().append("\n"+horarioEJB.horarioPorId(1));
-
 		boolean ver = false;
 		HttpSession sesion = request.getSession(true);
-		Usuario userprueba = usuarioEJB.UsuarioPorId(3);
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		
@@ -96,18 +79,21 @@ public class Main extends HttpServlet {
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.jsp");
 			rs.forward(request, response);
 		}else {
-			response.getWriter().append(user.getNombre());
+			
+			if(user.getRol() == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+				rs.forward(request, response);
+			}else if(user.getRol() == 2 || user.getRol() == 3) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexManager.jsp");
+				rs.forward(request, response);
+			}else {
+				
+			}
+
 		}
 
 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }

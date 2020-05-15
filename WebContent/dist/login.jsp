@@ -22,6 +22,8 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
+                                    
+                                    <!-- EMPIEZA EL FORM -->
                                         <form method="POST" action="Login">
                                             <div class="form-group"><label class="small mb-1" for="inputEmailAddress" >Email</label><input class="form-control py-4" id="inputEmailAddress" type="email" placeholder="Enter email address" name="user"/></div>
                                             <div class="form-group"><label class="small mb-1" for="inputPassword" >Password</label><input class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password" name="pass" /></div>
@@ -32,7 +34,6 @@
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
                                     </div>
                                 </div>
                             </div>

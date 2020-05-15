@@ -1,3 +1,11 @@
+<%@page import="model.entidad.Usuario"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	//recupero el usuario de la sesion
+	HttpSession sesion = request.getSession(true);
+	Usuario userNav = (Usuario) sesion.getAttribute("user");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +16,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Home</title>
-<link href="css/styles.css" rel="stylesheet" />
+<link href="dist/css/styles.css" rel="stylesheet" />
 <link
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
 	rel="stylesheet" crossorigin="anonymous" />
@@ -38,7 +46,7 @@
 					<a class="dropdown-item" href="#">Settings</a><a
 						class="dropdown-item" href="#">Activity Log</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="login.html">Logout</a>
+					<a class="dropdown-item" href="Login?logout=1">Logout</a>
 				</div></li>
 		</ul>
 	</nav>
@@ -51,17 +59,10 @@
 						<!-- INICIO DE LA BARRA LATERAL -->
 						<div class="sb-sidenav-menu-heading">Inicio</div>
 
-						<a class="nav-link" href="index.html"><div
+						<a class="nav-link" href="Main"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Home</a> 
-							
-							<a class="nav-link" href="index.html"><div
-								class="sb-nav-link-icon">
-								<i class="fas fa-tachometer-alt"></i>
-							</div> Activar Modo Trabajo</a>
-							
-							 <a class="nav-link" href="index.html"><div
+							</div> Home</a> <a class="nav-link" href="Login?logout=1"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Log Out</a>
@@ -70,7 +71,15 @@
 				<!-- INICIO DE LA INFORMACION DEL USUARIO -->
 
 				<div class="sb-sidenav-footer">
-					<div class="small">Logged in as: Miguel</div>
+					<div class="small">Logged in as: 						<%
+						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
+						if (userNav == null) {
+							out.print("Usuario");
+						} else {
+							out.print(userNav.getNombre());
+
+						}
+					%></div>
 				</div>
 			</nav>
 		</div>
@@ -83,29 +92,14 @@
 					<div class="row">
 						<!-- PRIMERA ROW DE CARDS -->
 						<!-- PRIMERA CARD -->
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="#">
-								<div class="card bg-primary text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario" src="../img/icons8-user-96-white.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Gestión de usuarios
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<!-- SEGUNDA CARD -->
 
-						<div class="col-xl-3 col-md-6">
+
+						<div class="col-xl-6 col-md-6">
 							<a class="small text-white stretched-link" href="#">
 								<div class="card bg-warning text-white mb-4">
 									<div
 										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario" src="../img/icons8-watch-98.png">
+										<img alt="Icono de usuario" src="dist/../img/icons8-watch-98.png">
 									</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-center">
@@ -115,35 +109,18 @@
 								</div>
 							</a>
 						</div>
-						<!-- TERCERA CARD -->
-
-						<div class="col-xl-3 col-md-6">
+												<!-- SEGUNDA CARD -->
+						
+						<div class="col-xl-6 col-md-6">
 							<a class="small text-white stretched-link" href="#">
-								<div class="card bg-success text-white mb-4">
+								<div class="card bg-primary text-white mb-4">
 									<div
 										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario" src="../img/icons8-paper-98.png">
+										<img alt="Icono de usuario" src="dist/../img/icons8-user-96-white.png">
 									</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-center">
-										Facturas
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<!-- CUARTA CARD -->
-
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="#">
-								<div class="card bg-danger text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario" src="../img/icons8-bread-98-white.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Alimentos
+										Perfil
 										<div class="small text-white"></div>
 									</div>
 								</div>
@@ -157,7 +134,7 @@
 				<div class="container-fluid">
 					<div
 						class="d-flex align-items-center justify-content-between small">
-						<div class="text-muted">Copyright &copy; Your Website 2019</div>
+						<div class="text-muted">Copyright &copy; Better Job Environment 2020</div>
 						<div>
 							<a href="#">Privacy Policy</a> &middot; <a href="#">Terms
 								&amp; Conditions</a>
