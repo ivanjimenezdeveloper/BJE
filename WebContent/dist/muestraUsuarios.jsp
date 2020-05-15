@@ -107,7 +107,7 @@
 					</div>
 					<div class="card mb-4">
 						<div class="card-header">
-							<i class="fas fa-table mr-1"></i>DataTable Example
+							<i class="fas fa-table mr-1"></i>Usuarios
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -154,7 +154,7 @@
 													html +="<td>" + observacion+"</td>";
 													
 													html +="<td>" +u.isActivo()+"</td>";
-													html +="<td> EDITAR</td>";
+													html +="<td> <a class='btn btn-primary' role='button' href='EditarUsuario?id="+u.getId()+"'>EDITAR</a></td>";
 													html += "</tr>";
 												}
 											out.print(html);
