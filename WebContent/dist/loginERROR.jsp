@@ -1,5 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@page import="model.entidad.Usuario"%>
+
+
+<%
+	//recupero el usuario de la sesion
+	HttpSession sesion = request.getSession(true);
+	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	Usuario userPadre = new Usuario();
+
+	if (userNav == null) {
+	userNav = userPadre;
+	}
+	if (userNav.getRol() == 1 || userNav.getRol() == 2 || userNav.getRol() == 3) {
+		response.sendRedirect("Main");
+	} else {
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,3 +107,7 @@
 	<script src="dist/js/scripts.js"></script>
 </body>
 </html>
+<%
+	}
+%>
+
