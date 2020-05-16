@@ -27,4 +27,6 @@ public interface UsuarioMapper {
 	public void registraUsuario(@Param("correo") String correo, @Param("nombre") String nombre,
 			@Param("apellido") String apellido, @Param("rol") int rol, @Param("observaciones") String observaciones,
 			@Param("restaurante") int restaurante, @Param("activo") int activo, @Param("pass")String password);
+	
+	public void eliminaUsuario(@Param("id")int id);
 }

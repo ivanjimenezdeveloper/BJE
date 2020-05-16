@@ -19,7 +19,7 @@
 	String correo = userEdit.getCorreo();
 	String nombre = userEdit.getNombre();
 	String apellido = userEdit.getApellido();
-	String activo = (userEdit.isActivo() == true)?"checked":"";
+	String activo = (userEdit.isActivo() == true) ? "checked" : "";
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +110,8 @@
 						<div class="col-lg-7">
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
-									<h3 class="text-center font-weight-light my-4">Editar Cuenta</h3>
+									<h3 class="text-center font-weight-light my-4">Editar
+										Cuenta</h3>
 								</div>
 								<div class="card-body">
 									<form action="EditarUsuario" method="POST" id="usrform">
@@ -177,12 +178,17 @@
 
 											<div class="col-md-6">
 												<label>Activo</label> <input type="checkbox" id="activo"
-													name="activo" value="activo" <% out.print(activo);  %>>
+													name="activo" value="activo" <%out.print(activo);%>>
 											</div>
 
 										</div>
 										<div class="form-row">
-										<textarea style="width: 100%;" name="observaciones" form="usrform"><% out.print(userEdit.getObservaciones()); %></textarea>
+											<textarea style="width: 100%;" name="observaciones"
+												form="usrform">
+												<%
+													out.print(userEdit.getObservaciones());
+												%>
+											</textarea>
 										</div>
 										<div class="form-group mt-4 mb-0">
 											<input type="submit" class="btn btn-primary btn-block"

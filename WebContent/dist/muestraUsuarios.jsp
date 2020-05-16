@@ -112,10 +112,14 @@
 					</div>
 					<div class="card mb-4">
 						<div class="card-header">
-							<i class="fas fa-table mr-1"></i>Usuarios del restaurante: <% out.print(restaurante.getNombre()); %>
+							<i class="fas fa-table mr-1"></i>Usuarios del restaurante:
+							<%
+								out.print(restaurante.getNombre());
+							%>
 						</div>
 						<div class="card-body">
-						<a class='btn btn-primary' style="margin-bottom: 5px;" role='button' href='CrearUsuario'>Crear Usuario</a>
+							<a class='btn btn-primary' style="margin-bottom: 5px;"
+								role='button' href='CrearUsuario'>Crear Usuario</a>
 							<div class="table-responsive">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
@@ -128,6 +132,7 @@
 											<th>Observaciones</th>
 											<th>Activo</th>
 											<th></th>
+											<th></th>
 
 										</tr>
 									</thead>
@@ -139,6 +144,7 @@
 											<th>Rol</th>
 											<th>Observaciones</th>
 											<th>Activo</th>
+											<th></th>
 											<th></th>
 
 										</tr>
@@ -162,6 +168,8 @@
 												html += "<td>" + u.isActivo() + "</td>";
 												html += "<td> <a class='btn btn-primary' role='button' href='EditarUsuario?id=" + u.getId()
 														+ "'>EDITAR</a></td>";
+												html += "<td> <a class='btn btn-danger' role='button' href='BorrarUsuario?id=" + u.getId()
+														+ "'>ELIMINAR</a></td>";
 												html += "</tr>";
 											}
 											out.print(html);

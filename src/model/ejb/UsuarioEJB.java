@@ -56,6 +56,13 @@ public class UsuarioEJB {
 		u.creaUsuario(user.getNombre(), user.getApellido(), user.getRol(), user.getObservaciones(),
 				user.getRestaurante(), activo, user.getCorreo(), user.getPass());
 	}
+	
+	public void eliminaUsuario(int id) {
+		
+		UsuarioDAO u = new UsuarioDAO();
+		
+		u.eliminaUsuario(id);
+	}
 
 	private String creaPassword() {
 

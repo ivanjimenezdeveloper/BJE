@@ -23,7 +23,7 @@
 		WHERE CORREO = #{correo}
 	</select>
 
-	<delete id='borraUsuario'>
+	<delete id='eliminaUsuario'>
 		DELETE FROM USUARIO WHERE ID = #{id}
 	</delete>
 
@@ -52,13 +52,5 @@
 		WHERE ID = #{id};
 	</update>
 
-	<insert id="creaUsuario" parameterType='Usuario'>
-		INSERT INTO
-		USUARIO(CORREO, NOMBRE, APELLIDO, PASS, ROL, OBSERVACIONES,
-		RESTAURANTE, ACTIVO)
-		VALUES (#{correo}, #{nombre}, #{apellido},
-		#{pass}, #{rol},
-		#{observaciones}, #{restaurante}, #{activo}
-	</insert>
 
 </mapper>

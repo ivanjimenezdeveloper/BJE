@@ -87,4 +87,18 @@ public class UsuarioDAO {
 			sqlSession.close();
 		}		
 	}
+	
+	public void eliminaUsuario(int id) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			UsuarioMapper usuarioMapper = sqlSession.getMapper(UsuarioMapper.class);
+			usuarioMapper.eliminaUsuario(id);;
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}		
+	}
 }
