@@ -115,6 +115,7 @@
 							<i class="fas fa-table mr-1"></i>Usuarios del restaurante: <% out.print(restaurante.getNombre()); %>
 						</div>
 						<div class="card-body">
+						<a class='btn btn-primary' style="margin-bottom: 5px;" role='button' href='CrearUsuario'>Crear Usuario</a>
 							<div class="table-responsive">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">

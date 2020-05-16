@@ -71,4 +71,20 @@ public class UsuarioDAO {
 			sqlSession.close();
 		}		
 	}
+	
+	
+	public void creaUsuario(String nombre, String apellido,
+			int rol, String observaciones, int restaurante, int activo, String correo, String password) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			UsuarioMapper usuarioMapper = sqlSession.getMapper(UsuarioMapper.class);
+			usuarioMapper.registraUsuario(correo, nombre, apellido, rol, observaciones, restaurante, activo, password);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}		
+	}
 }

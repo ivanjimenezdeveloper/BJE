@@ -27,19 +27,38 @@
 		DELETE FROM USUARIO WHERE ID = #{id}
 	</delete>
 
-	<insert id="registraUsuario">
-		INSERT INTO USUARIO(CORREO, NOMBRE, APELLIDO, PASS, ROL, OBSERVACIONES,
+	<insert id="registraUsuario" parameterType="Usuario"
+		useGeneratedKeys='true' keyProperty='ID'>
+		INSERT INTO USUARIO(CORREO,
+		NOMBRE, APELLIDO, PASS,
+		ROL, OBSERVACIONES,
 		RESTAURANTE, ACTIVO)
-		VALUES (#{correo}, #{nombre}, #{apellido}, #{pass}, #{rol},
-		#{observaciones}, #{restaurante}, #{activo})
+		VALUES
+		(#{correo}, #{nombre},
+		#{apellido}, #{pass}, #{rol},
+		#{observaciones},
+		#{restaurante},
+		#{activo})
 	</insert>
 
 	<update id="editaUsuario" parameterType='Usuario'>
 		UPDATE USUARIO
-		SET NOMBRE = #{nombre}, APELLIDO = #{apellido}, ROL = #{rol},
-		OBSERVACIONES = #{observaciones}, RESTAURANTE = #{restaurante}, ACTIVO
-		= #{activo}, CORREO = #{correo}
+		SET NOMBRE
+		= #{nombre}, APELLIDO = #{apellido}, ROL = #{rol},
+		OBSERVACIONES =
+		#{observaciones}, RESTAURANTE = #{restaurante}, ACTIVO
+		= #{activo},
+		CORREO = #{correo}
 		WHERE ID = #{id};
 	</update>
+
+	<insert id="creaUsuario" parameterType='Usuario'>
+		INSERT INTO
+		USUARIO(CORREO, NOMBRE, APELLIDO, PASS, ROL, OBSERVACIONES,
+		RESTAURANTE, ACTIVO)
+		VALUES (#{correo}, #{nombre}, #{apellido},
+		#{pass}, #{rol},
+		#{observaciones}, #{restaurante}, #{activo}
+	</insert>
 
 </mapper>

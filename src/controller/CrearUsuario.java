@@ -24,16 +24,11 @@ import model.ejb.UsuarioEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class EditarUsuario
+ * Servlet implementation class CrearUsuario
  */
-@WebServlet("/EditarUsuario")
-public class EditarUsuario extends HttpServlet {
+@WebServlet("/CrearUsuario")
+public class CrearUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Logger
-	 */
-	private static final Logger logger = (Logger) LoggerFactory.getLogger(Main.class);
 
 	@EJB
 	RolEJB rolEJB;
@@ -59,37 +54,32 @@ public class EditarUsuario extends HttpServlet {
 	@EJB
 	Sesiones sesionEJB;
 
+	/**
+	 * Logger
+	 */
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(Main.class);
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		HttpSession sesion = request.getSession(true);
-		Integer id = 0;
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
-		try {
-			id = Integer.parseInt(request.getParameter("id"));
 
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-		Usuario userEdit = usuarioEJB.UsuarioPorId(id);
-
-		sesion.setAttribute("usuarioEditar", userEdit);
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarUsuario.jsp");
+		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/crearUsuario.jsp");
 		rs.forward(request, response);
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String nombre, apellido, correo, observaciones, activo;
 		boolean activoParam;
-		
-		int rol =0, restaurante=0;
+
+		int rol = 0, restaurante = 0;
 
 		HttpSession sesion = request.getSession(true);
 
-		Usuario userEdit = (Usuario) sesion.getAttribute("usuarioEditar");
+		Usuario userCreate = new Usuario();
 
 		nombre = request.getParameter("nombre");
 		apellido = request.getParameter("apellido");
@@ -104,19 +94,20 @@ public class EditarUsuario extends HttpServlet {
 
 		observaciones = request.getParameter("observaciones");
 		activo = request.getParameter("activo");
-		activoParam =(activo != null)?true:false;
+		activoParam = (activo != null) ? true : false;
 
-
-		userEdit.setNombre(nombre);
-		userEdit.setApellido(apellido);
-		userEdit.setCorreo(correo);
-		userEdit.setRestaurante(restaurante);
-		userEdit.setRol(rol);
-		userEdit.setActivo(activoParam);
-		userEdit.setObservaciones(observaciones);
-
-		usuarioEJB.editaUsuario(userEdit);
 		
+			userCreate.setNombre(nombre);
+			userCreate.setApellido(apellido);
+			userCreate.setCorreo(correo);
+			userCreate.setRestaurante(restaurante);
+			userCreate.setRol(rol);
+			userCreate.setActivo(activoParam);
+			userCreate.setObservaciones(observaciones);
+			usuarioEJB.creaUsuario(userCreate);
+
+
+
 		response.sendRedirect("GestionUsuario");
 	}
 
