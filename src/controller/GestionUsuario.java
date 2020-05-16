@@ -20,7 +20,6 @@ import model.ejb.RolEJB;
 import model.ejb.Sesiones;
 import model.ejb.UsuarioEJB;
 import model.entidad.Restaurante;
-import model.entidad.Rol;
 import model.entidad.Usuario;
 
 /**
@@ -29,59 +28,61 @@ import model.entidad.Usuario;
 @WebServlet("/GestionUsuario")
 public class GestionUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	@EJB
 	RolEJB rolEJB;
-	
-	
+
 	@EJB
 	LocalizacionEJB localizacionEJB;
-	
+
 	@EJB
 	UsuarioEJB usuarioEJB;
-	
-	
+
 	@EJB
-	RestauranteEJB restauranteEJB; 
-	
+	RestauranteEJB restauranteEJB;
+
 	@EJB
 	DiaEJB diaEJB;
-	
 
 	@EJB
 	HorarioEJB horarioEJB;
-	
+
 	/**
 	 * EJB para trabajar con sesiones
 	 */
 	@EJB
 	Sesiones sesionEJB;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-	
 		ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios();
 		HttpSession sesion = request.getSession(true);
 
-		
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
-		Restaurante restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante());
-		
-		sesion.setAttribute("usuarios", usuarios);
-		sesion.setAttribute("restaurante", restaurante);
 
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/muestraUsuarios.jsp");
-		rs.forward(request, response);
-		
+		if (user == null || user.getId() == 0 && user.getRol() == 0) {
+			response.sendRedirect("Main");
+		} else {
 
-	
-	}
+			if (user.getRol() == 1) {
+				response.sendRedirect("Main");
+			} else if (user.getRol() == 2 || user.getRol() == 3) {
+				Restaurante restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante());
 
+				sesion.setAttribute("usuarios", usuarios);
+				sesion.setAttribute("restaurante", restaurante);
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/muestraUsuarios.jsp");
+				rs.forward(request, response);
+			} else {
+
+				response.sendRedirect("Main");
+			}
+
+		}
+
 	}
 
 }

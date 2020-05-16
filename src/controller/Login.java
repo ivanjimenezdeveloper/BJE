@@ -58,7 +58,7 @@ public class Login extends HttpServlet {
 				rs.forward(request, response);
 			} else {
 				//si hay un usuario redirige a main
-				if (user != null) {
+				if (user == null ||user.getId() != 0 && user.getRol() != 0) {
 					response.sendRedirect("Main");	
 				} else {
 					//En caso de no haber usuario muestra la pagina de login
@@ -82,7 +82,7 @@ public class Login extends HttpServlet {
 		HttpSession sesion = request.getSession(true);
 
 		user = sesionEJB.usuarioLogeado(sesion);
-
+		
 		//si el usuario es nulo procedera a hacer login, en caso contrario redirigira a main
 		if (user == null) {
 			//comprueba que exista el usuario

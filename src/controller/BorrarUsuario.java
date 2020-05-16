@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +24,7 @@ import model.entidad.Usuario;
 @WebServlet("/BorrarUsuario")
 public class BorrarUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+
 	@EJB
 	UsuarioEJB usuarioEJB;
 	/**
@@ -37,24 +38,38 @@ public class BorrarUsuario extends HttpServlet {
 	 */
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(BorrarUsuario.class);
 
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession sesion = request.getSession(true);
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
-		int id= 0;
-		try {
-			id = Integer.parseInt(request.getParameter("id"));
-		} catch (Exception e) {
-			logger.error(e.getMessage());
+
+		if (user == null || user.getId() == 0 && user.getRol() == 0) {
+			response.sendRedirect("Main");
+
+		} else {
+
+			if (user.getRol() == 1) {
+
+				response.sendRedirect("Main");
+			} else if (user.getRol() == 2 || user.getRol() == 3) {
+				int id = 0;
+				try {
+					id = Integer.parseInt(request.getParameter("id"));
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+				}
+
+				usuarioEJB.eliminaUsuario(id);
+
+				response.sendRedirect("GestionUsuario");
+			} else {
+
+				response.sendRedirect("Main");
+
+			}
+
 		}
-		
-		usuarioEJB.eliminaUsuario(id);
 
-		response.sendRedirect("GestionUsuario");
-
-		
 	}
-
-
 
 }

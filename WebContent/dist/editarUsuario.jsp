@@ -11,15 +11,22 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
-	Usuario userEdit = (Usuario) sesion.getAttribute("usuarioEditar");
-	ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
+	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
+		response.sendRedirect("Main");
+	} else if (userNav.getRol() == 1) {
+		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+		rs.forward(request, response);
+	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 
-	RolEJB rolEJB = new RolEJB();
-	RestauranteEJB restauranteEJB = new RestauranteEJB();
-	String correo = userEdit.getCorreo();
-	String nombre = userEdit.getNombre();
-	String apellido = userEdit.getApellido();
-	String activo = (userEdit.isActivo() == true) ? "checked" : "";
+		Usuario userEdit = (Usuario) sesion.getAttribute("usuarioEditar");
+		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
+
+		RolEJB rolEJB = new RolEJB();
+		RestauranteEJB restauranteEJB = new RestauranteEJB();
+		String correo = userEdit.getCorreo();
+		String nombre = userEdit.getNombre();
+		String apellido = userEdit.getApellido();
+		String activo = (userEdit.isActivo() == true) ? "checked" : "";
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,12 +99,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-						if (userNav == null) {
-							out.print("Usuario");
-						} else {
-							out.print(userNav.getNombre());
+							if (userNav == null) {
+								out.print("Usuario");
+							} else {
+								out.print(userNav.getNombre());
 
-						}
+							}
 					%>
 					</div>
 				</div>
@@ -146,15 +153,15 @@
 													name="restaurante">
 													<%
 														String html = "";
-														ArrayList<Restaurante> restaurantes = restauranteEJB.busquedaRestaurantes();
+															ArrayList<Restaurante> restaurantes = restauranteEJB.busquedaRestaurantes();
 
-														for (Restaurante r : restaurantes) {
+															for (Restaurante r : restaurantes) {
 
-															html += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
+																html += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
 
-														}
+															}
 
-														out.print(html);
+															out.print(html);
 													%>
 												</select>
 
@@ -163,15 +170,15 @@
 												<label>Rol</label> <select class="selectpicker" name="rol">
 													<%
 														String htmlRol = "";
-														ArrayList<Rol> roles = rolEJB.busquedaRoles();
+															ArrayList<Rol> roles = rolEJB.busquedaRoles();
 
-														for (Rol r : roles) {
+															for (Rol r : roles) {
 
-															htmlRol += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
+																htmlRol += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
 
-														}
+															}
 
-														out.print(htmlRol);
+															out.print(htmlRol);
 													%>
 												</select>
 											</div>
@@ -237,3 +244,8 @@
 	<script src="dist/assets/demo/datatables-demo.js"></script>
 </body>
 </html>
+<%
+	} else {
+		response.sendRedirect("Main");
+	}
+%>

@@ -65,8 +65,24 @@ public class CrearUsuario extends HttpServlet {
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/crearUsuario.jsp");
-		rs.forward(request, response);
+		if (user == null || user.getId() == 0 && user.getRol() == 0) {
+			response.sendRedirect("Main");
+
+		} else {
+
+			if (user.getRol() == 1) {
+
+				response.sendRedirect("Main");
+			} else if (user.getRol() == 2 || user.getRol() == 3) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/crearUsuario.jsp");
+				rs.forward(request, response);
+			} else {
+
+				response.sendRedirect("Main");
+
+			}
+
+		}
 
 	}
 
@@ -78,37 +94,52 @@ public class CrearUsuario extends HttpServlet {
 		int rol = 0, restaurante = 0;
 
 		HttpSession sesion = request.getSession(true);
+		Usuario user = sesionEJB.usuarioLogeado(sesion);
 
-		Usuario userCreate = new Usuario();
+		if (user == null || user.getId() == 0 && user.getRol() == 0) {
+			response.sendRedirect("Main");
 
-		nombre = request.getParameter("nombre");
-		apellido = request.getParameter("apellido");
-		correo = request.getParameter("correo");
+		} else {
 
-		try {
-			restaurante = Integer.parseInt(request.getParameter("restaurante"));
-			rol = Integer.parseInt(request.getParameter("rol"));
-		} catch (Exception e) {
-			logger.error(e.getMessage());
+			if (user.getRol() == 1) {
+
+				response.sendRedirect("Main");
+			} else if (user.getRol() == 2 || user.getRol() == 3) {
+				Usuario userCreate = new Usuario();
+
+				nombre = request.getParameter("nombre");
+				apellido = request.getParameter("apellido");
+				correo = request.getParameter("correo");
+
+				try {
+					restaurante = Integer.parseInt(request.getParameter("restaurante"));
+					rol = Integer.parseInt(request.getParameter("rol"));
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+				}
+
+				observaciones = request.getParameter("observaciones");
+				activo = request.getParameter("activo");
+				activoParam = (activo != null) ? true : false;
+
+				userCreate.setNombre(nombre);
+				userCreate.setApellido(apellido);
+				userCreate.setCorreo(correo);
+				userCreate.setRestaurante(restaurante);
+				userCreate.setRol(rol);
+				userCreate.setActivo(activoParam);
+				userCreate.setObservaciones(observaciones);
+				usuarioEJB.creaUsuario(userCreate);
+
+				response.sendRedirect("GestionUsuario");
+			} else {
+
+				response.sendRedirect("Main");
+
+			}
+
 		}
 
-		observaciones = request.getParameter("observaciones");
-		activo = request.getParameter("activo");
-		activoParam = (activo != null) ? true : false;
-
-		
-			userCreate.setNombre(nombre);
-			userCreate.setApellido(apellido);
-			userCreate.setCorreo(correo);
-			userCreate.setRestaurante(restaurante);
-			userCreate.setRol(rol);
-			userCreate.setActivo(activoParam);
-			userCreate.setObservaciones(observaciones);
-			usuarioEJB.creaUsuario(userCreate);
-
-
-
-		response.sendRedirect("GestionUsuario");
 	}
 
 }

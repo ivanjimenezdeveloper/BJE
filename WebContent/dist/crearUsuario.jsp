@@ -11,6 +11,12 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
+		response.sendRedirect("Main");
+	} else if (userNav.getRol() == 1) {
+		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+		rs.forward(request, response);
+	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 	RolEJB rolEJB = new RolEJB();
 	RestauranteEJB restauranteEJB = new RestauranteEJB();
 
@@ -225,3 +231,9 @@
 	<script src="dist/assets/demo/datatables-demo.js"></script>
 </body>
 </html>
+
+<%
+	} else {
+		response.sendRedirect("Main");
+	}
+%>
