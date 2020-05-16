@@ -133,7 +133,7 @@
 											<th>Activo</th>
 											<th></th>
 											<th></th>
-
+											<th></th>
 										</tr>
 									</thead>
 									<tfoot>
@@ -146,7 +146,7 @@
 											<th>Activo</th>
 											<th></th>
 											<th></th>
-
+											<th></th>
 										</tr>
 									</tfoot>
 									<tbody>
@@ -168,6 +168,8 @@
 												html += "<td>" + u.isActivo() + "</td>";
 												html += "<td> <a class='btn btn-primary' role='button' href='EditarUsuario?id=" + u.getId()
 														+ "'>EDITAR</a></td>";
+												html += "<td> <a class='btn btn-info' role='button' href='ResetPassword?id=" + u.getId()
+														+ "'>RESET</a></td>";
 												html += "<td> <a class='btn btn-danger' role='button' href='BorrarUsuario?id=" + u.getId()
 														+ "'>ELIMINAR</a></td>";
 												html += "</tr>";

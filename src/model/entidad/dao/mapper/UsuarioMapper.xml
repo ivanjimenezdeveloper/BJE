@@ -51,6 +51,13 @@
 		CORREO = #{correo}
 		WHERE ID = #{id};
 	</update>
+	
+		<update id="cambiaPass" parameterType='Usuario'>
+		UPDATE USUARIO
+		SET PASS
+		= #{pass}
+		WHERE ID = #{id};
+	</update>
 
 
 </mapper>

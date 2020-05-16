@@ -101,4 +101,18 @@ public class UsuarioDAO {
 			sqlSession.close();
 		}		
 	}
+	
+	public void cambiaPass(int id, String pass) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			UsuarioMapper usuarioMapper = sqlSession.getMapper(UsuarioMapper.class);
+			usuarioMapper.cambiaPass(pass, id);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}		
+	}
 }

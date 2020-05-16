@@ -29,4 +29,6 @@ public interface UsuarioMapper {
 			@Param("restaurante") int restaurante, @Param("activo") int activo, @Param("pass")String password);
 	
 	public void eliminaUsuario(@Param("id")int id);
+	
+	public void cambiaPass(@Param("pass")String pass, @Param("id")int id);
 }

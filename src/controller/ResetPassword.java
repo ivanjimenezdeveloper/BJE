@@ -18,12 +18,12 @@ import model.ejb.UsuarioEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class BorrarUsuario
+ * Servlet implementation class ResetPassword
  */
-@WebServlet("/BorrarUsuario")
-public class BorrarUsuario extends HttpServlet {
+@WebServlet("/ResetPassword")
+public class ResetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+       
 	@EJB
 	UsuarioEJB usuarioEJB;
 	/**
@@ -35,8 +35,7 @@ public class BorrarUsuario extends HttpServlet {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = (Logger) LoggerFactory.getLogger(BorrarUsuario.class);
-
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(ResetPassword.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sesion = request.getSession(true);
@@ -48,13 +47,11 @@ public class BorrarUsuario extends HttpServlet {
 			logger.error(e.getMessage());
 		}
 		
-		usuarioEJB.eliminaUsuario(id);
+		usuarioEJB.resetPassword(id);
 
 		response.sendRedirect("GestionUsuario");
 
 		
 	}
-
-
 
 }

@@ -63,6 +63,13 @@ public class UsuarioEJB {
 		
 		u.eliminaUsuario(id);
 	}
+	
+	public void resetPassword(int id) {
+		UsuarioDAO u = new UsuarioDAO();
+		String pass = creaPassword();
+		
+		u.cambiaPass(id, pass);
+	}
 
 	private String creaPassword() {
 
