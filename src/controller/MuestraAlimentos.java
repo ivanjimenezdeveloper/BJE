@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.ejb.AlimentoEJB;
 import model.ejb.CategoriaEJB;
+import model.entidad.Alimento;
 import model.entidad.Categoria;
 
 /**
@@ -22,6 +24,9 @@ public class MuestraAlimentos extends HttpServlet {
 
 	@EJB
 	CategoriaEJB categoriaEJB;
+	
+	@EJB
+	AlimentoEJB alimentoEJB;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -31,11 +36,16 @@ public class MuestraAlimentos extends HttpServlet {
 			throws ServletException, IOException {
 
 		ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias();
+		ArrayList<Alimento> arrA = alimentoEJB.busquedaAlimentos();
 
 		for (Categoria c : arrC) {
 
 			response.getWriter().println(c.getNombre());
 
+		}
+		
+		for(Alimento a : arrA) {
+			response.getWriter().println(a.getNombre());
 		}
 	}
 
