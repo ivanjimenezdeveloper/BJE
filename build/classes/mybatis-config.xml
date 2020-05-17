@@ -9,10 +9,8 @@
 		<typeAlias type="model.entidad.Restaurante" alias='Restaurante' />
 		<typeAlias type="model.entidad.Dia" alias='Dia' />
 		<typeAlias type="model.entidad.Horario" alias='Horario' />
-		
-		
-		
-		
+		<typeAlias type="model.entidad.Categoria" alias='Categoria' />
+		<typeAlias type="model.entidad.Alimento" alias='Alimento' />
 
 	</typeAliases>
 	<environments default='development'>
@@ -28,6 +26,8 @@
 	</environments>
 	<mappers>
 		<mapper resource="model/entidad/dao/mapper/RolMapper.xml" />
+		<mapper resource="model/entidad/dao/mapper/CategoriaMapper.xml" />
+		<mapper resource="model/entidad/dao/mapper/AlimentoMapper.xml" />		
 		<mapper resource="model/entidad/dao/mapper/LocalizacionMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/UsuarioMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/RestauranteMapper.xml" />
