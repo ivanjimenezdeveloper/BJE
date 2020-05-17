@@ -39,10 +39,11 @@ public class UsuarioEJB {
 		return u.existeUsuario(correo, pass);
 	}
 
-	public boolean existeUsuario2(String correo, String pass) {
+	public int existeCorreo(String correo) {
 		UsuarioDAO u = new UsuarioDAO();
+		
 
-		return true;
+		return u.existeCorreo(correo);
 	}
 
 	public ArrayList<Usuario> busquedaUsuarios() {

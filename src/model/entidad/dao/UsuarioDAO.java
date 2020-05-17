@@ -42,6 +42,19 @@ public class UsuarioDAO {
 		}		
 	}
 	
+	public int existeCorreo(String correo) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			UsuarioMapper usuarioMapper = sqlSession.getMapper(UsuarioMapper.class);
+			return usuarioMapper.existeCorreo(correo);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return 0;
+		} finally {
+			sqlSession.close();
+		}		
+	}
+	
 	
 	public ArrayList<Usuario> busquedaUsuarios() {
 		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();

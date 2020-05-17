@@ -107,31 +107,38 @@ public class CrearUsuario extends HttpServlet {
 			} else if (user.getRol() == 2 || user.getRol() == 3) {
 				Usuario userCreate = new Usuario();
 
-				nombre = request.getParameter("nombre");
-				apellido = request.getParameter("apellido");
 				correo = request.getParameter("correo");
 
-				try {
-					restaurante = Integer.parseInt(request.getParameter("restaurante"));
-					rol = Integer.parseInt(request.getParameter("rol"));
-				} catch (Exception e) {
-					logger.error(e.getMessage());
+				if (usuarioEJB.existeCorreo(correo) == 1) {
+					response.sendRedirect("Main");
+
+				} else {
+
+					nombre = request.getParameter("nombre");
+					apellido = request.getParameter("apellido");
+
+					try {
+						restaurante = Integer.parseInt(request.getParameter("restaurante"));
+						rol = Integer.parseInt(request.getParameter("rol"));
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+					}
+
+					observaciones = request.getParameter("observaciones");
+					activo = request.getParameter("activo");
+					activoParam = (activo != null) ? true : false;
+
+					userCreate.setNombre(nombre);
+					userCreate.setApellido(apellido);
+					userCreate.setCorreo(correo);
+					userCreate.setRestaurante(restaurante);
+					userCreate.setRol(rol);
+					userCreate.setActivo(activoParam);
+					userCreate.setObservaciones(observaciones);
+					usuarioEJB.creaUsuario(userCreate);
+
+					response.sendRedirect("GestionUsuario");
 				}
-
-				observaciones = request.getParameter("observaciones");
-				activo = request.getParameter("activo");
-				activoParam = (activo != null) ? true : false;
-
-				userCreate.setNombre(nombre);
-				userCreate.setApellido(apellido);
-				userCreate.setCorreo(correo);
-				userCreate.setRestaurante(restaurante);
-				userCreate.setRol(rol);
-				userCreate.setActivo(activoParam);
-				userCreate.setObservaciones(observaciones);
-				usuarioEJB.creaUsuario(userCreate);
-
-				response.sendRedirect("GestionUsuario");
 			} else {
 
 				response.sendRedirect("Main");

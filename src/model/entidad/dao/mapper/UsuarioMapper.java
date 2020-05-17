@@ -17,6 +17,8 @@ public interface UsuarioMapper {
 	public Usuario UsuarioPorId(@Param("id") int id);
 
 	public Usuario existeUsuario(@Param("correo") String correo, @Param("pass") String pass);
+	
+	public int existeCorreo(@Param("correo") String correo);
 
 	public ArrayList<Usuario> busquedaUsuarios();
 

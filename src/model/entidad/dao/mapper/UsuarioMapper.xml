@@ -18,7 +18,7 @@
 		WHERE CORREO = #{correo} AND PASS = #{pass}
 	</select>
 
-	<select id='existeUsuario2' resultType='model.entidad.Usuario'>
+	<select id='existeCorreo' resultType="int">
 		SELECT * FROM USUARIO
 		WHERE CORREO = #{correo}
 	</select>
