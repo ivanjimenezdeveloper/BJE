@@ -7,10 +7,10 @@
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 1) {
+	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+	} else if (userNav.getRol() == 1) {
 %>
 <!DOCTYPE html>
 <html lang="en">

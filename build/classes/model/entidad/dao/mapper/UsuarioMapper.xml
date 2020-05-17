@@ -51,11 +51,20 @@
 		CORREO = #{correo}
 		WHERE ID = #{id};
 	</update>
-	
-		<update id="cambiaPass" parameterType='Usuario'>
+
+	<update id="editaPerfil" parameterType='Usuario'>
+		UPDATE USUARIO
+		SET NOMBRE
+		= #{nombre}, APELLIDO = #{apellido}, PASS = #{pass},
+		CORREO = #{correo}
+		WHERE ID = #{id};
+	</update>
+
+	<update id="cambiaPass" parameterType='Usuario'>
 		UPDATE USUARIO
 		SET PASS
-		= #{pass}
+		=
+		#{pass}
 		WHERE ID = #{id};
 	</update>
 

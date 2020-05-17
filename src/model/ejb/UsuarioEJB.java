@@ -46,6 +46,12 @@ public class UsuarioEJB {
 				user.getRestaurante(), activo, user.getId(), user.getCorreo());
 
 	}
+	
+	public void editaPerfil(Usuario user) {
+		UsuarioDAO u = new UsuarioDAO();
+
+		u.editaPerfil(user.getNombre(), user.getApellido(), user.getId(), user.getCorreo(), user.getPass());
+	}
 
 	public void creaUsuario(Usuario user) {
 

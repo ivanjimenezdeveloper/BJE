@@ -13,22 +13,17 @@
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 1) {
+	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-
-		Usuario userEdit = (Usuario) sesion.getAttribute("usuarioEditar");
-		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
+	} else if (userNav.getRol() == 1) {
 
 		RolEJB rolEJB = new RolEJB();
 		RestauranteEJB restauranteEJB = new RestauranteEJB();
-		String correo = userEdit.getCorreo();
-		String nombre = userEdit.getNombre();
-		String apellido = userEdit.getApellido();
-		String activo = (userEdit.isActivo() == true) ? "checked" : "";
+		String correo = userNav.getCorreo();
+		String nombre = userNav.getNombre();
+		String apellido = userNav.getApellido();
 		String observaciones = (userNav.getObservaciones() == null)?"":userNav.getObservaciones();
-
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,11 +113,10 @@
 						<div class="col-lg-7">
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
-									<h3 class="text-center font-weight-light my-4">Editar
-										Cuenta</h3>
+									<h3 class="text-center font-weight-light my-4">Perfil</h3>
 								</div>
 								<div class="card-body">
-									<form action="EditarUsuario" method="POST" id="usrform">
+									<form action="Perfil" method="POST" id="usrform">
 										<div class="form-row">
 											<div class="col-md-6">
 												<div class="form-group">
@@ -150,53 +144,46 @@
 										</div>
 										<div class="form-row">
 											<div class="col-md-6">
-												<label>Restaurante</label> <select class="selectpicker"
-													name="restaurante">
-													<%
-														String html = "";
-															ArrayList<Restaurante> restaurantes = restauranteEJB.busquedaRestaurantes();
+												<label>Restaurante</label> <label> <%
+ 	String htmlRes = "";
+ 		htmlRes += restauranteEJB.RestaurantePorId(userNav.getRestaurante()).getNombre();
 
-															for (Restaurante r : restaurantes) {
-
-																html += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
-
-															}
-
-															out.print(html);
-													%>
-												</select>
+ 		out.print(htmlRes);
+ %>
+												</label>
 
 											</div>
 											<div class="col-md-6">
-												<label>Rol</label> <select class="selectpicker" name="rol">
-													<%
-														String htmlRol = "";
-															ArrayList<Rol> roles = rolEJB.busquedaRoles();
+												<label>Rol: </label> <label> <%
+ 	String htmlRol = "";
+ 		htmlRol += rolEJB.RolPorId(userNav.getRol()).getNombre();
 
-															for (Rol r : roles) {
-
-																htmlRol += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
-
-															}
-
-															out.print(htmlRol);
-													%>
-												</select>
-											</div>
-
-											<div class="col-md-6">
-												<label>Activo</label> <input type="checkbox" id="activo"
-													name="activo" value="activo" <%out.print(activo);%>>
+ 		out.print(htmlRol);
+ %>
+												</label>
 											</div>
 
 										</div>
 										<div class="form-row">
-											<textarea style="width: 100%;" name="observaciones"
-												form="usrform">
-												<%
-													out.print(userEdit.getObservaciones());
-												%>
-											</textarea>
+											<div class="col-md-12">
+												<label>Password</label> <input type="password"
+													name="password">
+											</div>
+										</div>
+
+										<div class="form-row">
+											<div class="col-md-12">
+												<label>Confirma</label> <input type="password"
+													name="passwordConfirm">
+											</div>
+										</div>
+
+
+										<div class="form-row">
+											<label style="width: 100%;" name="observaciones"> <%
+ 	out.print(userNav.getObservaciones());
+ %>
+											</label>
 										</div>
 										<div class="form-group mt-4 mb-0">
 											<input type="submit" class="btn btn-primary btn-block"

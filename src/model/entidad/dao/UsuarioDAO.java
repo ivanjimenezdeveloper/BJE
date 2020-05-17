@@ -72,6 +72,20 @@ public class UsuarioDAO {
 		}		
 	}
 	
+	public void editaPerfil(String nombre, String apellido, int id, String correo, String pass) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			UsuarioMapper usuarioMapper = sqlSession.getMapper(UsuarioMapper.class);
+			usuarioMapper.editaPerfil(nombre, apellido, correo, pass, id);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}		
+	}
+	
 	
 	public void creaUsuario(String nombre, String apellido,
 			int rol, String observaciones, int restaurante, int activo, String correo, String password) {
