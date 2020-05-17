@@ -117,7 +117,7 @@
 												<!-- SEGUNDA CARD -->
 						
 						<div class="col-xl-6 col-md-6">
-							<a class="small text-white stretched-link" href="#">
+							<a class="small text-white stretched-link" href="Perfil">
 								<div class="card bg-primary text-white mb-4">
 									<div
 										class="card-body d-flex align-items-center justify-content-center">

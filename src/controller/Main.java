@@ -21,6 +21,7 @@ import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
 import model.ejb.Sesiones;
 import model.ejb.UsuarioEJB;
+import model.Mail;
 import model.entidad.Usuario;
 
 /**

@@ -4,15 +4,25 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import model.Mail;
 import model.entidad.Usuario;
 import model.entidad.dao.UsuarioDAO;
+
+
 
 @Stateless
 @LocalBean
 public class UsuarioEJB {
+	
+	@EJB
+	RolEJB rolEJB;
+	
+	@EJB
+	RestauranteEJB restauranteEJB;
 
 	public Usuario UsuarioPorId(int id) {
 		UsuarioDAO u = new UsuarioDAO();
@@ -58,9 +68,28 @@ public class UsuarioEJB {
 		UsuarioDAO u = new UsuarioDAO();
 		int activo = (user.isActivo()) ? 1 : 0;
 		user.setPass(creaPassword());
+		
+		if(user.isActivo()) {
+			
+			String restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante()).getNombre();
+			String rol = rolEJB.RolPorId(user.getRol()).getNombre();
+			String cuerpo = "Se ha creado un usuario en nuestra plataforma Better Job Environment con los siguientes datos \n";
+			cuerpo += "Correo: " + user.getCorreo();
+			cuerpo += "\nNombre: " + user.getNombre();
+			cuerpo += "\nApellido: " + user.getApellido();
+			cuerpo += "\nPassword: " + user.getPass();
+			cuerpo += "\nRestaurante: " + restaurante;
+			cuerpo += "\nRol: " + rol;
+			cuerpo += "\n\nSi ha recibido este correo de forma erronea le pedimos que lo borre.";
+			cuerpo += "\nAtentamente, Better Job Environment";
+			
+			enviaCorreo(cuerpo, "Bienvenido a BJE", user.getCorreo());
 
+
+		}
 		u.creaUsuario(user.getNombre(), user.getApellido(), user.getRol(), user.getObservaciones(),
-				user.getRestaurante(), activo, user.getCorreo(), user.getPass());
+				user.getRestaurante(), activo, user.getCorreo(), user.getPass());	
+
 	}
 	
 	public void eliminaUsuario(int id) {
@@ -89,6 +118,13 @@ public class UsuarioEJB {
 				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 
 		return pass;
+	}
+	
+	private void enviaCorreo(String cuerpo, String titulo, String mail) {
+		String remitente = "basiliscoxalligator@gmail.com";
+		Mail m = new Mail("smtp.gmail.com", 587, "basiliscoxalligator@gmail.com", "Ageofempires2");
+		m.sendMail(mail, remitente, titulo, cuerpo);
+		
 	}
 
 }
