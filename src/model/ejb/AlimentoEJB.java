@@ -24,4 +24,6 @@ public class AlimentoEJB {
 
 		return a.busquedaAlimentos();
 	}
+	
+
 }

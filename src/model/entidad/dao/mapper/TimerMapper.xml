@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='model.entidad.dao.mapper.TimerMapper'>
+
+	<select resultType="Timer" id="timersActivos">
+		SELECT TIMER.ID, IDALIMENTO, UNIX_TIMESTAMP(FECHA)-unix_timestamp(now()) AS
+		TIEMPO_RESTANTE, ALIMENTO.IDCATEGORIA
+		FROM TIMER, ALIMENTO
+		WHERE FECHA > (DATE_ADD(NOW(), INTERVAL -1 HOUR)) AND TIMER.IDALIMENTO = ALIMENTO.ID
+	</select>
+
+</mapper>

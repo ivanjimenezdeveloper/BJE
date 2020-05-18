@@ -1,19 +1,19 @@
 package model.entidad;
 
 public class Alimento {
-	private int id, categoria;
+	private int id, categoria, tiempo;
 	private String nombre;
 
 	public Alimento() {
 		super();
 	}
 
-	public Alimento(int id, int categoria, String nombre) {
+	public Alimento(int id, int categoria, int tiempo, String nombre) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
-
 		this.categoria = categoria;
+		this.tiempo = tiempo;
+		this.nombre = nombre;
 	}
 
 	public int getId() {
@@ -28,8 +28,16 @@ public class Alimento {
 		return categoria;
 	}
 
-	public void setCategoria(int categoria) {
+	public void setIdCategoria(int categoria) {
 		this.categoria = categoria;
+	}
+
+	public int getTiempo() {
+		return tiempo;
+	}
+
+	public void setTiempo(int tiempo) {
+		this.tiempo = tiempo;
 	}
 
 	public String getNombre() {
@@ -39,5 +47,23 @@ public class Alimento {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public String getTiempoHMS() {
+		
+		String tiempoHMS = "";
+		
+		int horas = 0;
+		
+		int min = tiempo;
+		
+		horas = min / 60;
+		
+		min = min - (horas*60);
+		
+		return tiempoHMS + horas + ":"+ min + ":00";
+		
+	}
+
+
 
 }
