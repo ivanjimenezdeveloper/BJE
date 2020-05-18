@@ -64,8 +64,7 @@
 						<!-- INICIO DE LA BARRA LATERAL -->
 						<div class="sb-sidenav-menu-heading">Inicio</div>
 
-						<a class="nav-link" href="Main"><div
-								class="sb-nav-link-icon">
+						<a class="nav-link" href="Main"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Home</a> <a class="nav-link" href="ModoTrabajo"><div
 								class="sb-nav-link-icon">
@@ -83,12 +82,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-						if (userNav == null) {
-							out.print("Usuario");
-						} else {
-							out.print(userNav.getNombre());
+							if (userNav == null) {
+								out.print("Usuario");
+							} else {
+								out.print(userNav.getNombre());
 
-						}
+							}
 					%>
 					</div>
 				</div>
@@ -126,7 +125,8 @@
 								<div class="card bg-warning text-white mb-4">
 									<div
 										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario" src="dist/../img/icons8-watch-98.png">
+										<img alt="Icono de usuario"
+											src="dist/../img/icons8-watch-98.png">
 									</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-center">
@@ -143,7 +143,8 @@
 								<div class="card bg-success text-white mb-4">
 									<div
 										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario" src="dist/../img/icons8-paper-98.png">
+										<img alt="Icono de usuario"
+											src="dist/../img/icons8-paper-98.png">
 									</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-center">
@@ -156,7 +157,7 @@
 						<!-- CUARTA CARD -->
 
 						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="#">
+							<a class="small text-white stretched-link" href="MuestraTimers">
 								<div class="card bg-danger text-white mb-4">
 									<div
 										class="card-body d-flex align-items-center justify-content-center">
@@ -179,7 +180,8 @@
 				<div class="container-fluid">
 					<div
 						class="d-flex align-items-center justify-content-between small">
-						<div class="text-muted">Copyright &copy; Better Job Environment 2020</div>
+						<div class="text-muted">Copyright &copy; Better Job
+							Environment 2020</div>
 						<div>
 							<a href="#">Privacy Policy</a> &middot; <a href="#">Terms
 								&amp; Conditions</a>
@@ -207,6 +209,8 @@
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
 		crossorigin="anonymous"></script>
 	<script src="dist/assets/demo/datatables-demo.js"></script>
+
+
 </body>
 </html>
 <%

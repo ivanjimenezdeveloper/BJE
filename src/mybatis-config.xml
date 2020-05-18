@@ -34,8 +34,6 @@
 		<mapper resource="model/entidad/dao/mapper/RestauranteMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/DiaMapper.xml" />
 		<mapper resource="model/entidad/dao/mapper/HorarioMapper.xml" />
-		<mapper resource="model/entidad/dao/mapper/TimerMapper.xml" />
-		
-			
+		<mapper resource="model/entidad/dao/mapper/TimerMapper.xml" />	
 	</mappers>
 </configuration>

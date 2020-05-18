@@ -22,10 +22,10 @@
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+	} else if (userNav.getRol() == 1) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
-	} else if (userNav.getRol() == 1) {
+	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 
 		ArrayList<Integer> timers = new ArrayList<Integer>();
 %>
@@ -128,16 +128,35 @@
 										for (Timer t : arrT) {
 
 											if (t.getIdAlimento() == a.getId()) {
+												int tiempo;
+												if (t.getTiempo_restante() <= 0) {
+													tiempo = 0;
+												} else {
+													tiempo = t.getTiempo_restante();
+												}
+												timers = timerEJB.getHMS(tiempo);
+												html += "\n<div class='col-xl-3 col-md-3'>"; // i1
+												html += "\n<a class='small text-white stretched-link' href='#'>";
 
-												timers = timerEJB.getHMS( t.getTiempo_restante());
-												html += "<div class='col-xl-3 col-md-3'>"; // i1
-												html += "<a class='small text-white stretched-link' href='#''>";
-												html += "<div class='card bg-warning text-white mb-4'>"; // i2
-												html += "<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
-												html += "<h1>" + a.getNombre() + "</h1>";
-												html += "<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-												html += timers.get(0) + ":" + timers.get(1) + ":" + timers.get(2);
-												html += "<div class='small text-white'></div>";
+												if (t.getTiempo_restante() <= 0) {
+													html += "\n<div class='card bg-danger text-white mb-4'>"; // i2
+
+												} else if (t.getTiempo_restante() < 300) {
+													html += "\n<div class='card bg-warning text-white mb-4'>"; // i2
+
+												} else if (t.getTiempo_restante() < 1800) {
+													html += "\n<div class='card bg-info text-white mb-4'>"; // i2
+												} else {
+
+													html += "<div class='card bg-success text-white mb-4'>"; // i2
+
+												}
+												html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
+												html += "\n<h1>" + a.getNombre() + "</h1>";
+												html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+												html += "\n<p id='countdown" + t.getId() + "'>" + timers.get(0) + ":" + timers.get(1)
+														+ ":" + timers.get(2) + "</p>";
+												html += "\n<div class='small text-white'></div>";
 
 												html += "</div>"; // fin 4
 												html += "</div>"; // fin 3
@@ -191,6 +210,30 @@
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
 		crossorigin="anonymous"></script>
 	<script src="dist/assets/demo/datatables-demo.js"></script>
+
+	<script>
+
+<% for (Timer t : arrT) {%>
+
+	var <%out.print("distance"+t.getId()); %> = <% out.print(t.getTiempo_restante());%>*1000;
+
+	var <%out.print("countdown"+t.getId()); %> = setInterval(function(){
+		  var hours = Math.floor((<%out.print("distance"+t.getId()); %> % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		  var minutes = Math.floor((<%out.print("distance"+t.getId()); %> % (1000 * 60 * 60)) / (1000 * 60));
+		  var seconds = Math.floor((<%out.print("distance"+t.getId()); %> % (1000 * 60)) / 1000);
+		  document.getElementById('<%out.print("countdown" + t.getId());%>').innerHTML = hours + "h "+ minutes + "m " + seconds + "s ";
+		  
+		  if (<%out.print("distance"+t.getId()); %> <= 0) {
+			    clearInterval(<%out.print("countdown"+t.getId()); %>);
+			    document.getElementById(<%out.print("'countdown"+t.getId()+"'"); %>).innerHTML = "EXPIRED";
+			  }else{
+				  <%out.print("distance"+t.getId()); %>= <%out.print("distance"+t.getId()); %> - 1000;
+			  }
+		  
+	},1000)
+<%}%>
+
+	</script>
 </body>
 </html>
 
