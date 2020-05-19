@@ -173,7 +173,8 @@
 
 							out.print(html);
 					%>
-
+					<a class='btn btn-primary' style="margin-bottom: 5px;"
+						role='button' href='MuestraAlimentos'>NUEVO TIMER</a>
 					<!-- Fin container fluid -->
 				</div>
 			</main>

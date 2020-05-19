@@ -103,7 +103,7 @@
 						<!-- PRIMERA ROW DE CARDS -->
 						<!-- PRIMERA CARD -->
 							<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="GestionaAlimentos">
+							<a class="small text-white stretched-link" href="MuestraTimers">
 								<div class="card bg-danger text-white mb-4">
 									<div
 										class="card-body d-flex align-items-center justify-content-center">
