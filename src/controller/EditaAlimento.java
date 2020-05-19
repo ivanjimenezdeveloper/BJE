@@ -68,11 +68,18 @@ public class EditaAlimento extends HttpServlet {
 					} catch (Exception e) {
 						logger.error(e.getMessage());
 					}
-					Alimento alimentoEdit = alimentoEJB.alimentoPorId(id);
+					
+					if(id != 0) {
+						Alimento alimentoEdit = alimentoEJB.alimentoPorId(id);
 
-					sesion.setAttribute("alimentoEditar", alimentoEdit);
-					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarAlimento.jsp");
-					rs.forward(request, response);
+						sesion.setAttribute("alimentoEditar", alimentoEdit);
+						RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarAlimento.jsp");
+						rs.forward(request, response);
+					}else {
+						response.sendRedirect("Main");
+
+					}
+	
 				} else {
 
 					response.sendRedirect("Main");

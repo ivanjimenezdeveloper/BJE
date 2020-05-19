@@ -11,15 +11,29 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	int modoTrabajo;
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 1) {
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
-		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-	RolEJB rolEJB = new RolEJB();
-	RestauranteEJB restauranteEJB = new RestauranteEJB();
+	} else {
 
+		if (modoTrabajo == 1) {
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+			rs.forward(request, response);
+		} else {
+			if (userNav.getRol() == 1) {
+
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+				rs.forward(request, response);
+			} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+				RolEJB rolEJB = new RolEJB();
+				RestauranteEJB restauranteEJB = new RestauranteEJB();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,12 +105,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-						if (userNav == null) {
-							out.print("Usuario");
-						} else {
-							out.print(userNav.getNombre());
+									if (userNav == null) {
+										out.print("Usuario");
+									} else {
+										out.print(userNav.getNombre());
 
-						}
+									}
 					%>
 					</div>
 				</div>
@@ -109,7 +123,8 @@
 						<div class="col-lg-7">
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
-									<h3 class="text-center font-weight-light my-4">Crear Cuenta</h3>
+									<h3 class="text-center font-weight-light my-4">Crear
+										Cuenta</h3>
 								</div>
 								<div class="card-body">
 									<form action="CrearUsuario" method="POST" id="usrform">
@@ -135,8 +150,7 @@
 											<label class="small mb-1" for="inputEmailAddress">Email</label><input
 												class="form-control py-4" name="correo"
 												id="inputEmailAddress" type="email"
-												aria-describedby="emailHelp" placeholder="Email"
-												value="" />
+												aria-describedby="emailHelp" placeholder="Email" value="" />
 										</div>
 										<div class="form-row">
 											<div class="col-md-6">
@@ -144,15 +158,15 @@
 													name="restaurante">
 													<%
 														String html = "";
-														ArrayList<Restaurante> restaurantes = restauranteEJB.busquedaRestaurantes();
+																	ArrayList<Restaurante> restaurantes = restauranteEJB.busquedaRestaurantes();
 
-														for (Restaurante r : restaurantes) {
+																	for (Restaurante r : restaurantes) {
 
-															html += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
+																		html += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
 
-														}
+																	}
 
-														out.print(html);
+																	out.print(html);
 													%>
 												</select>
 
@@ -161,15 +175,15 @@
 												<label>Rol</label> <select class="selectpicker" name="rol">
 													<%
 														String htmlRol = "";
-														ArrayList<Rol> roles = rolEJB.busquedaRoles();
+																	ArrayList<Rol> roles = rolEJB.busquedaRoles();
 
-														for (Rol r : roles) {
+																	for (Rol r : roles) {
 
-															htmlRol += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
+																		htmlRol += "<option value='" + r.getId() + "'>" + r.getNombre() + "</option>";
 
-														}
+																	}
 
-														out.print(htmlRol);
+																	out.print(htmlRol);
 													%>
 												</select>
 											</div>
@@ -181,7 +195,8 @@
 
 										</div>
 										<div class="form-row">
-										<textarea style="width: 100%;" name="observaciones" form="usrform"></textarea>
+											<textarea style="width: 100%;" name="observaciones"
+												form="usrform"></textarea>
 										</div>
 										<div class="form-group mt-4 mb-0">
 											<input type="submit" class="btn btn-primary btn-block"
@@ -233,6 +248,8 @@
 
 <%
 	} else {
-		response.sendRedirect("Main");
+				response.sendRedirect("Main");
+			}
+		}
 	}
 %>

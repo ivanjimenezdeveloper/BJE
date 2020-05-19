@@ -21,6 +21,7 @@ import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
 import model.ejb.Sesiones;
 import model.ejb.UsuarioEJB;
+import model.entidad.Alimento;
 import model.entidad.Usuario;
 
 /**
@@ -92,11 +93,17 @@ public class EditarUsuario extends HttpServlet {
 					} catch (Exception e) {
 						logger.error(e.getMessage());
 					}
-					Usuario userEdit = usuarioEJB.UsuarioPorId(id);
+					if(id != 0) {
+						Usuario userEdit = usuarioEJB.UsuarioPorId(id);
 
-					sesion.setAttribute("usuarioEditar", userEdit);
-					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarUsuario.jsp");
-					rs.forward(request, response);
+						sesion.setAttribute("usuarioEditar", userEdit);
+						RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarUsuario.jsp");
+						rs.forward(request, response);
+					}else {
+						response.sendRedirect("Main");
+
+					}
+					
 				} else {
 
 					response.sendRedirect("Main");

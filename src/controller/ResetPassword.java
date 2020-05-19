@@ -68,10 +68,17 @@ public class ResetPassword extends HttpServlet {
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 				}
+				
+				if(id != 0) {
+					usuarioEJB.resetPassword(id);
 
-				usuarioEJB.resetPassword(id);
+					response.sendRedirect("GestionUsuario");
+				}else {
+					response.sendRedirect("Main");
 
-				response.sendRedirect("GestionUsuario");
+				}
+
+
 			} else {
 
 				response.sendRedirect("Main");

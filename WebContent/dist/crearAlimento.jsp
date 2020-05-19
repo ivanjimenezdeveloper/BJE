@@ -15,18 +15,28 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	int modoTrabajo;
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 1) {
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
-		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		TimerEJB timerEJB = new TimerEJB();		
-		CategoriaEJB categoriaEJB = new CategoriaEJB();
-		ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias(); 
-		
-
-
+	} else {
+		if (modoTrabajo == 1) {
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+			rs.forward(request, response);
+		} else {
+			if (userNav.getRol() == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+				rs.forward(request, response);
+			} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+				TimerEJB timerEJB = new TimerEJB();
+				CategoriaEJB categoriaEJB = new CategoriaEJB();
+				ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,12 +108,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-							if (userNav == null) {
-								out.print("Usuario");
-							} else {
-								out.print(userNav.getNombre());
+									if (userNav == null) {
+										out.print("Usuario");
+									} else {
+										out.print(userNav.getNombre());
 
-							}
+									}
 					%>
 					</div>
 				</div>
@@ -122,7 +132,8 @@
 								<div class="card-body">
 									<form action="CreaAlimento" method="POST">
 										<div class="form-row">
-											<div class="col-md-6" style="display: flex;align-items: center;">
+											<div class="col-md-6"
+												style="display: flex; align-items: center;">
 												<div class="form-group">
 													<label class="small mb-1" for="inputFirstName">Nombre</label><input
 														class="form-control py-4" name="nombre"
@@ -136,13 +147,13 @@
 													<%
 														String html = "";
 
-															for (Categoria c : arrC) {
+																	for (Categoria c : arrC) {
 
-																html += "<option value='" + c.getId() + "'>" + c.getNombre() + "</option>";
+																		html += "<option value='" + c.getId() + "'>" + c.getNombre() + "</option>";
 
-															}
+																	}
 
-															out.print(html);
+																	out.print(html);
 													%>
 												</select>
 
@@ -150,8 +161,8 @@
 										</div>
 										<div class="form-row">
 											<div class="col-md-12">
-												<label style="padding-left: 52%;">Tiempo</label> 
-												<input type="time" name="tiempo" required>
+												<label style="padding-left: 52%;">Tiempo</label> <input
+													type="time" name="tiempo" required>
 
 											</div>
 
@@ -206,6 +217,8 @@
 </html>
 <%
 	} else {
-		response.sendRedirect("Main");
+				response.sendRedirect("Main");
+			}
+		}
 	}
 %>
