@@ -52,23 +52,32 @@ public class ModoTrabajo extends HttpServlet {
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.jsp");
 			rs.forward(request, response);
 		} else {
-			if (modoTrabajo == 0) {
+		if(logout != null && logout.equals("1") ) {
+			
+
+			sesion.setAttribute("modoTrabajo", 0);
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/desactivarModoTrabajo.jsp");
+			rs.forward(request, response);
+		}  else if (modoTrabajo == 1) {
 
 				if (user.getRol() == 1) {
 					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 					rs.forward(request, response);
 				} else if (user.getRol() == 2 || user.getRol() == 3) {
-					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/activarModoTrabajo.jsp");
+					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 					rs.forward(request, response);
 				} else {
 					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.jsp");
 					rs.forward(request, response);
 				}
-			} else if (logout.equals("1")) {
-
-				sesion.setAttribute("modoTrabajo", 0);
-				response.sendRedirect("Main");
-			} else {
+			} else if(user.getRol() == 2 || user.getRol() == 3) {
+				
+				sesion.setAttribute("modoTrabajo", 1);
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+				rs.forward(request, response);
+				
+				
+			}else {
 
 				response.sendRedirect("Main");
 			}
@@ -89,7 +98,7 @@ public class ModoTrabajo extends HttpServlet {
 		if (user == null || user.getCorreo() == null) {
 			response.sendRedirect("Main");
 		} else {
-			sesion.setAttribute("modoTrabajo", 1);
+			sesion.setAttribute("modoTrabajo", 0);
 			response.sendRedirect("Main");
 		}
 
