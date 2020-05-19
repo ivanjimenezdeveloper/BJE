@@ -21,7 +21,6 @@ import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
 import model.ejb.Sesiones;
 import model.ejb.UsuarioEJB;
-import model.Mail;
 import model.entidad.Usuario;
 
 /**
@@ -66,13 +65,24 @@ public class Main extends HttpServlet {
 		HttpSession sesion = request.getSession(true);
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			 modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
-		if (user == null ||user.getId() == 0 && user.getRol() == 0) {
+		} catch (Exception e) {
+			 modoTrabajo = 0;
+		}
+
+		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.jsp");
 			rs.forward(request, response);
 		} else {
 
-			if (user.getRol() == 1) {
+			if (modoTrabajo == 1 && user.getRol() == 2 || modoTrabajo == 1 && user.getRol() == 3) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+				rs.forward(request, response);
+			}
+			else if (user.getRol() == 1) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 				rs.forward(request, response);
 			} else if (user.getRol() == 2 || user.getRol() == 3) {
