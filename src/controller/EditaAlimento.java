@@ -43,31 +43,41 @@ public class EditaAlimento extends HttpServlet {
 		Integer id = 0;
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
-
-			if (user.getRol() == 1) {
-
-				response.sendRedirect("Main");
-			} else if (user.getRol() == 2 || user.getRol() == 3) {
-				try {
-					id = Integer.parseInt(request.getParameter("timer"));
-
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-				}
-				Alimento alimentoEdit = alimentoEJB.alimentoPorId(id);
-
-				sesion.setAttribute("alimentoEditar", alimentoEdit);
-				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarAlimento.jsp");
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+				if (user.getRol() == 1) {
 
-				response.sendRedirect("Main");
+					response.sendRedirect("Main");
+				} else if (user.getRol() == 2 || user.getRol() == 3) {
+					try {
+						id = Integer.parseInt(request.getParameter("timer"));
 
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+					}
+					Alimento alimentoEdit = alimentoEJB.alimentoPorId(id);
+
+					sesion.setAttribute("alimentoEditar", alimentoEdit);
+					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarAlimento.jsp");
+					rs.forward(request, response);
+				} else {
+
+					response.sendRedirect("Main");
+
+				}
 			}
 
 		}
@@ -79,40 +89,51 @@ public class EditaAlimento extends HttpServlet {
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		String nombre, categoria, tiempo;
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
 
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+				rs.forward(request, response);
+			} else {
+				if (user.getRol() == 1) {
 
-			if (user.getRol() == 1) {
+					response.sendRedirect("Main");
+				} else if (user.getRol() == 2 || user.getRol() == 3) {
 
-				response.sendRedirect("Main");
-			} else if (user.getRol() == 2 || user.getRol() == 3) {
+					Alimento alimento = (Alimento) sesion.getAttribute("alimentoEditar");
 
-				Alimento alimento = (Alimento) sesion.getAttribute("alimentoEditar");
+					nombre = request.getParameter("nombre");
+					categoria = request.getParameter("categoria");
+					tiempo = request.getParameter("tiempo");
 
-				nombre = request.getParameter("nombre");
-				categoria = request.getParameter("categoria");
-				tiempo = request.getParameter("tiempo");
+					alimento.setNombre(nombre);
 
-				alimento.setNombre(nombre);
+					try {
+						alimento.setIdCategoria(Integer.parseInt(categoria));
+						alimento.setTiempo(alimentoEJB.desglosaTiempoFormulario(tiempo));
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+					}
 
-				try {
-					alimento.setIdCategoria(Integer.parseInt(categoria));
-					alimento.setTiempo( alimentoEJB.desglosaTiempoFormulario(tiempo));
-				} catch (Exception e) {
-					logger.error(e.getMessage());
+					alimentoEJB.editaAlimento(alimento);
+					response.sendRedirect("GestionaAlimentos");
+				} else {
+
+					response.sendRedirect("Main");
+
 				}
 
-				alimentoEJB.editaAlimento(alimento);
-				response.sendRedirect("GestionaAlimentos");
-			} else {
-
-				response.sendRedirect("Main");
-
 			}
-
 		}
 	}
 

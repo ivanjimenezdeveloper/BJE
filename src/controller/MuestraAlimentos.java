@@ -46,13 +46,21 @@ public class MuestraAlimentos extends HttpServlet {
 
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			 modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+		} catch (Exception e) {
+			 modoTrabajo = 0;
+		}
+		
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 		} else {
 
 			if (user.getRol() == 1) {
 				response.sendRedirect("Main");
-			} else if (user.getRol() == 2 || user.getRol() == 3) {
+			} else if (modoTrabajo == 1 && user.getRol() == 2 || modoTrabajo == 1 && user.getRol() == 3) {
 
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/alimentos.jsp");
 				rs.forward(request, response);
@@ -64,14 +72,6 @@ public class MuestraAlimentos extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
 
 }

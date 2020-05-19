@@ -54,8 +54,6 @@ public class ModoTrabajo extends HttpServlet {
 		} else {
 		if(logout != null && logout.equals("1") ) {
 			
-
-			sesion.setAttribute("modoTrabajo", 0);
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/desactivarModoTrabajo.jsp");
 			rs.forward(request, response);
 		}  else if (modoTrabajo == 1) {

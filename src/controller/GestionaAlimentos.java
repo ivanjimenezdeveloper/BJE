@@ -20,28 +20,44 @@ import model.entidad.Usuario;
 @WebServlet("/GestionaAlimentos")
 public class GestionaAlimentos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	@EJB
 	Sesiones sesionEJB;
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession sesion = request.getSession(true);
 
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
+
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 		} else {
 
-			if (user.getRol() == 1) {
-				response.sendRedirect("Main");
-			} else if (user.getRol() == 2 || user.getRol() == 3) {
-
-				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/gestionAlimentos.jsp");
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
 
-				response.sendRedirect("Main");
+				if (user.getRol() == 1) {
+					response.sendRedirect("Main");
+				} else if (user.getRol() == 2 || user.getRol() == 3) {
+
+					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/gestionAlimentos.jsp");
+					rs.forward(request, response);
+				} else {
+
+					response.sendRedirect("Main");
+				}
 			}
 
 		}

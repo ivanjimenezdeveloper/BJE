@@ -42,12 +42,22 @@ public class ResetPassword extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession sesion = request.getSession(true);
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
+		
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
-
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+				rs.forward(request, response);
+			} else {
 			if (user.getRol() == 1) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 				rs.forward(request, response);
@@ -66,7 +76,7 @@ public class ResetPassword extends HttpServlet {
 
 				response.sendRedirect("Main");
 
-			}
+			}}
 
 		}
 

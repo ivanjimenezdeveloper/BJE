@@ -64,22 +64,33 @@ public class CrearUsuario extends HttpServlet {
 		HttpSession sesion = request.getSession(true);
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
 
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
-
-			if (user.getRol() == 1) {
-
-				response.sendRedirect("Main");
-			} else if (user.getRol() == 2 || user.getRol() == 3) {
-				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/crearUsuario.jsp");
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+				if (user.getRol() == 1) {
 
-				response.sendRedirect("Main");
+					response.sendRedirect("Main");
+				} else if (user.getRol() == 2 || user.getRol() == 3) {
+					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/crearUsuario.jsp");
+					rs.forward(request, response);
+				} else {
 
+					response.sendRedirect("Main");
+
+				}
 			}
 
 		}
@@ -95,54 +106,65 @@ public class CrearUsuario extends HttpServlet {
 
 		HttpSession sesion = request.getSession(true);
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
 
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+				rs.forward(request, response);
+			} else {
+				if (user.getRol() == 1) {
 
-			if (user.getRol() == 1) {
-
-				response.sendRedirect("Main");
-			} else if (user.getRol() == 2 || user.getRol() == 3) {
-				Usuario userCreate = new Usuario();
-
-				correo = request.getParameter("correo");
-
-				if (usuarioEJB.existeCorreo(correo) == 1) {
 					response.sendRedirect("Main");
+				} else if (user.getRol() == 2 || user.getRol() == 3) {
+					Usuario userCreate = new Usuario();
 
+					correo = request.getParameter("correo");
+
+					if (usuarioEJB.existeCorreo(correo) == 1) {
+						response.sendRedirect("Main");
+
+					} else {
+
+						nombre = request.getParameter("nombre");
+						apellido = request.getParameter("apellido");
+
+						try {
+							restaurante = Integer.parseInt(request.getParameter("restaurante"));
+							rol = Integer.parseInt(request.getParameter("rol"));
+						} catch (Exception e) {
+							logger.error(e.getMessage());
+						}
+
+						observaciones = request.getParameter("observaciones");
+						activo = request.getParameter("activo");
+						activoParam = (activo != null) ? true : false;
+
+						userCreate.setNombre(nombre);
+						userCreate.setApellido(apellido);
+						userCreate.setCorreo(correo);
+						userCreate.setRestaurante(restaurante);
+						userCreate.setRol(rol);
+						userCreate.setActivo(activoParam);
+						userCreate.setObservaciones(observaciones);
+						usuarioEJB.creaUsuario(userCreate);
+
+						response.sendRedirect("GestionUsuario");
+					}
 				} else {
 
-					nombre = request.getParameter("nombre");
-					apellido = request.getParameter("apellido");
+					response.sendRedirect("Main");
 
-					try {
-						restaurante = Integer.parseInt(request.getParameter("restaurante"));
-						rol = Integer.parseInt(request.getParameter("rol"));
-					} catch (Exception e) {
-						logger.error(e.getMessage());
-					}
-
-					observaciones = request.getParameter("observaciones");
-					activo = request.getParameter("activo");
-					activoParam = (activo != null) ? true : false;
-
-					userCreate.setNombre(nombre);
-					userCreate.setApellido(apellido);
-					userCreate.setCorreo(correo);
-					userCreate.setRestaurante(restaurante);
-					userCreate.setRol(rol);
-					userCreate.setActivo(activoParam);
-					userCreate.setObservaciones(observaciones);
-					usuarioEJB.creaUsuario(userCreate);
-
-					response.sendRedirect("GestionUsuario");
 				}
-			} else {
-
-				response.sendRedirect("Main");
-
 			}
 
 		}

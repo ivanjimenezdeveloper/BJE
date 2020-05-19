@@ -61,11 +61,21 @@ public class GestionUsuario extends HttpServlet {
 
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
+		
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 		} else {
-
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+				rs.forward(request, response);
+			} else {
 			if (user.getRol() == 1) {
 				response.sendRedirect("Main");
 			} else if (user.getRol() == 2 || user.getRol() == 3) {
@@ -79,7 +89,7 @@ public class GestionUsuario extends HttpServlet {
 			} else {
 
 				response.sendRedirect("Main");
-			}
+			}}
 
 		}
 

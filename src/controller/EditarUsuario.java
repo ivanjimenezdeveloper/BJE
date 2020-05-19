@@ -21,7 +21,6 @@ import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
 import model.ejb.Sesiones;
 import model.ejb.UsuarioEJB;
-import model.entidad.Restaurante;
 import model.entidad.Usuario;
 
 /**
@@ -67,33 +66,44 @@ public class EditarUsuario extends HttpServlet {
 		Integer id = 0;
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
 
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
-
-			if (user.getRol() == 1) {
-
-				response.sendRedirect("Main");
-			} else if (user.getRol() == 2 || user.getRol() == 3) {
-				try {
-					id = Integer.parseInt(request.getParameter("id"));
-
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-				}
-				Usuario userEdit = usuarioEJB.UsuarioPorId(id);
-
-				sesion.setAttribute("usuarioEditar", userEdit);
-				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarUsuario.jsp");
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+				if (user.getRol() == 1) {
 
-				response.sendRedirect("Main");
+					response.sendRedirect("Main");
+				} else if (user.getRol() == 2 || user.getRol() == 3) {
+					try {
+						id = Integer.parseInt(request.getParameter("id"));
+
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+					}
+					Usuario userEdit = usuarioEJB.UsuarioPorId(id);
+
+					sesion.setAttribute("usuarioEditar", userEdit);
+					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editarUsuario.jsp");
+					rs.forward(request, response);
+				} else {
+
+					response.sendRedirect("Main");
+
+				}
 
 			}
-
 		}
 
 	}
@@ -108,17 +118,28 @@ public class EditarUsuario extends HttpServlet {
 
 		HttpSession sesion = request.getSession(true);
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		int modoTrabajo;
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
+		
+		
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
-
+			if (modoTrabajo == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+				rs.forward(request, response);
+			} else {
 			if (user.getRol() == 1) {
 
 				response.sendRedirect("Main");
 			} else if (user.getRol() == 2 || user.getRol() == 3) {
-				
+
 				Usuario userEdit = (Usuario) sesion.getAttribute("usuarioEditar");
 
 				nombre = request.getParameter("nombre");
@@ -153,7 +174,7 @@ public class EditarUsuario extends HttpServlet {
 
 			}
 
-		}
+		}}
 
 	}
 }
