@@ -4,16 +4,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.ejb.AlimentoEJB;
 import model.ejb.CategoriaEJB;
+import model.ejb.Sesiones;
 import model.entidad.Alimento;
 import model.entidad.Categoria;
+import model.entidad.Usuario;
 
 /**
  * Servlet implementation class MuestraAlimentos
@@ -27,6 +31,9 @@ public class MuestraAlimentos extends HttpServlet {
 	
 	@EJB
 	AlimentoEJB alimentoEJB;
+	
+	@EJB
+	Sesiones sesionEJB;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -35,17 +42,25 @@ public class MuestraAlimentos extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias();
-		ArrayList<Alimento> arrA = alimentoEJB.busquedaAlimentos();
+		HttpSession sesion = request.getSession(true);
 
-		for (Categoria c : arrC) {
+		// Obtenemos el usuario de la sesion si existe
+		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		if (user == null || user.getId() == 0 && user.getRol() == 0) {
+			response.sendRedirect("Main");
+		} else {
 
-			response.getWriter().println(c.getNombre());
+			if (user.getRol() == 1) {
+				response.sendRedirect("Main");
+			} else if (user.getRol() == 2 || user.getRol() == 3) {
 
-		}
-		
-		for(Alimento a : arrA) {
-			response.getWriter().println(a.getNombre());
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/alimentos.jsp");
+				rs.forward(request, response);
+			} else {
+
+				response.sendRedirect("Main");
+			}
+
 		}
 	}
 

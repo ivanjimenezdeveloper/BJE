@@ -2,15 +2,20 @@ package model.ejb;
 
 import java.util.ArrayList;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import model.entidad.Alimento;
 import model.entidad.Timer;
 import model.entidad.dao.TimerDAO;
 
 @Stateless
 @LocalBean
 public class TimerEJB {
+	
+	@EJB
+	AlimentoEJB alimentoEJB;
 
 	public ArrayList<Timer> timersActivos() {
 		TimerDAO t = new TimerDAO();
@@ -36,6 +41,19 @@ public class TimerEJB {
 
 		return tiempoHMS;
 
+	}
+	
+	public void addTimer(int idAlimento) {
+		
+		TimerDAO t = new TimerDAO();
+		
+		Alimento a = alimentoEJB.alimentoPorId(idAlimento);
+		
+		a.setTiempo(a.getTiempo()*60);
+		
+		t.addTimer(a.getId(), a.getTiempo());
+		
+		
 	}
 
 }

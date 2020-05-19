@@ -20,10 +20,10 @@
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+	} else if (userNav.getRol() == 1) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
-	} else if (userNav.getRol() == 1) {
+	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 		
 		ArrayList<Integer> timers = new ArrayList<Integer>();
 %>
@@ -125,7 +125,7 @@
 										
 										timers = timerEJB.getHMS(a.getTiempo()*60);
 										html += "<div class='col-xl-3 col-md-3'>"; // i1
-										html += "<a class='small text-white stretched-link' href='#''>";
+										html += "<a class='small text-white stretched-link' href='AnyadeTimer?timer="+a.getId()+"'>";
 										html += "<div class='card bg-warning text-white mb-4'>"; // i2
 										html += "<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
 										html += "<h1>"+a.getNombre()+"</h1>";

@@ -4,10 +4,19 @@
 <mapper namespace='model.entidad.dao.mapper.TimerMapper'>
 
 	<select resultType="Timer" id="timersActivos">
-		SELECT TIMER.ID, IDALIMENTO, UNIX_TIMESTAMP(FECHA)-unix_timestamp(now()) AS
-		TIEMPO_RESTANTE, ALIMENTO.IDCATEGORIA
+		SELECT TIMER.ID, IDALIMENTO,
+		UNIX_TIMESTAMP(FECHA)-unix_timestamp(now()) AS
+		TIEMPO_RESTANTE,
+		ALIMENTO.IDCATEGORIA
 		FROM TIMER, ALIMENTO
-		WHERE FECHA > (DATE_ADD(NOW(), INTERVAL -1 HOUR)) AND TIMER.IDALIMENTO = ALIMENTO.ID
+		WHERE FECHA > (DATE_ADD(NOW(),
+		INTERVAL -1 HOUR)) AND TIMER.IDALIMENTO = ALIMENTO.ID
 	</select>
+
+	<insert id="addTimer" parameterType="Timer"
+		useGeneratedKeys='true' keyProperty='ID'>
+		INSERT INTO TIMER(IDALIMENTO,FECHA) VALUES(#{idAlimento},from_unixtime(unix_timestamp(now()) + #{fecha}))
+
+	</insert>
 
 </mapper>

@@ -9,6 +9,7 @@ import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
 import model.entidad.Timer;
 import model.entidad.dao.mapper.TimerMapper;
+import model.entidad.dao.mapper.UsuarioMapper;
 
 public class TimerDAO {
 
@@ -26,6 +27,20 @@ public class TimerDAO {
 		} finally {
 			sqlSession.close();
 		}
+	}
+	
+	public void addTimer(int idAlimento, int fecha) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			TimerMapper timerMapper = sqlSession.getMapper(TimerMapper.class);
+			timerMapper.addTimer(idAlimento, fecha);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}		
 	}
 	
 }
