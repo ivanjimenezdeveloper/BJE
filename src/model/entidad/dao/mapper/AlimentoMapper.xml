@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
   'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
-  <mapper namespace='model.entidad.dao.mapper.AlimentoMapper'>
-  
-  <select resultType="Alimento" id="AlimentoPorId">
-  		SELECT * FROM ALIMENTO
-		WHERE ID = #{id}
-  </select>
-  
-  	<select id="busquedaAlimentos" resultType="Alimento">
-	SELECT * FROM ALIMENTO
+<mapper namespace='model.entidad.dao.mapper.AlimentoMapper'>
+
+	<select resultType="Alimento" id="AlimentoPorId">
+		SELECT * FROM ALIMENTO
+		WHERE ID
+		= #{id}
 	</select>
-	
-	
-  
-  </mapper>
+
+	<select id="busquedaAlimentos" resultType="Alimento">
+		SELECT * FROM ALIMENTO
+	</select>
+
+
+	<update id="editaAlimento" parameterType='Alimento'>
+		UPDATE ALIMENTO
+		SET
+		NOMBRE
+		= #{nombre}, IDCATEGORIA = #{idCategoria}, TIEMPO = #{tiempo}
+		WHERE ID = #{id};
+	</update>
+
+	<insert id="creaAlimento" parameterType="Alimento"
+		useGeneratedKeys="true" keyProperty="ID">
+		INSERT INTO ALIMENTO(NOMBRE,IDCATEGORIA, TIEMPO)
+		VALUES(#{nombre},#{idCategoria}, #{tiempo})
+	</insert>
+
+</mapper>

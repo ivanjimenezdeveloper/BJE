@@ -1,9 +1,22 @@
+<%@page import="model.ejb.TimerEJB"%>
+<%@page import="model.entidad.Categoria"%>
+<%@page import="model.entidad.Alimento"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.ejb.AlimentoEJB"%>
+<%@page import="model.ejb.CategoriaEJB"%>
 <%@page import="model.entidad.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
+	CategoriaEJB categoriaEJB = new CategoriaEJB();
+	AlimentoEJB alimentoEJB = new AlimentoEJB();
+	TimerEJB timerEJB = new TimerEJB();
+
+	ArrayList<Alimento> arrA = alimentoEJB.busquedaAlimentos();
+	ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias();
+
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
@@ -11,6 +24,8 @@
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+
+		ArrayList<Integer> timers = new ArrayList<Integer>();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,10 +81,7 @@
 
 						<a class="nav-link" href="Main"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Home</a> <a class="nav-link" href="ModoTrabajo"><div
-								class="sb-nav-link-icon">
-								<i class="fas fa-tachometer-alt"></i>
-							</div> Activar Modo Trabajo</a> <a class="nav-link" href="Login?logout=1"><div
+							</div> Home</a> <a class="nav-link" href="Login?logout=1"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Log Out</a>
@@ -96,84 +108,48 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-					<h1 class="mt-4">Menu</h1>
 
+					<a class='btn btn-primary' style="margin-bottom: 5px;"
+						role='button' href='CreaAlimento'>Nuevo Alimento</a>
+					<%
+						String html = "";
+							for (Categoria c : arrC) {
 
-					<div class="row">
-						<!-- PRIMERA ROW DE CARDS -->
-						<!-- PRIMERA CARD -->
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="GestionUsuario">
-								<div class="card bg-primary text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-user-96-white.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Gestión de usuarios
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<!-- SEGUNDA CARD -->
+								html += "<div class='row'>";
+								html += "<h1>" + c.getNombre() + "</h1>";
+								html += "</div>"; // row nombre categoria
+								html += "<div class='row'>";
 
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="#">
-								<div class="card bg-warning text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-watch-98.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Horarios
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<!-- TERCERA CARD -->
+								for (Alimento a : arrA) {
 
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="#">
-								<div class="card bg-success text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-paper-98.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Facturas
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<!-- CUARTA CARD -->
+									if (a.getCategoria() == c.getId()) {
 
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="GestionaAlimentos">
-								<div class="card bg-danger text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-bread-98-white.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Alimentos
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
+										timers = timerEJB.getHMS(a.getTiempo() * 60);
+										html += "<div class='col-xl-3 col-md-3'>"; // i1
+										html += "<a class='small text-white stretched-link' href='EditaAlimento?timer=" + a.getId()
+												+ "'>";
+										html += "<div class='card bg-warning text-white mb-4'>"; // i2
+										html += "<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
+										html += "<h1>" + a.getNombre() + "</h1>";
+										html += "<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+										html += timers.get(0) + ":" + timers.get(1) + ":" + timers.get(2);
+										html += "<div class='small text-white'></div>";
 
-					</div>
+										html += "</div>"; // fin 4
+										html += "</div>"; // fin 3
+										html += "</div>"; // fin 2
+										html += "</a>";
+										html += "</div>"; // fin 1
+									}
+
+								}
+								html += "</div>"; // fin row de tarjetas
+							}
+
+							out.print(html);
+					%>
+
+					<!-- Fin container fluid -->
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
@@ -209,10 +185,9 @@
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
 		crossorigin="anonymous"></script>
 	<script src="dist/assets/demo/datatables-demo.js"></script>
-
-
 </body>
 </html>
+
 <%
 	} else {
 		response.sendRedirect("Main");

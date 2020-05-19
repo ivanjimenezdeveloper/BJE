@@ -9,6 +9,7 @@ import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
 import model.entidad.Alimento;
 import model.entidad.dao.mapper.AlimentoMapper;
+import model.entidad.dao.mapper.UsuarioMapper;
 
 public class AlimentoDAO {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RolDAO.class);
@@ -43,4 +44,35 @@ public class AlimentoDAO {
 			sqlSession.close();
 		}
 	}
+	
+	public void editaAlimento(String nombre, int idCategoria, int id, int tiempo) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			AlimentoMapper alimentoMapper = sqlSession.getMapper(AlimentoMapper.class);
+			alimentoMapper.editaAlimento(nombre, idCategoria, id, tiempo);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}		
+	}
+
+
+	public void creaAlimento(String nombre, int idCategoria, int tiempo) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			AlimentoMapper alimentoMapper = sqlSession.getMapper(AlimentoMapper.class);
+			alimentoMapper.creaAlimento(nombre, idCategoria, tiempo);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	
 }
