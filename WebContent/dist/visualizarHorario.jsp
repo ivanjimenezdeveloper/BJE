@@ -126,7 +126,6 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-							<form action="EditaAlimento" method="POST">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
@@ -197,8 +196,6 @@
 
 									</tbody>
 								</table>
-								
-								</form>
 							</div>
 						</div>
 					</div>

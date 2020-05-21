@@ -18,4 +18,7 @@ public interface DiaMapper {
 	public ArrayList<Dia> horarioUsuario(@Param("usuario") int idUsuario, @Param("mes") int mes,
 			@Param("anyo") int anyo);
 
+	public ArrayList<Dia> horarioRestaurante(@Param("mes") int mes,
+			@Param("anyo") int anyo, @Param("restaurante") int idRestaurante);
+
 }

@@ -45,4 +45,19 @@ public class DiaDAO {
 	}
 	
 	
+	public ArrayList<Dia> horarioRestaurante(int mes, int anyo, int idRestaurante) {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			DiaMapper diaMapper = sqlSession.getMapper(DiaMapper.class);
+			return diaMapper.horarioRestaurante(mes, anyo, idRestaurante);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			ArrayList<Dia> t = new ArrayList<Dia>();
+			return t;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 }

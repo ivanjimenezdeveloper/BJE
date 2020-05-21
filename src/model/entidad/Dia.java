@@ -2,16 +2,18 @@ package model.entidad;
 
 public class Dia {
 
-	private int id;
+	private int id, usuario;
 	private String fecha, entrada_1, salida_1, entrada_2, salida_2;
 	
 	public Dia() {
 		super();
 	}
 
-	public Dia(int id, String fecha, String entrada_1, String salida_1, String entrada_2, String salida_2) {
+	public Dia(int id, int usuario, String fecha, String entrada_1, String salida_1, String entrada_2,
+			String salida_2) {
 		super();
 		this.id = id;
+		this.usuario = usuario;
 		this.fecha = fecha;
 		this.entrada_1 = entrada_1;
 		this.salida_1 = salida_1;
@@ -25,6 +27,14 @@ public class Dia {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(int usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getFecha() {
@@ -66,7 +76,8 @@ public class Dia {
 	public void setSalida_2(String salida_2) {
 		this.salida_2 = salida_2;
 	}
-	
+
+
 	
 	
 	
