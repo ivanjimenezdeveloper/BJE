@@ -56,7 +56,7 @@ public class AnyadeTimer extends HttpServlet {
 					logger.error(e.getMessage());
 				}
 
-				timerEJB.addTimer(idAlimento);
+				timerEJB.addTimer(idAlimento, user.getRestaurante());
 
 				response.sendRedirect("MuestraTimers");
 			} else {

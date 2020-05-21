@@ -29,11 +29,11 @@ public class TimerDAO {
 		}
 	}
 	
-	public void addTimer(int idAlimento, int fecha) {
+	public void addTimer(int idAlimento, int fecha, int idRestaurante) {
 		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
 			TimerMapper timerMapper = sqlSession.getMapper(TimerMapper.class);
-			timerMapper.addTimer(idAlimento, fecha);
+			timerMapper.addTimer(idAlimento, fecha, idRestaurante);
 			sqlSession.commit();
 		} catch (Exception e) {
 			logger.error(e.getMessage());

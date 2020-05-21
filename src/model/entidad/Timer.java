@@ -1,7 +1,7 @@
 package model.entidad;
 
 public class Timer {
-	private int id, idAlimento, tiempo_restante, idcategoria;
+	private int id, idAlimento, tiempo_restante, idcategoria, idRestaurante;
 
 	public Timer() {
 		super();
@@ -46,6 +46,16 @@ public class Timer {
 	public void setIdcategoria(int idcategoria) {
 		this.idcategoria = idcategoria;
 	}
+
+	public int getIdRestaurante() {
+		return idRestaurante;
+	}
+
+	public void setIdRestaurante(int idRestaurante) {
+		this.idRestaurante = idRestaurante;
+	}
+	
+	
 
 
 

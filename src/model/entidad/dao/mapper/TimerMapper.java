@@ -10,6 +10,6 @@ public interface TimerMapper {
 	
 	public ArrayList<Timer> timersActivos ();
 	
-	public void addTimer(@Param("idAlimento") int idAlimento, @Param("fecha") int fecha);
+	public void addTimer(@Param("idAlimento") int idAlimento, @Param("fecha") int fecha, @Param("idRestaurante")int idRestaurante);
 
 }

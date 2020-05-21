@@ -43,7 +43,7 @@ public class TimerEJB {
 
 	}
 	
-	public void addTimer(int idAlimento) {
+	public void addTimer(int idAlimento, int idRestaurante) {
 		
 		TimerDAO t = new TimerDAO();
 		
@@ -51,7 +51,7 @@ public class TimerEJB {
 		
 		a.setTiempo(a.getTiempo()*60);
 		
-		t.addTimer(a.getId(), a.getTiempo());
+		t.addTimer(a.getId(), a.getTiempo(), idRestaurante);
 		
 		
 	}

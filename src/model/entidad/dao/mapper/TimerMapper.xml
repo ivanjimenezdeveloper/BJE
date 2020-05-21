@@ -15,7 +15,7 @@
 
 	<insert id="addTimer" parameterType="Timer"
 		useGeneratedKeys='true' keyProperty='ID'>
-		INSERT INTO TIMER(IDALIMENTO,FECHA) VALUES(#{idAlimento},from_unixtime(unix_timestamp(now()) + #{fecha}))
+		INSERT INTO TIMER(IDALIMENTO,FECHA, IDRESTAURANTE) VALUES(#{idAlimento},from_unixtime(unix_timestamp(now()) + #{fecha}, #{idRestaurante}))
 
 	</insert>
 
