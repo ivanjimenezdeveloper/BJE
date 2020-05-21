@@ -49,7 +49,6 @@ public class EditarUsuario extends HttpServlet {
 	@EJB
 	DiaEJB diaEJB;
 
-
 	/**
 	 * EJB para trabajar con sesiones
 	 */

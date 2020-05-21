@@ -1,3 +1,6 @@
+<%@page import="model.entidad.Dia"%>
+<%@page import="model.ejb.UsuarioEJB"%>
+<%@page import="model.ejb.DiaEJB"%>
 <%@page import="model.entidad.Restaurante"%>
 <%@page import="model.ejb.RolEJB"%>
 <%@page import="model.entidad.Usuario"%>
@@ -8,7 +11,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	RolEJB rolEJB = new RolEJB();
+	DiaEJB d = new DiaEJB();
+UsuarioEJB us = new UsuarioEJB();
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
@@ -18,8 +22,9 @@
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-	Restaurante restaurante = (Restaurante) sesion.getAttribute("restaurante");
 	ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
+	
+	ArrayList<Dia> arrD = d.horarioUsuario(us.UsuarioPorId(1), 3, 2018);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,9 +123,6 @@
 					<div class="card mb-4">
 						<div class="card-header">
 							<i class="fas fa-table mr-1"></i>Usuarios del restaurante:
-							<%
-								out.print(restaurante.getNombre());
-							%>
 						</div>
 						<div class="card-body">
 							<a class='btn btn-primary' style="margin-bottom: 5px;"
@@ -130,49 +132,60 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th>Lunes</th>
-											<th>Martes</th>
-											<th>Miercoles</th>
-											<th>Jueves</th>
-											<th>Viernes</th>
-											<th>Sabado</th>
-											<th>Domingo</th>
-											<th></th>
+											<th>Trabajador</th>
+									<% 
+									String htmlDia = "";
+									for(Dia dia :  arrD){
+									htmlDia += "<th colspan='4'>" + d.NombreDia(dia.getFecha()) + "</th>";
+									}
+									
+									out.print(htmlDia);
+									%>
+
 											<th></th>
 											<th></th>
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
-											<th>Lunes</th>
-											<th>Martes</th>
-											<th>Miercoles</th>
-											<th>Jueves</th>
-											<th>Viernes</th>
-											<th>Sabado</th>
-											<th>Domingo</th>
-											<th></th>
+											<th>Trabajador</th>
+									<% 
+									
+									out.print(htmlDia);
+									%>
 											<th></th>
 											<th></th>
 										</tr>
 									</tfoot>
 									<tbody>
-
+										<tr>
+										<td>ENT</td>
+										<td>SAL</td>
+										<td>ENT</td>
+										<td>SAL</td>
+										
+										</tr>
 										<%
 											String html = "";
 											for (Usuario u : arrUs) {
 
-												String observacion = (u.getObservaciones() == null) ? "" : u.getObservaciones();
-
 												html += "<tr>";
-												html += "<td>" + u.getNombre() + "</td>";
-												html += "<td>" + u.getApellido() + "</td>";
-												html += "<td>" + u.getCorreo() + "</td>";
-												html += "<td>" + rolEJB.RolPorId(u.getRol()).getNombre() + "</td>";
+												html += "<td>" + u.getNombre() + " " + u.getApellido() + "</td>";
+												
 
-												html += "<td>" + observacion + "</td>";
 
-												html += "<td>" + u.isActivo() + "</td>";
+												
+												for(Dia dia : arrD){
+													html += "<td>"  +dia.getEntrada_1()+ "</td>";
+													html += "<td>"  +dia.getSalida_1()+ "</td>";
+													html += "<td>"  +dia.getEntrada_2()+ "</td>";
+													html += "<td>"  +dia.getSalida_2()+ "</td>";
+
+
+													
+												}
+												
+
 												html += "<td> <a class='btn btn-primary' role='button' href='EditarUsuario?id=" + u.getId()
 														+ "'>EDITAR</a></td>";
 												html += "<td> <a class='btn btn-danger' role='button' href='BorrarUsuario?id=" + u.getId()
