@@ -1,3 +1,4 @@
+<%@page import="model.ejb.TimerEJB"%>
 <%@page import="model.entidad.Dia"%>
 <%@page import="model.ejb.UsuarioEJB"%>
 <%@page import="model.ejb.DiaEJB"%>
@@ -13,6 +14,7 @@
 <%
 	DiaEJB d = new DiaEJB();
 	UsuarioEJB us = new UsuarioEJB();
+	TimerEJB timerEJB = new TimerEJB();
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
@@ -22,9 +24,10 @@
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
+		Usuario user = us.UsuarioPorId(1);
+		ArrayList<Integer> arrT = new ArrayList<Integer>();
 
-		ArrayList<Dia> arrD = d.horarioRestaurante( 3, 2018,1);
+		ArrayList<Dia> arrD = d.horarioUsuario(user, 3, 2018);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -154,6 +157,8 @@
 									<tbody>
 										<%
 										htmlDia = "<tr>";
+										htmlDia += "<td></td>";
+
 											for (Dia dia : arrD) {
 													htmlDia += "<td>ENT</td>";
 													htmlDia += "<td>SAL</td>";
@@ -167,32 +172,36 @@
 										out.print(htmlDia);
 										%>
 										<%
-											String html = "";
-												for (Usuario u : arrUs) {
+										String html = "";
 
-													html += "<tr>";
-													html += "<td>" + u.getNombre() + " " + u.getApellido() + "</td>";
+											html += "<tr>";
+											html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
 
-													for (Dia dia : arrD) {
+											for (Dia dia : arrD) {
+											
+												
+												if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
+													html += "<td colspan='4'> LIBRE </td>";
+												} else {
 													
-														if(u.getId() == dia.getUsuario()){
-														
-														if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
-															html += "<td colspan='4'> LIBRE </td>";
-														} else {
-															html += "<td>" + dia.getEntrada_1() + "</td>";
-															html += "<td>" + dia.getSalida_1() + "</td>";
-															html += "<td>" + dia.getEntrada_2() + "</td>";
-															html += "<td>" + dia.getSalida_2() + "</td>";
-														}
-														
-													}
-
-													}
-
-													html += "</tr>";
+													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_1()));
+													html += "<td><input type='time' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
+													
+													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
+													html += "<td><input type='time' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
+													
+													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_2()));
+													html += "<td><input type='time' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
+													
+													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
+													html += "<td><input type='time' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
 												}
-												out.print(html);
+												
+											}
+
+											html += "</tr>";
+										
+										out.print(html);
 										%>
 
 									</tbody>
