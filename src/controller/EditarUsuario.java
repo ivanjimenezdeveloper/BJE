@@ -15,13 +15,11 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 import model.ejb.DiaEJB;
-import model.ejb.HorarioEJB;
 import model.ejb.LocalizacionEJB;
 import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
 import model.ejb.Sesiones;
 import model.ejb.UsuarioEJB;
-import model.entidad.Alimento;
 import model.entidad.Usuario;
 
 /**
@@ -51,8 +49,6 @@ public class EditarUsuario extends HttpServlet {
 	@EJB
 	DiaEJB diaEJB;
 
-	@EJB
-	HorarioEJB horarioEJB;
 
 	/**
 	 * EJB para trabajar con sesiones

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
   'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
-  <mapper namespace='model.entidad.dao.mapper.DiaMapper'>
-  
-  <select resultType="Dia" id="DiaPorId">
-  		SELECT * FROM DIA
+<mapper namespace='model.entidad.dao.mapper.DiaMapper'>
+
+	<select resultType="Dia" id="DiaPorId">
+		SELECT * FROM DIA
 		WHERE ID = #{id}
-  </select>
-  
-  </mapper>
+	</select>
+
+	<select resultType="Dia" id="horarioUsuario">
+
+		SELECT * FROM DIA WHERE USUARIO= #{usuario} AND MONTH(FECHA) = #{mes} AND
+		year(FECHA) = #{anyo}
+
+
+	</select>
+
+</mapper>

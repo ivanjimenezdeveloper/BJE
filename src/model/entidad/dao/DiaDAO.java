@@ -1,5 +1,7 @@
 package model.entidad.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.LoggerFactory;
 
@@ -25,4 +27,22 @@ public class DiaDAO {
 			sqlSession.close();
 		}
 	}
+	
+	
+	public ArrayList<Dia> horarioUsuario(int idUsuario, int mes, int anyo) {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			DiaMapper diaMapper = sqlSession.getMapper(DiaMapper.class);
+			return diaMapper.horarioUsuario(idUsuario, mes, anyo);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			ArrayList<Dia> t = new ArrayList<Dia>();
+			return t;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	
 }

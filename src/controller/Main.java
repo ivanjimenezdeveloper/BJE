@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 import model.ejb.DiaEJB;
-import model.ejb.HorarioEJB;
 import model.ejb.LocalizacionEJB;
 import model.ejb.RestauranteEJB;
 import model.ejb.RolEJB;
@@ -50,8 +49,6 @@ public class Main extends HttpServlet {
 	@EJB
 	DiaEJB diaEJB;
 
-	@EJB
-	HorarioEJB horarioEJB;
 
 	/**
 	 * EJB para trabajar con sesiones
