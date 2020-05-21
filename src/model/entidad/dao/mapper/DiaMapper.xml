@@ -16,12 +16,17 @@
 
 	</select>
 	
-		<select resultType="Dia" id="horarioRestaurante">
+	<select resultType="Dia" id="horarioRestaurante">
 
 		SELECT DIA.* FROM DIA, USUARIO WHERE MONTH(FECHA) = #{mes} AND
 		year(FECHA) = #{anyo} AND USUARIO.ID = DIA.USUARIO AND USUARIO.RESTAURANTE = #{restaurante}
 
 
 	</select>
+	
+	<select resultType="Dia" id="horarioUsuarioFecha">
+	SELECT * FROM DIA WHERE MONTH(FECHA) = #{mes} AND YEAR(FECHA) = #{anyo} AND USUARIO = #{usuario}
+	
+	</select>	
 
 </mapper>

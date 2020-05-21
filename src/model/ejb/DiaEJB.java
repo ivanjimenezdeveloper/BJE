@@ -41,6 +41,14 @@ public class DiaEJB {
 		
 	}
 	
+	public ArrayList<Dia> horarioUsuarioFecha(Usuario u, int mes, int anyo){
+		DiaDAO d = new DiaDAO();
+		
+		
+		return d.horarioUsuarioFecha(mes, anyo, u.getId());
+		
+	}
+	
 	public String NombreDia(String fecha) throws ParseException {
 		
 		
