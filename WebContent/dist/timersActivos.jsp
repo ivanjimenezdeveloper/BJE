@@ -17,9 +17,11 @@
 
 	ArrayList<Alimento> arrA = alimentoEJB.busquedaAlimentos();
 	ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias();
-	ArrayList<Timer> arrT = timerEJB.timersActivos();
 
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	
+	ArrayList<Timer> arrT = timerEJB.timersActivos(userNav.getRestaurante());
+
 	int modoTrabajo;
 	try {
 		 modoTrabajo = (int) sesion.getAttribute("modoTrabajo");

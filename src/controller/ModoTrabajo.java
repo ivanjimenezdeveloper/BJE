@@ -39,7 +39,7 @@ public class ModoTrabajo extends HttpServlet {
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		int modoTrabajo = 0;
-		String logout = "1";
+		String logout = "";
 		try {
 			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 			logout = request.getParameter("logoutTrabajo");

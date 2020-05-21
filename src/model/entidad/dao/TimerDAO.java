@@ -14,12 +14,13 @@ import model.entidad.dao.mapper.UsuarioMapper;
 public class TimerDAO {
 
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(UsuarioDAO.class);
-	public ArrayList<Timer> timersActivos() {
+	
+	public ArrayList<Timer> timersActivos(int idRestaurante) {
 		SqlSession sqlSession = null;
 		try {
 			 sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 			TimerMapper timerMapper = sqlSession.getMapper(TimerMapper.class);
-			return timerMapper.timersActivos();
+			return timerMapper.timersActivos(idRestaurante);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			ArrayList<Timer> t = new ArrayList<Timer>();

@@ -17,10 +17,10 @@ public class TimerEJB {
 	@EJB
 	AlimentoEJB alimentoEJB;
 
-	public ArrayList<Timer> timersActivos() {
+	public ArrayList<Timer> timersActivos( int idRestaurante) {
 		TimerDAO t = new TimerDAO();
 
-		return t.timersActivos();
+		return t.timersActivos( idRestaurante);
 
 	}
 

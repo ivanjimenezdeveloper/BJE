@@ -10,12 +10,12 @@
 		ALIMENTO.IDCATEGORIA
 		FROM TIMER, ALIMENTO
 		WHERE FECHA > (DATE_ADD(NOW(),
-		INTERVAL -1 HOUR)) AND TIMER.IDALIMENTO = ALIMENTO.ID
+		INTERVAL -1 HOUR)) AND TIMER.IDALIMENTO = ALIMENTO.ID AND TIMER.IDRESTAURANTE = #{idRestaurante}
 	</select>
 
 	<insert id="addTimer" parameterType="Timer"
 		useGeneratedKeys='true' keyProperty='ID'>
-		INSERT INTO TIMER(IDALIMENTO,FECHA, IDRESTAURANTE) VALUES(#{idAlimento},from_unixtime(unix_timestamp(now()) + #{fecha}, #{idRestaurante}))
+		INSERT INTO TIMER(IDALIMENTO,FECHA, IDRESTAURANTE) VALUES(#{idAlimento},from_unixtime(unix_timestamp(now()) + #{fecha}), #{idRestaurante})
 
 	</insert>
 
