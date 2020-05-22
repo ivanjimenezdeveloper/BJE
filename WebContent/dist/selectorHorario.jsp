@@ -16,19 +16,20 @@
 	} catch (Exception e) {
 		modoTrabajo = 0;
 	}
-	
+
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
 	} else {
 		if (modoTrabajo == 1) {
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 			rs.forward(request, response);
-		} else { if (userNav.getRol() == 1) {
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
-		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		
-		ArrayList<Horario> arrH = (ArrayList) sesion.getAttribute("horarios");
+		} else {
+			if (userNav.getRol() == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+				rs.forward(request, response);
+			} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+
+				ArrayList<Horario> arrH = (ArrayList) sesion.getAttribute("horarios");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,12 +101,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-							if (userNav == null) {
-								out.print("Usuario");
-							} else {
-								out.print(userNav.getNombre());
+									if (userNav == null) {
+										out.print("Usuario");
+									} else {
+										out.print(userNav.getNombre());
 
-							}
+									}
 					%>
 					</div>
 				</div>
@@ -115,31 +116,33 @@
 			<main>
 				<div class="container-fluid">
 					<h1 class="mt-4">Horarios</h1>
+					<a class='btn btn-primary' href="CreaHorarioGeneral">Nuevo
+						Horario</a>
 
-
-						<%
+					<%
 						String html = "";
-						html += "<div class='row'>";
-						for(Horario h : arrH){
-							
-							html += "\n<div class='col-xl-3 col-md-3'>"; // i1
-							html += "\n<a class='small text-white stretched-link' href='VisualizarHorario?mes="+h.getMes()+"&anyo="+h.getAnyo()+"'>";
-							html += "<div class='card bg-success text-white mb-4'>"; // i2
-							html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
-							html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-							html += "<p>"+ h.getMes()+ "/"+ h.getAnyo() + "</p>";
-							
-							html += "</div>"; //f4
-							html += "</div>"; // f3
-							html += "</div>"; // f2
-							html += "</a>";
-							html += "</div>"; // f1
-							
-						}
-						
-						html += "</div>";
-						out.print(html);
-						%>
+									html += "<div class='row'>";
+									for (Horario h : arrH) {
+
+										html += "\n<div class='col-xl-3 col-md-3'>"; // i1
+										html += "\n<a class='small text-white stretched-link' href='VisualizarHorario?mes="
+												+ h.getMes() + "&anyo=" + h.getAnyo() + "'>";
+										html += "<div class='card bg-success text-white mb-4'>"; // i2
+										html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
+										html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+										html += "<p>" + h.getMes() + "/" + h.getAnyo() + "</p>";
+
+										html += "</div>"; //f4
+										html += "</div>"; // f3
+										html += "</div>"; // f2
+										html += "</a>";
+										html += "</div>"; // f1
+
+									}
+
+									html += "</div>";
+									out.print(html);
+					%>
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
@@ -181,6 +184,8 @@
 </html>
 <%
 	} else {
-		response.sendRedirect("Main");
-	}}}
+				response.sendRedirect("Main");
+			}
+		}
+	}
 %>

@@ -10,10 +10,18 @@
 	</select>
 
 	<select id="horariosPorRestaurante" resultType="Horario">
-		SELECT DISTINCT HORARIO.* FROM HORARIO, DIA, USUARIO
-		WHERE DIA.IDHORARIO = HORARIO.ID AND USUARIO.ID = DIA.USUARIO
+		SELECT DISTINCT
+		HORARIO.* FROM HORARIO, DIA, USUARIO
+		WHERE DIA.IDHORARIO = HORARIO.ID
+		AND USUARIO.ID = DIA.USUARIO
 		AND USUARIO.restaurante = #{restaurante}
 
 	</select>
+
+	<insert id="creaHorarioGeneral" parameterType="Horario"
+		useGeneratedKeys="true" keyProperty="ID">
+		INSERT INTO HORARIO(ACTIVO, MES,
+		ANYO) VALUES(#{activo},#{mes},#{anyo});
+	</insert>
 
 </mapper>

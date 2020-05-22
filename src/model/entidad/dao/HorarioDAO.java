@@ -29,8 +29,8 @@ public class HorarioDAO {
 			sqlSession.close();
 		}
 	}
-	
-	public ArrayList<Horario> horariosPorRestaurante(int idRestaurante){
+
+	public ArrayList<Horario> horariosPorRestaurante(int idRestaurante) {
 		SqlSession sqlSession = null;
 		try {
 			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
@@ -44,5 +44,20 @@ public class HorarioDAO {
 			sqlSession.close();
 		}
 	}
-	
+
+	public void creaHorarioGeneral(int activo, int mes, int anyo) {
+
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			HorarioMapper horarioMapper = sqlSession.getMapper(HorarioMapper.class);
+			horarioMapper.creaHorarioGeneral(activo, mes, anyo);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			sqlSession.close();
+		}
+
+	}
 }
