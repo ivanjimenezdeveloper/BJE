@@ -23,6 +23,12 @@ public class HorarioEJB {
 		
 		return h.horariosPorRestaurante(idRestaurante);
 	}
+	
+	public ArrayList<Horario> getHorarios() {
+		HorarioDAO h = new HorarioDAO();
+		
+		return h.getHorarios();
+	}
 
 	public void creaHorarioGeneral(boolean activo, int mes, int anyo) {
 		HorarioDAO h = new HorarioDAO();
@@ -31,4 +37,6 @@ public class HorarioEJB {
 		
 		h.creaHorarioGeneral(activoInsert, mes, anyo);
 	}
+	
+	
 }

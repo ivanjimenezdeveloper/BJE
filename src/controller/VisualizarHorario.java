@@ -78,7 +78,7 @@ public class VisualizarHorario extends HttpServlet {
 				} else if (user.getRol() == 2 || user.getRol() == 3) {
 
 					if (mes == null && anyo == null || mes.equals("") && anyo.equals("")) {
-						ArrayList<Horario> arrH = horarioEJB.horariosPorRestaurante(user.getRestaurante());
+						ArrayList<Horario> arrH = horarioEJB.getHorarios();
 
 						sesion.setAttribute("horarios", arrH);
 

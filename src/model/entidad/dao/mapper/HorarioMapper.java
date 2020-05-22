@@ -12,6 +12,9 @@ public interface HorarioMapper {
 
 	public ArrayList<Horario> horariosPorRestaurante(@Param("restaurante") int idRestaurante);
 
+	public ArrayList<Horario> getHorarios();
+
+	
 	public void creaHorarioGeneral(@Param("activo") int activo, @Param("mes") int mes, @Param("anyo") int anyo);
 
 }

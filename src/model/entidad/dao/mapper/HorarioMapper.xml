@@ -8,7 +8,9 @@
 		WHERE ID =
 		#{id}
 	</select>
-
+	<select id="getHorarios" resultType="Horario">
+	SELECT * FROM HORARIO
+	</select>
 	<select id="horariosPorRestaurante" resultType="Horario">
 		SELECT DISTINCT
 		HORARIO.* FROM HORARIO, DIA, USUARIO
