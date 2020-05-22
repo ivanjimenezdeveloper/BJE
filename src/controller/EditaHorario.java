@@ -41,7 +41,7 @@ public class EditaHorario extends HttpServlet {
 		HttpSession sesion = request.getSession(true);
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
-		ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios();
+		ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios(user.getRestaurante());
 		sesion.setAttribute("usuarios", usuarios);
 
 

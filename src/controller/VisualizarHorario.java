@@ -1,11 +1,24 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import model.ejb.HorarioEJB;
+import model.ejb.RestauranteEJB;
+import model.ejb.Sesiones;
+import model.ejb.UsuarioEJB;
+import model.entidad.Horario;
+import model.entidad.Restaurante;
+import model.entidad.Usuario;
 
 /**
  * Servlet implementation class VisualizarHorario
@@ -13,29 +26,68 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/VisualizarHorario")
 public class VisualizarHorario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public VisualizarHorario() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	@EJB
+	HorarioEJB horarioEJB;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * EJB para trabajar con sesiones
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	@EJB
+	Sesiones sesionEJB;
+
+	@EJB
+	RestauranteEJB restauranteEJB;
+	
+	@EJB
+	UsuarioEJB usuarioEJB;
+	
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession sesion = request.getSession(true);
+		// Obtenemos el usuario de la sesion si existe
+		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		String mes, anyo;
+		mes = request.getParameter("mes");
+		anyo = request.getParameter("anyo");
+
+		if (mes == null && anyo == null || mes.equals("") && anyo.equals("")) {
+			ArrayList<Horario> arrH = horarioEJB.horariosPorRestaurante(user.getRestaurante());
+
+			sesion.setAttribute("horarios", arrH);
+
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/selectorHorario.jsp");
+			rs.forward(request, response);
+		}else {
+			doPost(request, response);
+		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession sesion = request.getSession(true);
+		// Obtenemos el usuario de la sesion si existe
+		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		String mes, anyo;
+		mes = request.getParameter("mes");
+		anyo = request.getParameter("anyo");
+		ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios(user.getRestaurante());
+		Restaurante restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante());
+
+		sesion.setAttribute("usuarios", usuarios);
+		sesion.setAttribute("restaurante", restaurante);
+		sesion.setAttribute("mes", mes);
+		sesion.setAttribute("anyo", anyo);
+		
+		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/visualizarHorario.jsp");
+		rs.forward(request, response);
+
 	}
 
 }

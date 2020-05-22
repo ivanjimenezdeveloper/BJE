@@ -53,11 +53,12 @@ public class GestionUsuario extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios();
 		HttpSession sesion = request.getSession(true);
 
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios(user.getRestaurante());
+
 		int modoTrabajo;
 		try {
 			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");

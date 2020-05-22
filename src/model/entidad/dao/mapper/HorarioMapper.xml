@@ -9,10 +9,10 @@
 		#{id}
 	</select>
 
-	<select id="horariosPorRestaurante">
+	<select id="horariosPorRestaurante" resultType="Horario">
 		SELECT DISTINCT HORARIO.* FROM HORARIO, DIA, USUARIO
 		WHERE DIA.IDHORARIO = HORARIO.ID AND USUARIO.ID = DIA.USUARIO
-		AND USUARIO.restaurante = #{horario}
+		AND USUARIO.restaurante = #{restaurante}
 
 	</select>
 

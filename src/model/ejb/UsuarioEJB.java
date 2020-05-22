@@ -45,10 +45,10 @@ public class UsuarioEJB {
 		return u.existeCorreo(correo);
 	}
 
-	public ArrayList<Usuario> busquedaUsuarios() {
+	public ArrayList<Usuario> busquedaUsuarios(int idRestaurante) {
 		UsuarioDAO u = new UsuarioDAO();
 
-		return u.busquedaUsuarios();
+		return u.busquedaUsuarios(idRestaurante);
 	}
 
 	public void editaUsuario(Usuario user) {

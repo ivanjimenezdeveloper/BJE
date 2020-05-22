@@ -20,7 +20,7 @@ public interface UsuarioMapper {
 	
 	public int existeCorreo(@Param("correo") String correo);
 
-	public ArrayList<Usuario> busquedaUsuarios();
+	public ArrayList<Usuario> busquedaUsuarios(@Param("restaurante")int idRestaurante);
 
 	public void editaUsuario(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("rol") int rol,
 			@Param("observaciones") String observaciones, @Param("restaurante") int restaurante,

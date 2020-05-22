@@ -1,33 +1,34 @@
-<%@page import="model.entidad.Dia"%>
-<%@page import="model.ejb.UsuarioEJB"%>
-<%@page import="model.ejb.DiaEJB"%>
-<%@page import="model.entidad.Restaurante"%>
-<%@page import="model.ejb.RolEJB"%>
-<%@page import="model.entidad.Usuario"%>
+<%@page import="model.ejb.HorarioEJB"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.entidad.Rol"%>
-
-
+<%@page import="model.entidad.Horario"%>
+<%@page import="model.entidad.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	DiaEJB d = new DiaEJB();
-	UsuarioEJB us = new UsuarioEJB();
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	int modoTrabajo;
+	HorarioEJB horarioEJB = new HorarioEJB();
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+	
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 1) {
+	} else {
+		if (modoTrabajo == 1) {
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+			rs.forward(request, response);
+		} else { if (userNav.getRol() == 1) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
-		Integer mes = 0, anyo = 0;
 		
-		mes = Integer.parseInt(sesion.getAttribute("mes").toString());
-		anyo = Integer.parseInt(sesion.getAttribute("anyo").toString());
-		ArrayList<Dia> arrD = d.horarioRestaurante(mes, anyo, userNav.getRestaurante());
+		ArrayList<Horario> arrH = (ArrayList) sesion.getAttribute("horarios");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,95 +114,32 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-					<h1 class="mt-4">Tables</h1>
-					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item"><a href="Main">Home</a></li>
-						<li class="breadcrumb-item active">Gestión de usuarios ></li>
-					</ol>
-					<div class="card mb-4">
-						<div class="card-body">
-							Horario del mes y el año del restaurante </a>.
-						</div>
-					</div>
-					<div class="card mb-4">
-						<div class="card-header">
-							<i class="fas fa-table mr-1"></i>Usuarios del restaurante:
-						</div>
-						<div class="card-body">
-							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
-									<thead>
-										<tr>
-											<th>Trabajador</th>
-											<%
-												String htmlDia = "";
-													for (Dia dia : arrD) {
-														htmlDia += "<th colspan='4'>" + d.NombreDia(dia.getFecha()) + "</th>";
-													}
+					<h1 class="mt-4">Horarios</h1>
 
-													out.print(htmlDia);
-											%>
 
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-											<th>Trabajador</th>
-											<%
-												out.print(htmlDia);
-											%>
-										</tr>
-									</tfoot>
-									<tbody>
-										<%
-											htmlDia = "<tr>";
-												for (Dia dia : arrD) {
-													htmlDia += "<td>ENT</td>";
-													htmlDia += "<td>SAL</td>";
-													htmlDia += "<td>ENT</td>";
-													htmlDia += "<td>SAL</td>";
-
-												}
-
-												htmlDia += "</tr>";
-
-												out.print(htmlDia);
-										%>
-										<%
-											String html = "";
-												for (Usuario u : arrUs) {
-
-													html += "<tr>";
-													html += "<td>" + u.getNombre() + " " + u.getApellido() + "</td>";
-
-													for (Dia dia : arrD) {
-
-														if (u.getId() == dia.getUsuario()) {
-
-															if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
-																html += "<td colspan='4'> LIBRE </td>";
-															} else {
-																html += "<td>" + dia.getEntrada_1() + "</td>";
-																html += "<td>" + dia.getSalida_1() + "</td>";
-																html += "<td>" + dia.getEntrada_2() + "</td>";
-																html += "<td>" + dia.getSalida_2() + "</td>";
-															}
-
-														}
-
-													}
-
-													html += "</tr>";
-												}
-												out.print(html);
-										%>
-
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
+						<%
+						String html = "";
+						html += "<div class='row'>";
+						for(Horario h : arrH){
+							
+							html += "\n<div class='col-xl-3 col-md-3'>"; // i1
+							html += "\n<a class='small text-white stretched-link' href='VisualizarHorario?mes="+h.getMes()+"&anyo="+h.getAnyo()+"'>";
+							html += "<div class='card bg-success text-white mb-4'>"; // i2
+							html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
+							html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+							html += "<p>"+ h.getMes()+ "/"+ h.getAnyo() + "</p>";
+							
+							html += "</div>"; //f4
+							html += "</div>"; // f3
+							html += "</div>"; // f2
+							html += "</a>";
+							html += "</div>"; // f1
+							
+						}
+						
+						html += "</div>";
+						out.print(html);
+						%>
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
@@ -237,10 +175,12 @@
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
 		crossorigin="anonymous"></script>
 	<script src="dist/assets/demo/datatables-demo.js"></script>
+
+
 </body>
 </html>
 <%
 	} else {
 		response.sendRedirect("Main");
-	}
+	}}}
 %>

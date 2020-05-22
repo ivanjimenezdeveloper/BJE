@@ -56,11 +56,11 @@ public class UsuarioDAO {
 	}
 	
 	
-	public ArrayList<Usuario> busquedaUsuarios() {
+	public ArrayList<Usuario> busquedaUsuarios(int idRestaurante) {
 		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
 			UsuarioMapper usuarioMapper = sqlSession.getMapper(UsuarioMapper.class);
-			return usuarioMapper.busquedaUsuarios();
+			return usuarioMapper.busquedaUsuarios(idRestaurante);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			ArrayList<Usuario> u = new ArrayList<Usuario>();
