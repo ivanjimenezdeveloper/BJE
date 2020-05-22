@@ -90,4 +90,20 @@ public class DiaDAO {
 		}
 	}
 	
+	public int existeDia(int idUsuario, String fecha) {
+		
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			DiaMapper diaMapper = sqlSession.getMapper(DiaMapper.class);
+			return diaMapper.existeDia(idUsuario, fecha);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return 0;
+		} finally {
+			sqlSession.close();
+		}
+		
+	}
+	
 }

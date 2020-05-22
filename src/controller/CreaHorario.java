@@ -77,6 +77,8 @@ public class CreaHorario extends HttpServlet {
 		
 		if(userHorario != null || userHorario.getId() != 0 || mes != 0 || anyo != 0) {
 			dia = diaEJB.horarioUsuarioFecha(userHorario, mes, anyo);
+			String fecha ="";
+			int existe =0;
 			ArrayList<Dia> arrDia = new ArrayList<Dia>(); 
 			for(int i =1; i<= diasMaximo; i++) {
 				Dia diaAdd = new Dia();
@@ -84,12 +86,14 @@ public class CreaHorario extends HttpServlet {
 				diaAdd.setEntrada_2(request.getParameter("entrada2"+i));
 				diaAdd.setSalida_1(request.getParameter("salida1"+i));
 				diaAdd.setSalida_2(request.getParameter("salida2"+i));
-				
-				diaAdd.setFecha(String.format("%02d", anyo)+"-"+String.format("%02d", mes)+"-"+String.format("%02d", i));
+				fecha = String.format("%02d", anyo)+"-"+String.format("%02d", mes)+"-"+String.format("%02d", i);
+				diaAdd.setFecha(fecha);
 				
 				diaAdd.setUsuario(userHorario.getId());
 				
-				if(!diaAdd.getEntrada_1().equals("") && !diaAdd.getEntrada_1().equals("") ) {
+				existe = diaEJB.existeDia(userHorario, fecha);
+				
+				if(!diaAdd.getEntrada_1().equals("") && !diaAdd.getEntrada_1().equals("") && existe == 0) {
 					diaEJB.insertarDia(diaAdd);
 				}
 				

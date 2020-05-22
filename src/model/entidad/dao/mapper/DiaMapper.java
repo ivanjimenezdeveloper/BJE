@@ -27,6 +27,8 @@ public interface DiaMapper {
 	public void insertaDia(@Param("fecha") String fecha, @Param("entrada1") String entrada1,
 			@Param("salida1") String salida1, @Param("entrada2") String entrada2, @Param("salida2") String salida2,
 			@Param("usuario") int idUsuario);
+	
+	public int existeDia(@Param("usuario")int idUsuario, @Param("fecha")String fecha);
 
 	
 }

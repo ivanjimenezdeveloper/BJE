@@ -100,4 +100,10 @@ public class DiaEJB {
 		
 		
 	}
+	
+	public int existeDia(Usuario us, String fecha) {
+		DiaDAO d = new DiaDAO();
+
+		return d.existeDia(us.getId(), fecha);
+	}
 }

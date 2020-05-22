@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='model.entidad.dao.mapper.HorarioMapper'>
+
+	<select resultType="Horario" id="horarioPorId">
+		SELECT * FROM HORARIO
+		WHERE ID =
+		#{id}
+	</select>
+
+	<select id="horariosPorRestaurante">
+		SELECT DISTINCT HORARIO.* FROM HORARIO, DIA, USUARIO
+		WHERE DIA.IDHORARIO = HORARIO.ID AND USUARIO.ID = DIA.USUARIO
+		AND USUARIO.restaurante = #{horario}
+
+	</select>
+
+</mapper>
