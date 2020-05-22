@@ -2,8 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +35,22 @@ public class CreaHorario extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession sesion = request.getSession(true);
+		// Obtenemos el usuario de la sesion si existe
+		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		
+		int anyo = 2018;
+		int mes = 4;
+		int dia = 9;
+		
+		sesion.setAttribute("anyo", anyo);
+		sesion.setAttribute("mes", mes);
+		
+		Calendar c = new Calendar.Builder().setCalendarType("iso8601")
+				.setDate(anyo, mes, dia).build();
+		
+		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editaHorario.jsp");
+		rs.forward(request, response);
 	}
 
 
@@ -55,13 +71,25 @@ public class CreaHorario extends HttpServlet {
 			
 			
 		}catch (Exception e) {
-			// TODO: handle exception
+
 		}
 		
 		if(userHorario != null || userHorario.getId() != 0 || mes != 0 || anyo != 0) {
 			dia = diaEJB.horarioUsuarioFecha(userHorario, mes, anyo);
-			
-			response.getWriter().print(dia);
+			ArrayList<Dia> arrDia = new ArrayList<Dia>(); 
+			for(Dia d : dia) {
+				Dia diaAdd = new Dia();
+				diaAdd.setEntrada_1(request.getParameter("entrada1"+diaEJB.getDia(d.getFecha())));
+				diaAdd.setEntrada_2(request.getParameter("entrada2"+diaEJB.getDia(d.getFecha())));
+				diaAdd.setSalida_1(request.getParameter("salida1"+diaEJB.getDia(d.getFecha())));
+				diaAdd.setSalida_2(request.getParameter("salida2"+diaEJB.getDia(d.getFecha())));
+				
+				diaAdd.setFecha(d.getFecha());
+				
+				diaAdd.setUsuario(userHorario.getId());
+				
+
+			}
 	
 		}
 		
