@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="model.ejb.TimerEJB"%>
 <%@page import="model.entidad.Dia"%>
 <%@page import="model.ejb.UsuarioEJB"%>
@@ -26,9 +27,21 @@
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 		Usuario user = us.UsuarioPorId(1);
 		ArrayList<Integer> arrT = new ArrayList<Integer>();
-		Integer mesFecha = 3;
-		Integer anyoFecha = 2018;
-		ArrayList<Dia> arrD = d.horarioUsuario(user, mesFecha, anyoFecha);
+		Integer mesFecha = 1,anyoFecha = 2001;
+		try{
+			 mesFecha = (int) sesion.getAttribute("mes");
+			 anyoFecha = (int) sesion.getAttribute("anyo");	
+		}catch(Exception e){
+			
+		}
+		
+
+		
+		Calendar c = new Calendar.Builder().setCalendarType("iso8601")
+				.setDate(anyoFecha, mesFecha-1, 1).build();
+		
+		int diaMaximo = c.getActualMaximum(Calendar.DATE);
+		
 		sesion.setAttribute("usuarioHorario", user);
 		sesion.setAttribute("mesHorario", mesFecha);
 		sesion.setAttribute("anyoHorario", anyoFecha);
@@ -124,7 +137,7 @@
 					</ol>
 					<div class="card mb-4">
 						<div class="card-body">
-							Horario del mes y el año del restaurante </a>.
+							Horario del mes <% out.print(mesFecha); %> y el año <% out.print(anyoFecha); %> del restaurante <% out.print(user.getRestaurante()); %> </a>.
 						</div>
 					</div>
 					<div class="card mb-4">
@@ -141,8 +154,8 @@
 											<th>Trabajador</th>
 											<%
 												String htmlDia = "";
-													for (Dia dia : arrD) {
-														htmlDia += "<th colspan='4'>" + d.NombreDia(dia.getFecha()) + "</th>";
+													for (int i =1; i<= diaMaximo; i++) {
+														htmlDia += "<th colspan='4'>" + d.NombreDia(anyoFecha+"-"+mesFecha+"-"+i) + "</th>";
 													}
 
 													out.print(htmlDia);
@@ -163,7 +176,7 @@
 										htmlDia = "<tr>";
 										htmlDia += "<td></td>";
 
-											for (Dia dia : arrD) {
+											for (int i =1; i<= diaMaximo; i++) {
 													htmlDia += "<td>ENT</td>";
 													htmlDia += "<td>SAL</td>";
 													htmlDia += "<td>ENT</td>";
@@ -175,33 +188,27 @@
 										
 										out.print(htmlDia);
 										%>
+										
+										
 										<%
 										String html = "";
 
 											html += "<tr>";
 											html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
 
-											for (Dia dia : arrD) {
+											for (int i =1; i<= diaMaximo; i++) {
 											
-												
-												if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
-													html += "<td colspan='4'> LIBRE </td>";
-												} else {
 													
-													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_1()));
-													html += "<td><input type='time' name='entrada1"+d.getDia(dia.getFecha())+"' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
+													html += "<td><input type='time' name='entrada1"+i+"'></td>";
 													
-													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
-													html += "<td><input type='time' name='salida1"+d.getDia(dia.getFecha())+"' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
+													html += "<td><input type='time' name='salida1"+i+"'></td>";
 													
-													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_2()));
-													html += "<td><input type='time' name='entrada2"+d.getDia(dia.getFecha())+"' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
+													html += "<td><input type='time' name='entrada2"+i+"'></td>";
 													
-													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
-													html += "<td><input type='time' name='salida2"+d.getDia(dia.getFecha())+"' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
+													html += "<td><input type='time' name='salida2"+i+"'></td>";
 												}
 												
-											}
+											
 
 											html += "</tr>";
 										

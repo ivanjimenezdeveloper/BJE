@@ -49,7 +49,7 @@ public class CreaHorario extends HttpServlet {
 		Calendar c = new Calendar.Builder().setCalendarType("iso8601")
 				.setDate(anyo, mes, dia).build();
 		
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/editaHorario.jsp");
+		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/creaHorario.jsp");
 		rs.forward(request, response);
 	}
 
