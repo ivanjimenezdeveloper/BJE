@@ -42,6 +42,7 @@
 		
 		int diaMaximo = c.getActualMaximum(Calendar.DATE);
 		
+		sesion.setAttribute("diasMaximo", diaMaximo);
 		sesion.setAttribute("usuarioHorario", user);
 		sesion.setAttribute("mesHorario", mesFecha);
 		sesion.setAttribute("anyoHorario", anyoFecha);

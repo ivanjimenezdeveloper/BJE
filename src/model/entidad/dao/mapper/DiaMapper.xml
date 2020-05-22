@@ -29,4 +29,10 @@
 	
 	</select>	
 
+	<insert id="insertaDia" parameterType="Dia" useGeneratedKeys="true" keyProperty="ID">
+	
+	INSERT INTO DIA (FECHA, ENTRADA_1, SALIDA_1, ENTRADA_2, SALIDA_2, USUARIO)
+	VALUES(#{fecha}, #{entrada1}, #{salida1}, #{entrada2},#{salida2}, #{usuario})
+	
+	</insert>
 </mapper>

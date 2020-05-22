@@ -92,4 +92,12 @@ public class DiaEJB {
 		
 		return arr[2];
 	}
+	
+	public void insertarDia(Dia dia) {
+		DiaDAO d = new DiaDAO();
+		
+		d.insertarDia(dia.getFecha(), dia.getEntrada_1(), dia.getSalida_1(), dia.getEntrada_2(), dia.getSalida_2(), dia.getUsuario());
+		
+		
+	}
 }

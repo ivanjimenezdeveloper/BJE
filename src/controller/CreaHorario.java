@@ -60,7 +60,7 @@ public class CreaHorario extends HttpServlet {
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		Usuario userHorario = null;
-		int mes =0, anyo =0; 
+		int mes =0, anyo =0, diasMaximo = 0; 
 		ArrayList<Dia> dia;
 		
 		
@@ -68,6 +68,7 @@ public class CreaHorario extends HttpServlet {
 			userHorario = (Usuario) sesion.getAttribute("usuarioHorario");
 			mes = (int) sesion.getAttribute("mesHorario");
 			anyo = (int) sesion.getAttribute("anyoHorario");
+			diasMaximo = (int) sesion.getAttribute("diasMaximo");
 			
 			
 		}catch (Exception e) {
@@ -77,19 +78,24 @@ public class CreaHorario extends HttpServlet {
 		if(userHorario != null || userHorario.getId() != 0 || mes != 0 || anyo != 0) {
 			dia = diaEJB.horarioUsuarioFecha(userHorario, mes, anyo);
 			ArrayList<Dia> arrDia = new ArrayList<Dia>(); 
-			for(Dia d : dia) {
+			for(int i =1; i<= diasMaximo; i++) {
 				Dia diaAdd = new Dia();
-				diaAdd.setEntrada_1(request.getParameter("entrada1"+diaEJB.getDia(d.getFecha())));
-				diaAdd.setEntrada_2(request.getParameter("entrada2"+diaEJB.getDia(d.getFecha())));
-				diaAdd.setSalida_1(request.getParameter("salida1"+diaEJB.getDia(d.getFecha())));
-				diaAdd.setSalida_2(request.getParameter("salida2"+diaEJB.getDia(d.getFecha())));
+				diaAdd.setEntrada_1(request.getParameter("entrada1"+i));
+				diaAdd.setEntrada_2(request.getParameter("entrada2"+i));
+				diaAdd.setSalida_1(request.getParameter("salida1"+i));
+				diaAdd.setSalida_2(request.getParameter("salida2"+i));
 				
-				diaAdd.setFecha(d.getFecha());
+				diaAdd.setFecha(String.format("%02d", anyo)+"-"+String.format("%02d", mes)+"-"+String.format("%02d", i));
 				
 				diaAdd.setUsuario(userHorario.getId());
 				
-
+				if(!diaAdd.getEntrada_1().equals("") && !diaAdd.getEntrada_1().equals("") ) {
+					diaEJB.insertarDia(diaAdd);
+				}
+				
 			}
+			
+			response.sendRedirect("Main");
 	
 		}
 		
