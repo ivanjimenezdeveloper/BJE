@@ -25,5 +25,10 @@
 		INSERT INTO HORARIO(ACTIVO, MES,
 		ANYO) VALUES(#{activo},#{mes},#{anyo});
 	</insert>
+	
+	<select id="horarioIdPorMesAnyo" resultType="Horario">
+	
+	SELECT * FROM HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
+	</select>
 
 </mapper>

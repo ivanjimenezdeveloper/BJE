@@ -76,4 +76,21 @@ public class HorarioDAO {
 		}
 
 	}
+	
+	public Horario horarioIdPorMesAnyo(int mes, int anyo) {
+		
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			HorarioMapper horarioMapper = sqlSession.getMapper(HorarioMapper.class);
+			return horarioMapper.horarioIdPorMesAnyo(mes, anyo);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			Horario t = new Horario();
+			return t;
+		} finally {
+			sqlSession.close();
+		}
+		
+	}
 }

@@ -133,6 +133,7 @@
 									cellspacing="0">
 									<thead>
 										<tr>
+										<th></th>
 											<th>Trabajador</th>
 											<%
 												String htmlDia = "";
@@ -147,6 +148,7 @@
 									</thead>
 									<tfoot>
 										<tr>
+											<th></th>									
 											<th>Trabajador</th>
 											<%
 												out.print(htmlDia);
@@ -155,24 +157,29 @@
 									</tfoot>
 									<tbody>
 										<%
-											htmlDia = "<tr>";
+											String htmlEnt = "<tr>";
+											htmlEnt += "<td></td>";
+											htmlEnt += "<td></td>";
+
 												for (Dia dia : arrD) {
-													htmlDia += "<td>ENT</td>";
-													htmlDia += "<td>SAL</td>";
-													htmlDia += "<td>ENT</td>";
-													htmlDia += "<td>SAL</td>";
+													htmlEnt += "<td>ENT</td>";
+													htmlEnt += "<td>SAL</td>";
+													htmlEnt += "<td>ENT</td>";
+													htmlEnt += "<td>SAL</td>";
 
 												}
 
-												htmlDia += "</tr>";
+												htmlEnt += "</tr>";
 
-												out.print(htmlDia);
+												out.print(htmlEnt);
 										%>
+										
 										<%
 											String html = "";
 												for (Usuario u : arrUs) {
 
 													html += "<tr>";
+													html += "<td><a class='btn btn-primary' href='EditaHorario?idUsuario="+u.getId()+"&mes="+mes+"&anyo="+anyo+"'>EDITA</a></td>";
 													html += "<td>" + u.getNombre() + " " + u.getApellido() + "</td>";
 
 													for (Dia dia : arrD) {

@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.ejb.DiaEJB;
+import model.ejb.HorarioEJB;
 import model.ejb.Sesiones;
 import model.entidad.Dia;
+import model.entidad.Horario;
 import model.entidad.Usuario;
 
 /**
@@ -30,6 +32,9 @@ public class CreaHorario extends HttpServlet {
 	
 	@EJB
 	DiaEJB diaEJB;
+	
+	@EJB
+	HorarioEJB horarioEJB;
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -94,7 +99,10 @@ public class CreaHorario extends HttpServlet {
 				existe = diaEJB.existeDia(userHorario, fecha);
 				
 				if(!diaAdd.getEntrada_1().equals("") && !diaAdd.getEntrada_1().equals("") && existe == 0) {
-					diaEJB.insertarDia(diaAdd);
+					Horario h =horarioEJB.horarioIdPorMesAnyo(mes, anyo);
+
+					
+					diaEJB.insertarDia(diaAdd, h.getId());
 				}
 				
 			}

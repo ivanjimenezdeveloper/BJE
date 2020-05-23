@@ -93,13 +93,22 @@ public class DiaEJB {
 		return arr[2];
 	}
 	
-	public void insertarDia(Dia dia) {
+	public void insertarDia(Dia dia, int idHorario) {
 		DiaDAO d = new DiaDAO();
 		
-		d.insertarDia(dia.getFecha(), dia.getEntrada_1(), dia.getSalida_1(), dia.getEntrada_2(), dia.getSalida_2(), dia.getUsuario());
+		d.insertarDia(dia.getFecha(), dia.getEntrada_1(), dia.getSalida_1(), dia.getEntrada_2(), dia.getSalida_2(), dia.getUsuario(), idHorario );
 		
 		
 	}
+	
+	public void editaDia(Dia dia) {
+		DiaDAO d = new DiaDAO();
+		
+		d.editaDia(dia.getFecha(), dia.getEntrada_1(), dia.getSalida_1(), dia.getEntrada_2(), dia.getSalida_2(), dia.getUsuario());;
+		
+		
+	}
+	
 	
 	public int existeDia(Usuario us, String fecha) {
 		DiaDAO d = new DiaDAO();

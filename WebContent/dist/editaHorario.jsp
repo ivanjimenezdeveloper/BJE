@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="model.ejb.TimerEJB"%>
 <%@page import="model.entidad.Dia"%>
 <%@page import="model.ejb.UsuarioEJB"%>
@@ -24,10 +25,25 @@
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		Usuario user = us.UsuarioPorId(1);
 		ArrayList<Integer> arrT = new ArrayList<Integer>();
 		Integer mesFecha = 3;
 		Integer anyoFecha = 2018;
+		Integer id = 1;
+
+		try {
+			mesFecha = Integer.parseInt(sesion.getAttribute("mes").toString());
+			anyoFecha = Integer.parseInt(sesion.getAttribute("anyo").toString());
+			id = Integer.parseInt(sesion.getAttribute("idUsuario").toString());
+		} catch (Exception e) {
+
+		}
+		Usuario user = us.UsuarioPorId(id);
+
+		Calendar c = new Calendar.Builder().setCalendarType("iso8601").setDate(anyoFecha, mesFecha - 1, 1)
+				.build();
+
+		int diaMaximo = c.getActualMaximum(Calendar.DATE);
+
 		ArrayList<Dia> arrD = d.horarioUsuario(user, mesFecha, anyoFecha);
 		sesion.setAttribute("usuarioHorario", user);
 		sesion.setAttribute("mesHorario", mesFecha);
@@ -133,84 +149,118 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-							<form action="CreaHorario" method="POST">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
-									<thead>
-										<tr>
-											<th>Trabajador</th>
+								<form action="EditaHorario" method="POST">
+									<table class="table table-bordered" id="dataTable" width="100%"
+										cellspacing="0">
+										<thead>
+											<tr>
+												<th>Trabajador</th>
+												<%
+													String htmlDia = "";
+
+														if (arrD.isEmpty()) {
+															for (int i = 1; i <= diaMaximo; i++) {
+
+																htmlDia += "<th colspan='4'>" + d.NombreDia(anyoFecha+"-"+mesFecha+"-"+i) + "</th>";
+
+															}
+														} else {
+															for (Dia dia : arrD) {
+																htmlDia += "<th colspan='4'>" + d.NombreDia(dia.getFecha()) + "</th>";
+															}
+														}
+
+														out.print(htmlDia);
+												%>
+
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th>Trabajador</th>
+												<%
+													out.print(htmlDia);
+												%>
+											</tr>
+										</tfoot>
+										<tbody>
 											<%
-												String htmlDia = "";
+												htmlDia = "<tr>";
+													htmlDia += "<td></td>";
+
 													for (Dia dia : arrD) {
-														htmlDia += "<th colspan='4'>" + d.NombreDia(dia.getFecha()) + "</th>";
+														htmlDia += "<td>ENT</td>";
+														htmlDia += "<td>SAL</td>";
+														htmlDia += "<td>ENT</td>";
+														htmlDia += "<td>SAL</td>";
+
 													}
+
+													htmlDia += "</tr>";
 
 													out.print(htmlDia);
 											%>
-
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-											<th>Trabajador</th>
 											<%
-												out.print(htmlDia);
+												String html = "";
+
+													html += "<tr>";
+													html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
+													if (arrD.isEmpty()) {
+														for (int i = 1; i <= diaMaximo; i++) {
+
+															html += "<td><input type='time' name='entrada1" + i + "'></td>";
+
+															html += "<td><input type='time' name='salida1" + i + "'></td>";
+
+															html += "<td><input type='time' name='entrada2" + i + "'></td>";
+
+															html += "<td><input type='time' name='salida2" + i + "'></td>";
+														}
+													} else {
+														for (Dia dia : arrD) {
+
+															if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
+																html += "<td><input type='time' name='entrada1" + d.getDia(dia.getFecha()) + "'></td>";
+
+																html += "<td><input type='time' name='salida1" + d.getDia(dia.getFecha()) + "'></td>";
+
+																html += "<td><input type='time' name='entrada2" + d.getDia(dia.getFecha()) + "'></td>";
+
+																html += "<td><input type='time' name='salida2" + d.getDia(dia.getFecha()) + "'></td>";
+															} else {
+
+																arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_1()));
+																html += "<td><input type='time' name='entrada1" + d.getDia(dia.getFecha()) + "' value='"
+																		+ String.format("%02d", arrT.get(0)) + ":" + String.format("%02d", arrT.get(1))
+																		+ "'></td>";
+
+																arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
+																html += "<td><input type='time' name='salida1" + d.getDia(dia.getFecha()) + "' value='"
+																		+ String.format("%02d", arrT.get(0)) + ":" + String.format("%02d", arrT.get(1))
+																		+ "'></td>";
+
+																arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_2()));
+																html += "<td><input type='time' name='entrada2" + d.getDia(dia.getFecha()) + "' value='"
+																		+ String.format("%02d", arrT.get(0)) + ":" + String.format("%02d", arrT.get(1))
+																		+ "'></td>";
+
+																arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
+																html += "<td><input type='time' name='salida2" + d.getDia(dia.getFecha()) + "' value='"
+																		+ String.format("%02d", arrT.get(0)) + ":" + String.format("%02d", arrT.get(1))
+																		+ "'></td>";
+															}
+
+														}
+													}
+
+													html += "</tr>";
+
+													out.print(html);
 											%>
-										</tr>
-									</tfoot>
-									<tbody>
-										<%
-										htmlDia = "<tr>";
-										htmlDia += "<td></td>";
 
-											for (Dia dia : arrD) {
-													htmlDia += "<td>ENT</td>";
-													htmlDia += "<td>SAL</td>";
-													htmlDia += "<td>ENT</td>";
-													htmlDia += "<td>SAL</td>";
-
-												}
-											
-										htmlDia += "</tr>";
-										
-										out.print(htmlDia);
-										%>
-										<%
-										String html = "";
-
-											html += "<tr>";
-											html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
-
-											for (Dia dia : arrD) {
-											
-												
-												if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
-													html += "<td colspan='4'> LIBRE </td>";
-												} else {
-													
-													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_1()));
-													html += "<td><input type='time' name='entrada1"+d.getDia(dia.getFecha())+"' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
-													
-													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
-													html += "<td><input type='time' name='salida1"+d.getDia(dia.getFecha())+"' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
-													
-													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_2()));
-													html += "<td><input type='time' name='entrada2"+d.getDia(dia.getFecha())+"' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
-													
-													arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
-													html += "<td><input type='time' name='salida2"+d.getDia(dia.getFecha())+"' value='"+ String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1))+"'></td>";
-												}
-												
-											}
-
-											html += "</tr>";
-										
-										out.print(html);
-										%>
-
-									</tbody>
-								</table>
-								<input type="submit" value="Editar">
+										</tbody>
+									</table>
+									<input type="submit" value="Editar">
 								</form>
 							</div>
 						</div>

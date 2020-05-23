@@ -25,16 +25,17 @@
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		Usuario user = us.UsuarioPorId(1);
 		ArrayList<Integer> arrT = new ArrayList<Integer>();
-		Integer mesFecha = 1,anyoFecha = 2001;
+		Integer mesFecha = 1,anyoFecha = 2001, id = 1;
 		try{
 			 mesFecha = (int) sesion.getAttribute("mes");
 			 anyoFecha = (int) sesion.getAttribute("anyo");	
+			 id = (int) sesion.getAttribute("idUsuario");
 		}catch(Exception e){
 			
 		}
 		
+		Usuario user = us.UsuarioPorId(id);
 
 		
 		Calendar c = new Calendar.Builder().setCalendarType("iso8601")
@@ -131,7 +132,7 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-					<h1 class="mt-4">Tables</h1>
+					<h1 class="mt-4">Crear horario</h1>
 					<ol class="breadcrumb mb-4">
 						<li class="breadcrumb-item"><a href="Main">Home</a></li>
 						<li class="breadcrumb-item active">Gestión de usuarios ></li>

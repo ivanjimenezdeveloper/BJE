@@ -75,13 +75,13 @@ public class DiaDAO {
 		}
 	}
 	
-	public void insertarDia(String fecha,String entrada1,String salida1,String entrada2,String salida2,int idUsuario) {
+	public void insertarDia(String fecha,String entrada1,String salida1,String entrada2,String salida2,int idUsuario, int idHorario) {
 		SqlSession sqlSession = null;
 		try {
 			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 			DiaMapper diaMapper = sqlSession.getMapper(DiaMapper.class);
 			
-			diaMapper.insertaDia(fecha, entrada1, salida1, entrada2, salida2, idUsuario);
+			diaMapper.insertaDia(fecha, entrada1, salida1, entrada2, salida2, idUsuario, idHorario);
 			sqlSession.commit();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -104,6 +104,21 @@ public class DiaDAO {
 			sqlSession.close();
 		}
 		
+	}
+	
+	public void editaDia(String fecha, String entrada_1, String salida_1, String entrada_2, String salida_2, int idUsuario) {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			DiaMapper diaMapper = sqlSession.getMapper(DiaMapper.class);
+			
+			diaMapper.editaDia(fecha, idUsuario, entrada_1, salida_1, entrada_2, salida_2);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			sqlSession.close();
+		}
 	}
 	
 }
