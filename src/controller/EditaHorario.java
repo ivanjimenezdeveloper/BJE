@@ -102,10 +102,10 @@ public class EditaHorario extends HttpServlet {
 			int diaMaximo = c.getActualMaximum(Calendar.DATE);
 			for(int i =1; i<= diaMaximo; i++) {
 				Dia diaAdd = new Dia();
-				diaAdd.setEntrada_1(request.getParameter("entrada1"+i));
-				diaAdd.setEntrada_2(request.getParameter("entrada2"+i));
-				diaAdd.setSalida_1(request.getParameter("salida1"+i));
-				diaAdd.setSalida_2(request.getParameter("salida2"+i));
+				diaAdd.setEntrada_1(request.getParameter("entrada1"+String.format("%02d",i)));
+				diaAdd.setEntrada_2(request.getParameter("entrada2"+String.format("%02d",i)));
+				diaAdd.setSalida_1(request.getParameter("salida1"+String.format("%02d",i)));
+				diaAdd.setSalida_2(request.getParameter("salida2"+String.format("%02d",i)));
 				
 				diaAdd.setFecha(anyo+"-"+mes+"-"+i);
 				

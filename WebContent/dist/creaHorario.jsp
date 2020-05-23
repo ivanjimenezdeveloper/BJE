@@ -201,13 +201,13 @@
 											for (int i =1; i<= diaMaximo; i++) {
 											
 													
-													html += "<td><input type='time' name='entrada1"+i+"'></td>";
+													html += "<td><input type='time' name='entrada1"+String.format("%02d",i)+"'></td>";
 													
-													html += "<td><input type='time' name='salida1"+i+"'></td>";
+													html += "<td><input type='time' name='salida1"+String.format("%02d",i)+"'></td>";
 													
-													html += "<td><input type='time' name='entrada2"+i+"'></td>";
+													html += "<td><input type='time' name='entrada2"+String.format("%02d",i)+"'></td>";
 													
-													html += "<td><input type='time' name='salida2"+i+"'></td>";
+													html += "<td><input type='time' name='salida2"+String.format("%02d",i)+"'></td>";
 												}
 												
 											

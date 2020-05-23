@@ -87,10 +87,10 @@ public class CreaHorario extends HttpServlet {
 			ArrayList<Dia> arrDia = new ArrayList<Dia>(); 
 			for(int i =1; i<= diasMaximo; i++) {
 				Dia diaAdd = new Dia();
-				diaAdd.setEntrada_1(request.getParameter("entrada1"+i));
-				diaAdd.setEntrada_2(request.getParameter("entrada2"+i));
-				diaAdd.setSalida_1(request.getParameter("salida1"+i));
-				diaAdd.setSalida_2(request.getParameter("salida2"+i));
+				diaAdd.setEntrada_1(request.getParameter("entrada1"+String.format("%02d",i)));
+				diaAdd.setEntrada_2(request.getParameter("entrada2"+String.format("%02d",i)));
+				diaAdd.setSalida_1(request.getParameter("salida1"+String.format("%02d",i)));
+				diaAdd.setSalida_2(request.getParameter("salida2"+String.format("%02d",i)));
 				fecha = String.format("%02d", anyo)+"-"+String.format("%02d", mes)+"-"+String.format("%02d", i);
 				diaAdd.setFecha(fecha);
 				

@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="model.entidad.Dia"%>
 <%@page import="model.ejb.UsuarioEJB"%>
 <%@page import="model.ejb.DiaEJB"%>
@@ -24,6 +25,11 @@
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
 		Integer mes = 0, anyo = 0;
+		
+		Calendar c = new Calendar.Builder().setCalendarType("iso8601")
+				.setDate(anyo, mes-1, 1).build();
+		
+		int diaMaximo = c.getActualMaximum(Calendar.DATE);
 		
 		mes = Integer.parseInt(sesion.getAttribute("mes").toString());
 		anyo = Integer.parseInt(sesion.getAttribute("anyo").toString());
@@ -137,8 +143,8 @@
 											<th>Trabajador</th>
 											<%
 												String htmlDia = "";
-													for (Dia dia : arrD) {
-														htmlDia += "<th colspan='4'>" + d.NombreDia(dia.getFecha()) + "</th>";
+													for (int i =1; i<= diaMaximo; i++) {
+														htmlDia += "<th colspan='4'>" + d.NombreDia(anyo+"-"+mes+"-"+i) + "</th>";
 													}
 
 													out.print(htmlDia);
@@ -161,7 +167,7 @@
 											htmlEnt += "<td></td>";
 											htmlEnt += "<td></td>";
 
-												for (Dia dia : arrD) {
+												for (int i =1; i<= diaMaximo; i++) {
 													htmlEnt += "<td>ENT</td>";
 													htmlEnt += "<td>SAL</td>";
 													htmlEnt += "<td>ENT</td>";
@@ -188,7 +194,12 @@
 
 															if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
 																html += "<td colspan='4'> LIBRE </td>";
-															} else {
+															} else if(dia.getEntrada_1().equals(dia.getEntrada_2())){
+																
+																html += "<td colspan='4'> LIBRE </td>";
+
+															}
+															else {
 																html += "<td>" + dia.getEntrada_1() + "</td>";
 																html += "<td>" + dia.getSalida_1() + "</td>";
 																html += "<td>" + dia.getEntrada_2() + "</td>";
