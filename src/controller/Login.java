@@ -16,7 +16,9 @@ import model.ejb.UsuarioEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class LogIn
+ * Servlet que logea y deslogea un usuario
+ * @author HIBAN
+ *
  */
 @WebServlet("/Login")
 public class Login extends HttpServlet {

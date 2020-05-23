@@ -23,24 +23,41 @@ import model.ejb.UsuarioEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class CrearUsuario
+ * Servlet que muestra el formulario para crear un usuario y crea un usuario
+ * @author HIBAN
+ *
  */
 @WebServlet("/CrearUsuario")
 public class CrearUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * EJB para trabajar con roles
+	 */
 	@EJB
 	RolEJB rolEJB;
 
+	/**
+	 * EJB para trabajar con localizaciones
+	 */
 	@EJB
 	LocalizacionEJB localizacionEJB;
 
+	/**
+	 * EJB para trabajar con los usuarios
+	 */
 	@EJB
 	UsuarioEJB usuarioEJB;
 
+	/**
+	 * EJB para trabajar con restaurantes
+	 */
 	@EJB
 	RestauranteEJB restauranteEJB;
 
+	/**
+	 * EJB para trabajar con dias
+	 */
 	@EJB
 	DiaEJB diaEJB;
 
@@ -54,13 +71,20 @@ public class CrearUsuario extends HttpServlet {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = (Logger) LoggerFactory.getLogger(Main.class);
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(CrearUsuario.class);
 
+	/**
+	 * Muestra el formulario de creacion de usuario
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		
+		// recupera si esta o no en modo trabajo
 		int modoTrabajo;
 		try {
 			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
@@ -68,15 +92,20 @@ public class CrearUsuario extends HttpServlet {
 		} catch (Exception e) {
 			modoTrabajo = 0;
 		}
-
+		
+		// Comprueba que el usurio sea valido y si no redirige al main
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
+			
+			// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+			// jsp del modo trabajo
 			if (modoTrabajo == 1) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+				// Segun el rol redirige al main o continua con la operacion
 				if (user.getRol() == 1) {
 
 					response.sendRedirect("Main");
@@ -94,15 +123,24 @@ public class CrearUsuario extends HttpServlet {
 
 	}
 
+	/**
+	 * Inserta el usuario nuevo
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		String nombre, apellido, correo, observaciones, activo;
 		boolean activoParam;
 
 		int rol = 0, restaurante = 0;
 
+		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
+		
+		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		
+		// recupera si esta o no en modo trabajo
 		int modoTrabajo;
 		try {
 			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
@@ -111,27 +149,37 @@ public class CrearUsuario extends HttpServlet {
 			modoTrabajo = 0;
 		}
 
+		// Comprueba que el usurio sea valido y si no redirige al main
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
+			
+			// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+			// jsp del modo trabajo
 			if (modoTrabajo == 1) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+				
+				// Segun el rol redirige al main o continua con la operacion
 				if (user.getRol() == 1) {
 
 					response.sendRedirect("Main");
 				} else if (user.getRol() == 2 || user.getRol() == 3) {
+					
 					Usuario userCreate = new Usuario();
 
+					//recoge los el correo
 					correo = request.getParameter("correo");
 
+					//si ya existe el correo redirige al main
 					if (usuarioEJB.existeCorreo(correo) == 1) {
 						response.sendRedirect("Main");
 
 					} else {
-
+						
+						//recoge el resto de parametros
 						nombre = request.getParameter("nombre");
 						apellido = request.getParameter("apellido");
 
@@ -144,8 +192,11 @@ public class CrearUsuario extends HttpServlet {
 
 						observaciones = request.getParameter("observaciones");
 						activo = request.getParameter("activo");
+						
+						//si guarda algo en activo entonces guarda true si no, false
 						activoParam = (activo != null) ? true : false;
 
+						//guarda todos los parametros en un objeto usuario
 						userCreate.setNombre(nombre);
 						userCreate.setApellido(apellido);
 						userCreate.setCorreo(correo);
@@ -153,6 +204,8 @@ public class CrearUsuario extends HttpServlet {
 						userCreate.setRol(rol);
 						userCreate.setActivo(activoParam);
 						userCreate.setObservaciones(observaciones);
+						
+						//inserta un usuario
 						usuarioEJB.creaUsuario(userCreate);
 
 						response.sendRedirect("GestionUsuario");

@@ -14,16 +14,14 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
-import model.ejb.DiaEJB;
-import model.ejb.LocalizacionEJB;
-import model.ejb.RestauranteEJB;
-import model.ejb.RolEJB;
 import model.ejb.Sesiones;
-import model.ejb.UsuarioEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class Main
+ * Servlet que muestra la pagina principal
+ * 
+ * @author HIBAN
+ *
  */
 @WebServlet("/Main")
 public class Main extends HttpServlet {
@@ -34,52 +32,44 @@ public class Main extends HttpServlet {
 	 */
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(Main.class);
 
-	@EJB
-	RolEJB rolEJB;
-
-	@EJB
-	LocalizacionEJB localizacionEJB;
-
-	@EJB
-	UsuarioEJB usuarioEJB;
-
-	@EJB
-	RestauranteEJB restauranteEJB;
-
-	@EJB
-	DiaEJB diaEJB;
-
-
 	/**
 	 * EJB para trabajar con sesiones
 	 */
 	@EJB
 	Sesiones sesionEJB;
 
+	/**
+	 * Muestra el main o redirige a la pagina necesaria
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
+		
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
+		
+		// recupera si esta o no en modo trabajo
 		int modoTrabajo;
 		try {
-			 modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
 		} catch (Exception e) {
-			 modoTrabajo = 0;
+			modoTrabajo = 0;
 		}
 
+		// Comprueba que el usuario sea valido y si no redirige al a login
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/login.jsp");
 			rs.forward(request, response);
 		} else {
 
+			//segun el tipo de usuario muestra su main o le envia al login
 			if (modoTrabajo == 1 && user.getRol() == 2 || modoTrabajo == 1 && user.getRol() == 3) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
-			}
-			else if (user.getRol() == 1) {
+			} else if (user.getRol() == 1) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 				rs.forward(request, response);
 			} else if (user.getRol() == 2 || user.getRol() == 3) {

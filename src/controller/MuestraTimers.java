@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -15,29 +14,42 @@ import javax.servlet.http.HttpSession;
 import model.ejb.Sesiones;
 import model.ejb.TimerEJB;
 import model.ejb.UsuarioEJB;
-import model.entidad.Restaurante;
-import model.entidad.Timer;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class MuestraTimers
+ * Servlet que muestra los timers activos
+ * @author HIBAN
+ *
  */
 @WebServlet("/MuestraTimers")
 public class MuestraTimers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * EJB para trabajar con timers
+	 */
 	@EJB
 	TimerEJB timerEJB;
 	
+	/**
+	 * EJB para trabajar con sesiones
+	 */
 	@EJB
 	Sesiones sesionEJB;
 	
+	/**
+	 * EJB para trabajar con usuarios
+	 */
 	@EJB
 	UsuarioEJB usuarioEJB;
 
+	/**
+	 * Muestra el JSP de timers activos
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
 
 		// Obtenemos el usuario de la sesion si existe
@@ -46,7 +58,8 @@ public class MuestraTimers extends HttpServlet {
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 		} else {
-
+			
+			// Segun el rol redirige al main o continua con la operacion
 			if (user.getRol() == 1) {
 				response.sendRedirect("Main");
 			} else if (user.getRol() == 2 || user.getRol() == 3) {

@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +19,10 @@ import model.ejb.TimerEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class AnyadeTimer
+ * Servlet que sirve para añadir timers activos
+ * 
+ * @author HIBAN
+ *
  */
 @WebServlet("/AnyadeTimer")
 public class AnyadeTimer extends HttpServlet {
@@ -31,40 +35,68 @@ public class AnyadeTimer extends HttpServlet {
 	@EJB
 	Sesiones sesionEJB;
 
+	/**
+	 * EJB de timers
+	 */
 	@EJB
 	TimerEJB timerEJB;
 
+	/**
+	 * Añade un timer y redirecciona a Muestra Timers
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 
+		int modoTrabajo;
+
+		// recupera si esta o no en modo trabajo
+		try {
+			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+		} catch (Exception e) {
+			modoTrabajo = 0;
+		}
+
+		// Comprueba que el usurio sea valido y si no redirige al main
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 		} else {
 
-			if (user.getRol() == 1) {
-				response.sendRedirect("Main");
-			} else if (user.getRol() == 2 || user.getRol() == 3) {
 
-				String timer = request.getParameter("timer");
-				int idAlimento = 0;
-				try {
-					idAlimento = Integer.parseInt(timer);
-				} catch (Exception e) {
-					logger.error(e.getMessage());
+				// Segun el rol redirige al main o continua con la operacion
+				if (user.getRol() == 1) {
+					response.sendRedirect("Main");
+				} else if (user.getRol() == 2 && modoTrabajo == 1 || user.getRol() == 3 && modoTrabajo == 1) {
+
+					// recupera la id del alimento para crear un timer
+
+					String timer = request.getParameter("timer");
+					int idAlimento = 0;
+					try {
+						idAlimento = Integer.parseInt(timer);
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+					}
+
+					// Si la id de l alimento es correcta hara el insert
+					if (idAlimento != 0) {
+						timerEJB.addTimer(idAlimento, user.getRestaurante());
+
+					}
+
+					response.sendRedirect("MuestraTimers");
+				} else {
+
+					response.sendRedirect("Main");
 				}
-
-				timerEJB.addTimer(idAlimento, user.getRestaurante());
-
-				response.sendRedirect("MuestraTimers");
-			} else {
-
-				response.sendRedirect("Main");
 			}
 
-		}
+		
 
 	}
 

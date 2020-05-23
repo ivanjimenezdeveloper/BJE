@@ -19,12 +19,17 @@ import model.ejb.UsuarioEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class BorrarUsuario
+ * Servlet que borra un usuario
+ * @author HIBAN
+ *
  */
 @WebServlet("/BorrarUsuario")
 public class BorrarUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * EJB para trabajar con usuarios
+	 */
 	@EJB
 	UsuarioEJB usuarioEJB;
 	/**
@@ -38,11 +43,18 @@ public class BorrarUsuario extends HttpServlet {
 	 */
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(BorrarUsuario.class);
 
+	/**
+	 * Borra un usuario segun la id
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
+		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		int modoTrabajo;
+		
+		// recupera si esta o no en modo trabajo
 		try {
 			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
@@ -50,18 +62,25 @@ public class BorrarUsuario extends HttpServlet {
 			modoTrabajo = 0;
 		}
 		
+		// Comprueba que el usurio sea valido y si no redirige al main
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
+			
+			// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al jsp del modo trabajo
 			if (modoTrabajo == 1) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+				
+				// Segun el rol redirige al main o continua con la operacion
 				if (user.getRol() == 1) {
 
 					response.sendRedirect("Main");
 				} else if (user.getRol() == 2 || user.getRol() == 3) {
+					
+					//recupera la id del usuario a borrar
 					int id = 0;
 					try {
 						id = Integer.parseInt(request.getParameter("id"));
@@ -69,6 +88,7 @@ public class BorrarUsuario extends HttpServlet {
 						logger.error(e.getMessage());
 					}
 
+					//borra el usuario y redirige a la gestion de usuario
 					usuarioEJB.eliminaUsuario(id);
 
 					response.sendRedirect("GestionUsuario");

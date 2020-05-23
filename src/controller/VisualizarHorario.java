@@ -21,12 +21,17 @@ import model.entidad.Restaurante;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class VisualizarHorario
+ * Servlet que visualiza el horario
+ * @author HIBAN
+ *
  */
 @WebServlet("/VisualizarHorario")
 public class VisualizarHorario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * EJB para trabajar con horarios
+	 */
 	@EJB
 	HorarioEJB horarioEJB;
 
@@ -36,26 +41,35 @@ public class VisualizarHorario extends HttpServlet {
 	@EJB
 	Sesiones sesionEJB;
 
+	/**
+	 * EJB para trabajar con restaurantes
+	 */
 	@EJB
 	RestauranteEJB restauranteEJB;
 
+	/**
+	 * EJB para trabajar con usuarios
+	 */
 	@EJB
 	UsuarioEJB usuarioEJB;
 
+
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * Muestra el selector de horario
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
+		
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		String mes, anyo;
 		mes = request.getParameter("mes");
 		anyo = request.getParameter("anyo");
 
+		// recupera si esta o no en modo trabajo
 		int modoTrabajo;
 		try {
 			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
@@ -64,6 +78,7 @@ public class VisualizarHorario extends HttpServlet {
 			modoTrabajo = 0;
 		}
 
+		// Comprueba que el usuario sea valido y si no redirige al main
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
@@ -72,14 +87,20 @@ public class VisualizarHorario extends HttpServlet {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+				
+				// Segun el rol redirige al main o continua con la operacion
 				if (user.getRol() == 1) {
 
 					response.sendRedirect("Main");
 				} else if (user.getRol() == 2 || user.getRol() == 3) {
 
+					//si los datos son correctos envia al selector de horario
 					if (mes == null && anyo == null || mes.equals("") && anyo.equals("")) {
+						
+						//recupera los horarios
 						ArrayList<Horario> arrH = horarioEJB.getHorarios();
 
+						//guarda los horarios en la sesion
 						sesion.setAttribute("horarios", arrH);
 
 						RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/selectorHorario.jsp");
@@ -98,12 +119,18 @@ public class VisualizarHorario extends HttpServlet {
 
 	}
 
+	/**
+	 * Visualiza un horario
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 
+		// recupera si esta o no en modo trabajo
 		int modoTrabajo;
 		try {
 			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
@@ -112,30 +139,39 @@ public class VisualizarHorario extends HttpServlet {
 			modoTrabajo = 0;
 		}
 
+		// Comprueba que el usuario sea valido y si no redirige al main
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
+			// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+			// jsp del modo trabajo
 			if (modoTrabajo == 1) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+				
+				// Segun el rol redirige al main o continua con la operacion
 				if (user.getRol() == 1) {
 
 					response.sendRedirect("Main");
 				} else if (user.getRol() == 2 || user.getRol() == 3) {
-
+					
+					//recupera los parametros
 					String mes, anyo;
 					mes = request.getParameter("mes");
 					anyo = request.getParameter("anyo");
+					//guarda los usuarios por restaurante y recupera el resturante
 					ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios(user.getRestaurante());
 					Restaurante restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante());
-
+					
+					//guarda los atributos
 					sesion.setAttribute("usuarios", usuarios);
 					sesion.setAttribute("restaurante", restaurante);
 					sesion.setAttribute("mes", mes);
 					sesion.setAttribute("anyo", anyo);
 
+					//redirige
 					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/visualizarHorario.jsp");
 					rs.forward(request, response);
 				} else {
