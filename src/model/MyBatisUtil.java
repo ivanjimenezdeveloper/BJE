@@ -26,7 +26,7 @@ public class MyBatisUtil {
 	}
 
 	/**
-	 * Estático para que sólo se configure MyBatis una vez
+	 * Estatico para que selo se configure MyBatis una vez
 	 */
 	static {
 		Reader reader = null;
