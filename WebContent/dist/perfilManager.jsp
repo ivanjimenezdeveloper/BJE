@@ -11,7 +11,22 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
-	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
+
+	
+	//comprueba que este en modo trabajo
+	int modoTrabajo;
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+	
+	
+	//comprueba que el usuario sea valido
+	// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+	// jsp del modo trabajo
+	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0 || modoTrabajo == 1) {
 		response.sendRedirect("Main");
 	} else if (userNav.getRol() == 1) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
@@ -23,7 +38,7 @@
 		String correo = userNav.getCorreo();
 		String nombre = userNav.getNombre();
 		String apellido = userNav.getApellido();
-		String observaciones = (userNav.getObservaciones() == null)?"":userNav.getObservaciones();
+		String observaciones = (userNav.getObservaciones() == null) ? "" : userNav.getObservaciones();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,12 +110,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-						if (userNav == null) {
-							out.print("Usuario");
-						} else {
-							out.print(userNav.getNombre());
+							if (userNav == null) {
+								out.print("Usuario");
+							} else {
+								out.print(userNav.getNombre());
 
-						}
+							}
 					%>
 					</div>
 				</div>

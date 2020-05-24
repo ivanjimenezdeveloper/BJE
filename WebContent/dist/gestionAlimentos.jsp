@@ -14,8 +14,7 @@
 	AlimentoEJB alimentoEJB = new AlimentoEJB();
 	TimerEJB timerEJB = new TimerEJB();
 
-	ArrayList<Alimento> arrA = alimentoEJB.busquedaAlimentos();
-	ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias();
+
 
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	int modoTrabajo;
@@ -39,6 +38,10 @@
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 
+		//recupera los alimeentos y las categorias
+		ArrayList<Alimento> arrA = alimentoEJB.busquedaAlimentos();
+		ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias();
+		
 		ArrayList<Integer> timers = new ArrayList<Integer>();
 %>
 <!DOCTYPE html>
@@ -127,6 +130,8 @@
 						role='button' href='CreaAlimento'>Nuevo Alimento</a>
 					<%
 						String html = "";
+					
+					//por cada categoria una row
 							for (Categoria c : arrC) {
 
 								html += "<div class='row'>";
@@ -134,6 +139,7 @@
 								html += "</div>"; // row nombre categoria
 								html += "<div class='row'>";
 
+								//si el alimento coincide con la categoria se añade a la row
 								for (Alimento a : arrA) {
 
 									if (a.getCategoria() == c.getId()) {

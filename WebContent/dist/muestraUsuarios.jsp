@@ -12,14 +12,27 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
-	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
+
+	//comprueba que este en modo trabajo
+	int modoTrabajo;
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+
+	//comprueba que el usuario sea valido
+	// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+	// al main
+	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0 || modoTrabajo == 1) {
 		response.sendRedirect("Main");
 	} else if (userNav.getRol() == 1) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-	Restaurante restaurante = (Restaurante) sesion.getAttribute("restaurante");
-	ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
+		Restaurante restaurante = (Restaurante) sesion.getAttribute("restaurante");
+		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,12 +104,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-						if (userNav == null) {
-							out.print("Usuario");
-						} else {
-							out.print(userNav.getNombre());
+							if (userNav == null) {
+								out.print("Usuario");
+							} else {
+								out.print(userNav.getNombre());
 
-						}
+							}
 					%>
 					</div>
 				</div>
@@ -158,28 +171,30 @@
 
 										<%
 											String html = "";
-											for (Usuario u : arrUs) {
+										
+										//muestra todos los usuarios
+												for (Usuario u : arrUs) {
 
-												String observacion = (u.getObservaciones() == null) ? "" : u.getObservaciones();
+													String observacion = (u.getObservaciones() == null) ? "" : u.getObservaciones();
 
-												html += "<tr>";
-												html += "<td>" + u.getNombre() + "</td>";
-												html += "<td>" + u.getApellido() + "</td>";
-												html += "<td>" + u.getCorreo() + "</td>";
-												html += "<td>" + rolEJB.RolPorId(u.getRol()).getNombre() + "</td>";
+													html += "<tr>";
+													html += "<td>" + u.getNombre() + "</td>";
+													html += "<td>" + u.getApellido() + "</td>";
+													html += "<td>" + u.getCorreo() + "</td>";
+													html += "<td>" + rolEJB.RolPorId(u.getRol()).getNombre() + "</td>";
 
-												html += "<td>" + observacion + "</td>";
+													html += "<td>" + observacion + "</td>";
 
-												html += "<td>" + u.isActivo() + "</td>";
-												html += "<td> <a class='btn btn-primary' role='button' href='EditarUsuario?id=" + u.getId()
-														+ "'>EDITAR</a></td>";
-												html += "<td> <a class='btn btn-info' role='button' href='ResetPassword?id=" + u.getId()
-														+ "'>RESET</a></td>";
-												html += "<td> <a class='btn btn-danger' role='button' href='BorrarUsuario?id=" + u.getId()
-														+ "'>ELIMINAR</a></td>";
-												html += "</tr>";
-											}
-											out.print(html);
+													html += "<td>" + u.isActivo() + "</td>";
+													html += "<td> <a class='btn btn-primary' role='button' href='EditarUsuario?id=" + u.getId()
+															+ "'>EDITAR</a></td>";
+													html += "<td> <a class='btn btn-info' role='button' href='ResetPassword?id=" + u.getId()
+															+ "'>RESET</a></td>";
+													html += "<td> <a class='btn btn-danger' role='button' href='BorrarUsuario?id=" + u.getId()
+															+ "'>ELIMINAR</a></td>";
+													html += "</tr>";
+												}
+												out.print(html);
 										%>
 
 									</tbody>

@@ -11,6 +11,8 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+
+	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
@@ -23,7 +25,7 @@
 		String correo = userNav.getCorreo();
 		String nombre = userNav.getNombre();
 		String apellido = userNav.getApellido();
-		String observaciones = (userNav.getObservaciones() == null)?"":userNav.getObservaciones();
+		String observaciones = (userNav.getObservaciones() == null) ? "" : userNav.getObservaciones();
 %>
 <!DOCTYPE html>
 <html lang="en">

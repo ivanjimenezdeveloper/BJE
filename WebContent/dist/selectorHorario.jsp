@@ -8,6 +8,9 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	
+	
+	//comprueba que este en modo trabajo
 	int modoTrabajo;
 	HorarioEJB horarioEJB = new HorarioEJB();
 	try {
@@ -17,9 +20,13 @@
 		modoTrabajo = 0;
 	}
 
+	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
 	} else {
+		
+		// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+		// jsp del modo trabajo
 		if (modoTrabajo == 1) {
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 			rs.forward(request, response);
@@ -29,6 +36,7 @@
 				rs.forward(request, response);
 			} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 
+				//recoge el parametro horario
 				ArrayList<Horario> arrH = (ArrayList) sesion.getAttribute("horarios");
 %>
 <!DOCTYPE html>
@@ -122,6 +130,7 @@
 					<%
 						String html = "";
 									html += "<div class='row'>";
+									//por cada horario general se crea una tarjeta
 									for (Horario h : arrH) {
 
 										html += "\n<div class='col-xl-3 col-md-3'>"; // i1

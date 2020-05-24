@@ -14,10 +14,14 @@
 	AlimentoEJB alimentoEJB = new AlimentoEJB();
 	TimerEJB timerEJB = new TimerEJB();
 
+	//busca los alimentos y las categorias
 	ArrayList<Alimento> arrA = alimentoEJB.busquedaAlimentos();
 	ArrayList<Categoria> arrC = categoriaEJB.busquedaCategorias();
 
+	//recupera el usuario de la sesion
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	
+	//comprueba que este en modo trabajo
 	int modoTrabajo;
 	try {
 		 modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
@@ -26,12 +30,15 @@
 		 modoTrabajo = 0;
 	}
 	
+	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
 	} else if (userNav.getRol() == 1) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
-	} else if (modoTrabajo == 1 && userNav.getRol() == 2 || modoTrabajo == 1 && userNav.getRol() == 3) {
+	} 
+	// si esta en modo trabajo y es un encargado o gerente muestra la pagina
+	else if (modoTrabajo == 1 && userNav.getRol() == 2 || modoTrabajo == 1 && userNav.getRol() == 3) {
 		
 		ArrayList<Integer> timers = new ArrayList<Integer>();
 %>
@@ -120,6 +127,7 @@
 
 					<%
 						String html = "";
+					//por cada categoria hago una row
 							for (Categoria c : arrC) {
 
 								html += "<div class='row'>";
@@ -127,6 +135,7 @@
 								html += "</div>"; // row nombre categoria
 								html += "<div class='row'>";
 
+								//si el alimento esta dentro de la categoria lo añade a la row
 								for (Alimento a : arrA) {
 
 									if (a.getCategoria() == c.getId()) {

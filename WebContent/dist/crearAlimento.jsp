@@ -14,8 +14,12 @@
 <%
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
+
+	//recupera el usuario de la sesion
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	int modoTrabajo;
+	
+	//comprueba que este en modo trabajo
 	try {
 		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
@@ -23,9 +27,13 @@
 		modoTrabajo = 0;
 	}
 
+	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
 	} else {
+		
+		// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+		// jsp del modo trabajo
 		if (modoTrabajo == 1) {
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 			rs.forward(request, response);
@@ -146,7 +154,8 @@
 													name="categoria">
 													<%
 														String html = "";
-
+																	
+															//Guarda las categorias en el select
 																	for (Categoria c : arrC) {
 
 																		html += "<option value='" + c.getId() + "'>" + c.getNombre() + "</option>";

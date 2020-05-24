@@ -16,37 +16,63 @@
 	DiaEJB d = new DiaEJB();
 	UsuarioEJB us = new UsuarioEJB();
 	TimerEJB timerEJB = new TimerEJB();
+
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
+
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+
+	//comprueba que este en modo trabajo
+	int modoTrabajo;
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+
+	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 1) {
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
-		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		ArrayList<Integer> arrT = new ArrayList<Integer>();
-		Integer mesFecha = 1,anyoFecha = 2001, id = 1;
-		try{
-			 mesFecha = (int) sesion.getAttribute("mes");
-			 anyoFecha = (int) sesion.getAttribute("anyo");	
-			 id = (int) sesion.getAttribute("idUsuario");
-		}catch(Exception e){
-			
-		}
-		
-		Usuario user = us.UsuarioPorId(id);
+	} else {
+		// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+		// jsp del modo trabajo
+		if (modoTrabajo == 1) {
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+			rs.forward(request, response);
+		} else {
+			if (userNav.getRol() == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+				rs.forward(request, response);
+			} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 
-		
-		Calendar c = new Calendar.Builder().setCalendarType("iso8601")
-				.setDate(anyoFecha, mesFecha-1, 1).build();
-		
-		int diaMaximo = c.getActualMaximum(Calendar.DATE);
-		
-		sesion.setAttribute("diasMaximo", diaMaximo);
-		sesion.setAttribute("usuarioHorario", user);
-		sesion.setAttribute("mesHorario", mesFecha);
-		sesion.setAttribute("anyoHorario", anyoFecha);
+				ArrayList<Integer> arrT = new ArrayList<Integer>();
+				Integer mesFecha = 1, anyoFecha = 2001, id = 1;
+
+				//recupera los atributos de la sesion
+				try {
+					mesFecha = (int) sesion.getAttribute("mes");
+					anyoFecha = (int) sesion.getAttribute("anyo");
+					id = (int) sesion.getAttribute("idUsuario");
+				} catch (Exception e) {
+
+				}
+
+				//saca el usuario
+				Usuario user = us.UsuarioPorId(id);
+
+				//saca el mes segun la fecha
+				Calendar c = new Calendar.Builder().setCalendarType("iso8601")
+						.setDate(anyoFecha, mesFecha - 1, 1).build();
+
+				//saca el dia maximo del mes
+				int diaMaximo = c.getActualMaximum(Calendar.DATE);
+
+				//lo guarda en la sesion
+				sesion.setAttribute("diasMaximo", diaMaximo);
+				sesion.setAttribute("usuarioHorario", user);
+				sesion.setAttribute("mesHorario", mesFecha);
+				sesion.setAttribute("anyoHorario", anyoFecha);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,12 +144,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-							if (userNav == null) {
-								out.print("Usuario");
-							} else {
-								out.print(userNav.getNombre());
+									if (userNav == null) {
+										out.print("Usuario");
+									} else {
+										out.print(userNav.getNombre());
 
-							}
+									}
 					%>
 					</div>
 				</div>
@@ -139,7 +165,19 @@
 					</ol>
 					<div class="card mb-4">
 						<div class="card-body">
-							Horario del mes <% out.print(mesFecha); %> y el año <% out.print(anyoFecha); %> del restaurante <% out.print(user.getRestaurante()); %> </a>.
+							Horario del mes
+							<%
+							out.print(mesFecha);
+						%>
+							y el año
+							<%
+							out.print(anyoFecha);
+						%>
+							del restaurante
+							<%
+							out.print(user.getRestaurante());
+						%>
+							</a>.
 						</div>
 					</div>
 					<div class="card mb-4">
@@ -148,78 +186,78 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-							<form action="CreaHorario" method="POST">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
-									<thead>
-										<tr>
-											<th>Trabajador</th>
-											<%
-												String htmlDia = "";
-													for (int i =1; i<= diaMaximo; i++) {
-														htmlDia += "<th colspan='4'>" + d.NombreDia(anyoFecha+"-"+mesFecha+"-"+i) + "</th>";
-													}
+								<form action="CreaHorario" method="POST">
+									<table class="table table-bordered" id="dataTable" width="100%"
+										cellspacing="0">
+										<thead>
+											<tr>
+												<th>Trabajador</th>
+												<%
+													String htmlDia = "";
+																//hace print de los dias
+																for (int i = 1; i <= diaMaximo; i++) {
+																	htmlDia += "<th colspan='4'>" + d.NombreDia(anyoFecha + "-" + mesFecha + "-" + i) + "</th>";
+																}
 
+																out.print(htmlDia);
+												%>
+
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th>Trabajador</th>
+												<%
 													out.print(htmlDia);
-											%>
-
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-											<th>Trabajador</th>
+												%>
+											</tr>
+										</tfoot>
+										<tbody>
 											<%
-												out.print(htmlDia);
+												htmlDia = "<tr>";
+															htmlDia += "<td></td>";
+
+															//hace print de las entradas y salidas en la tabla
+															for (int i = 1; i <= diaMaximo; i++) {
+																htmlDia += "<td>ENT</td>";
+																htmlDia += "<td>SAL</td>";
+																htmlDia += "<td>ENT</td>";
+																htmlDia += "<td>SAL</td>";
+
+															}
+
+															htmlDia += "</tr>";
+
+															out.print(htmlDia);
 											%>
-										</tr>
-									</tfoot>
-									<tbody>
-										<%
-										htmlDia = "<tr>";
-										htmlDia += "<td></td>";
 
-											for (int i =1; i<= diaMaximo; i++) {
-													htmlDia += "<td>ENT</td>";
-													htmlDia += "<td>SAL</td>";
-													htmlDia += "<td>ENT</td>";
-													htmlDia += "<td>SAL</td>";
 
-												}
-											
-										htmlDia += "</tr>";
-										
-										out.print(htmlDia);
-										%>
-										
-										
-										<%
-										String html = "";
+											<%
+												String html = "";
 
-											html += "<tr>";
-											html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
+															html += "<tr>";
+															html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
 
-											for (int i =1; i<= diaMaximo; i++) {
-											
-													
-													html += "<td><input type='time' name='entrada1"+String.format("%02d",i)+"'></td>";
-													
-													html += "<td><input type='time' name='salida1"+String.format("%02d",i)+"'></td>";
-													
-													html += "<td><input type='time' name='entrada2"+String.format("%02d",i)+"'></td>";
-													
-													html += "<td><input type='time' name='salida2"+String.format("%02d",i)+"'></td>";
-												}
-												
-											
+															//hace print de la creacion de horario
+															for (int i = 1; i <= diaMaximo; i++) {
 
-											html += "</tr>";
-										
-										out.print(html);
-										%>
+																html += "<td><input type='time' name='entrada1" + String.format("%02d", i) + "'></td>";
 
-									</tbody>
-								</table>
-								<input type="submit" value="Editar">
+																html += "<td><input type='time' name='salida1" + String.format("%02d", i) + "'></td>";
+
+																html += "<td><input type='time' name='entrada2" + String.format("%02d", i) + "'></td>";
+
+																html += "<td><input type='time' name='salida2" + String.format("%02d", i) + "'></td>";
+															}
+
+															html += "</tr>";
+
+															out.print(html);
+											%>
+
+										</tbody>
+									</table>
+									<input type="submit" value="Editar">
 								</form>
 							</div>
 						</div>
@@ -263,6 +301,8 @@
 </html>
 <%
 	} else {
-		response.sendRedirect("Main");
+				response.sendRedirect("Main");
+			}
+		}
 	}
 %>

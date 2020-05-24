@@ -7,6 +7,8 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	
+	//comprueba que este en modo trabajo
 	int modoTrabajo;
 	try {
 		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
@@ -15,14 +17,12 @@
 		modoTrabajo = 0;
 	}
 	
-	Usuario userPadre = new Usuario();
-	if (userNav == null) {
-	userNav = userPadre;
-	}
 	
 	if (userNav.getRol() == 1) {
 		response.sendRedirect("Main");
-	} else if(modoTrabajo == 1 && userNav.getRol() == 2 || modoTrabajo == 1 && userNav.getRol() == 3) {
+	} 
+	//comprueba que este en modo trabajo
+	else if(modoTrabajo == 1 && userNav.getRol() == 2 || modoTrabajo == 1 && userNav.getRol() == 3) {
 %>
 
 <!DOCTYPE html>

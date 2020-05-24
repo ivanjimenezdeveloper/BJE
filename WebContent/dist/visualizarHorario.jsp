@@ -17,7 +17,19 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
-	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
+	
+	
+	//comprueba que este en modo trabajo
+	int modoTrabajo;
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+	
+	//comprueba que el usuario sea valido
+	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0 || modoTrabajo == 1) {
 		response.sendRedirect("Main");
 	} else if (userNav.getRol() == 1) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
@@ -26,11 +38,13 @@
 		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
 		Integer mes = 0, anyo = 0;
 		
+		//recupera los dias maximos de esta mes
 		Calendar c = new Calendar.Builder().setCalendarType("iso8601")
 				.setDate(anyo, mes-1, 1).build();
 		
 		int diaMaximo = c.getActualMaximum(Calendar.DATE);
 		
+		//recupera los parametros
 		mes = Integer.parseInt(sesion.getAttribute("mes").toString());
 		anyo = Integer.parseInt(sesion.getAttribute("anyo").toString());
 		ArrayList<Dia> arrD = d.horarioRestaurante(mes, anyo, userNav.getRestaurante());
@@ -142,8 +156,10 @@
 										<th></th>
 											<th>Trabajador</th>
 											<%
+											
 												String htmlDia = "";
-													for (int i =1; i<= diaMaximo; i++) {
+											//por cada dia hace un header con el nombre del dia 
+											for (int i =1; i<= diaMaximo; i++) {
 														htmlDia += "<th colspan='4'>" + d.NombreDia(anyo+"-"+mes+"-"+i) + "</th>";
 													}
 
@@ -167,6 +183,7 @@
 											htmlEnt += "<td></td>";
 											htmlEnt += "<td></td>";
 
+											//por cada dia crea una seccion de entradas y salidas
 												for (int i =1; i<= diaMaximo; i++) {
 													htmlEnt += "<td>ENT</td>";
 													htmlEnt += "<td>SAL</td>";
@@ -182,12 +199,15 @@
 										
 										<%
 											String html = "";
+										
+										//por cada usuario hace una fila
 												for (Usuario u : arrUs) {
 
 													html += "<tr>";
 													html += "<td><a class='btn btn-primary' href='EditaHorario?idUsuario="+u.getId()+"&mes="+mes+"&anyo="+anyo+"'>EDITA</a></td>";
 													html += "<td>" + u.getNombre() + " " + u.getApellido() + "</td>";
 
+													//por cada dia crea una celda
 													for (Dia dia : arrD) {
 
 														if (u.getId() == dia.getUsuario()) {

@@ -16,38 +16,64 @@
 	DiaEJB d = new DiaEJB();
 	UsuarioEJB us = new UsuarioEJB();
 	TimerEJB timerEJB = new TimerEJB();
+
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+
+	//comprueba que este en modo trabajo
+	int modoTrabajo;
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+
+	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 1) {
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
-		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		ArrayList<Integer> arrT = new ArrayList<Integer>();
-		Integer mesFecha = 3;
-		Integer anyoFecha = 2018;
-		Integer id = 1;
+	} else {
 
-		try {
-			mesFecha = Integer.parseInt(sesion.getAttribute("mes").toString());
-			anyoFecha = Integer.parseInt(sesion.getAttribute("anyo").toString());
-			id = Integer.parseInt(sesion.getAttribute("idUsuario").toString());
-		} catch (Exception e) {
+		// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+		// jsp del modo trabajo
+		if (modoTrabajo == 1) {
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+			rs.forward(request, response);
+		} else {
 
-		}
-		Usuario user = us.UsuarioPorId(id);
+			if (userNav.getRol() == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+				rs.forward(request, response);
+			} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+				ArrayList<Integer> arrT = new ArrayList<Integer>();
+				Integer mesFecha = 3;
+				Integer anyoFecha = 2018;
+				Integer id = 1;
 
-		Calendar c = new Calendar.Builder().setCalendarType("iso8601").setDate(anyoFecha, mesFecha - 1, 1)
-				.build();
+				//saca los parametros
+				try {
+					mesFecha = Integer.parseInt(sesion.getAttribute("mes").toString());
+					anyoFecha = Integer.parseInt(sesion.getAttribute("anyo").toString());
+					id = Integer.parseInt(sesion.getAttribute("idUsuario").toString());
+				} catch (Exception e) {
 
-		int diaMaximo = c.getActualMaximum(Calendar.DATE);
+				}
 
-		ArrayList<Dia> arrD = d.horarioUsuario(user, mesFecha, anyoFecha);
-		sesion.setAttribute("usuarioHorario", user);
-		sesion.setAttribute("mesHorario", mesFecha);
-		sesion.setAttribute("anyoHorario", anyoFecha);
+				//busca el usuario
+				Usuario user = us.UsuarioPorId(id);
+
+				//saca los dias maximos del mes
+				Calendar c = new Calendar.Builder().setCalendarType("iso8601")
+						.setDate(anyoFecha, mesFecha - 1, 1).build();
+
+				int diaMaximo = c.getActualMaximum(Calendar.DATE);
+
+				//saca una array con los dias del horario del usuario segun el mes, año y usuario
+				ArrayList<Dia> arrD = d.horarioUsuario(user, mesFecha, anyoFecha);
+				sesion.setAttribute("usuarioHorario", user);
+				sesion.setAttribute("mesHorario", mesFecha);
+				sesion.setAttribute("anyoHorario", anyoFecha);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,12 +145,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-							if (userNav == null) {
-								out.print("Usuario");
-							} else {
-								out.print(userNav.getNombre());
+									if (userNav == null) {
+										out.print("Usuario");
+									} else {
+										out.print(userNav.getNombre());
 
-							}
+									}
 					%>
 					</div>
 				</div>
@@ -158,19 +184,15 @@
 												<%
 													String htmlDia = "";
 
-														if (arrD.isEmpty()) {
-															for (int i = 1; i <= diaMaximo; i++) {
+																//Muestra los dias segun el dia maximo
 
-																htmlDia += "<th colspan='4'>" + d.NombreDia(anyoFecha+"-"+mesFecha+"-"+i) + "</th>";
+																for (int i = 1; i <= diaMaximo; i++) {
 
-															}
-														} else {
-															for (Dia dia : arrD) {
-																htmlDia += "<th colspan='4'>" + d.NombreDia(dia.getFecha()) + "</th>";
-															}
-														}
+																	htmlDia += "<th colspan='4'>" + d.NombreDia(anyoFecha + "-" + mesFecha + "-" + i) + "</th>";
 
-														out.print(htmlDia);
+																}
+
+																out.print(htmlDia);
 												%>
 
 											</tr>
@@ -186,76 +208,84 @@
 										<tbody>
 											<%
 												htmlDia = "<tr>";
-													htmlDia += "<td></td>";
+												//muestra las entradas y salidas
+															htmlDia += "<td></td>";
 
-													for (Dia dia : arrD) {
-														htmlDia += "<td>ENT</td>";
-														htmlDia += "<td>SAL</td>";
-														htmlDia += "<td>ENT</td>";
-														htmlDia += "<td>SAL</td>";
+															for (Dia dia : arrD) {
+																htmlDia += "<td>ENT</td>";
+																htmlDia += "<td>SAL</td>";
+																htmlDia += "<td>ENT</td>";
+																htmlDia += "<td>SAL</td>";
 
-													}
+															}
 
-													htmlDia += "</tr>";
+															htmlDia += "</tr>";
 
-													out.print(htmlDia);
+															out.print(htmlDia);
 											%>
 											<%
 												String html = "";
 
-													html += "<tr>";
-													html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
-													if (arrD.isEmpty()) {
-														for (int i = 1; i <= diaMaximo; i++) {
+															html += "<tr>";
+															html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
+															
+															//si la array esta vacia crea inputs vacios si tiene algo creara inputs con el valor
+															if (arrD.isEmpty()) {
+																for (int i = 1; i <= diaMaximo; i++) {
 
-															html += "<td><input type='time' name='entrada1" + String.format("%02d",i) + "'></td>";
+																	html += "<td><input type='time' name='entrada1" + String.format("%02d", i) + "'></td>";
 
-															html += "<td><input type='time' name='salida1" + String.format("%02d",i) + "'></td>";
+																	html += "<td><input type='time' name='salida1" + String.format("%02d", i) + "'></td>";
 
-															html += "<td><input type='time' name='entrada2" + String.format("%02d",i) + "'></td>";
+																	html += "<td><input type='time' name='entrada2" + String.format("%02d", i) + "'></td>";
 
-															html += "<td><input type='time' name='salida2" + String.format("%02d",i) + "'></td>";
-														}
-													} else {
-														for (Dia dia : arrD) {
-
-															if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
-																html += "<td><input type='time' name='entrada1" + d.getDia(dia.getFecha()) + "'></td>";
-
-																html += "<td><input type='time' name='salida1" + d.getDia(dia.getFecha()) + "'></td>";
-
-																html += "<td><input type='time' name='entrada2" + d.getDia(dia.getFecha()) + "'></td>";
-
-																html += "<td><input type='time' name='salida2" + d.getDia(dia.getFecha()) + "'></td>";
+																	html += "<td><input type='time' name='salida2" + String.format("%02d", i) + "'></td>";
+																}
 															} else {
+																for (Dia dia : arrD) {
 
-																arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_1()));
-																html += "<td><input type='time' name='entrada1" + d.getDia(dia.getFecha()) + "' value='"
-																		+ String.format("%02d", arrT.get(0)) + ":" + String.format("%02d", arrT.get(1))
-																		+ "'></td>";
+																	//si no es un dia valido crea un input vacio si no con los datos
+																	if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
+																		html += "<td><input type='time' name='entrada1" + d.getDia(dia.getFecha())
+																				+ "'></td>";
 
-																arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
-																html += "<td><input type='time' name='salida1" + d.getDia(dia.getFecha()) + "' value='"
-																		+ String.format("%02d", arrT.get(0)) + ":" + String.format("%02d", arrT.get(1))
-																		+ "'></td>";
+																		html += "<td><input type='time' name='salida1" + d.getDia(dia.getFecha())
+																				+ "'></td>";
 
-																arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_2()));
-																html += "<td><input type='time' name='entrada2" + d.getDia(dia.getFecha()) + "' value='"
-																		+ String.format("%02d", arrT.get(0)) + ":" + String.format("%02d", arrT.get(1))
-																		+ "'></td>";
+																		html += "<td><input type='time' name='entrada2" + d.getDia(dia.getFecha())
+																				+ "'></td>";
 
-																arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
-																html += "<td><input type='time' name='salida2" + d.getDia(dia.getFecha()) + "' value='"
-																		+ String.format("%02d", arrT.get(0)) + ":" + String.format("%02d", arrT.get(1))
-																		+ "'></td>";
+																		html += "<td><input type='time' name='salida2" + d.getDia(dia.getFecha())
+																				+ "'></td>";
+																	} else {
+
+																		arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_1()));
+																		html += "<td><input type='time' name='entrada1" + d.getDia(dia.getFecha())
+																				+ "' value='" + String.format("%02d", arrT.get(0)) + ":"
+																				+ String.format("%02d", arrT.get(1)) + "'></td>";
+
+																		arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
+																		html += "<td><input type='time' name='salida1" + d.getDia(dia.getFecha())
+																				+ "' value='" + String.format("%02d", arrT.get(0)) + ":"
+																				+ String.format("%02d", arrT.get(1)) + "'></td>";
+
+																		arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getEntrada_2()));
+																		html += "<td><input type='time' name='entrada2" + d.getDia(dia.getFecha())
+																				+ "' value='" + String.format("%02d", arrT.get(0)) + ":"
+																				+ String.format("%02d", arrT.get(1)) + "'></td>";
+
+																		arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
+																		html += "<td><input type='time' name='salida2" + d.getDia(dia.getFecha())
+																				+ "' value='" + String.format("%02d", arrT.get(0)) + ":"
+																				+ String.format("%02d", arrT.get(1)) + "'></td>";
+																	}
+
+																}
 															}
 
-														}
-													}
+															html += "</tr>";
 
-													html += "</tr>";
-
-													out.print(html);
+															out.print(html);
 											%>
 
 										</tbody>
@@ -304,6 +334,8 @@
 </html>
 <%
 	} else {
-		response.sendRedirect("Main");
+				response.sendRedirect("Main");
+			}
+		}
 	}
 %>

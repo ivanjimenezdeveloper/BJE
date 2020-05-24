@@ -5,10 +5,21 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
-	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
+	
+	//comprueba que este en modo trabajo
+	int modoTrabajo;
+	try {
+		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
+
+	} catch (Exception e) {
+		modoTrabajo = 0;
+	}
+	
+	//comprueba que el usuario sea valido
+	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0 || modoTrabajo == 1) {
 		response.sendRedirect("Main");
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexManager.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 1) {
 %>

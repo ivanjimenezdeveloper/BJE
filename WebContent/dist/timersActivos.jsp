@@ -22,6 +22,7 @@
 	
 	ArrayList<Timer> arrT = timerEJB.timersActivos(userNav.getRestaurante());
 
+	//comprueba que este en modo trabajo
 	int modoTrabajo;
 	try {
 		 modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
@@ -30,7 +31,7 @@
 		 modoTrabajo = 0;
 	}
 	
-	
+	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
 	} else if (userNav.getRol() == 1) {
@@ -125,6 +126,7 @@
 
 					<%
 						String html = "";
+					//por cada categoria una row
 							for (Categoria c : arrC) {
 
 								html += "<div class='row'>";
@@ -132,6 +134,7 @@
 								html += "</div>"; // row nombre categoria
 								html += "<div class='row'>";
 
+								//si el alimento coincide con la categoria se añade a la row
 								for (Alimento a : arrA) {
 
 									if (a.getCategoria() == c.getId()) {
@@ -165,8 +168,7 @@
 												html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
 												html += "\n<h1>" + a.getNombre() + "</h1>";
 												html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-												html += "\n<p id='countdown" + t.getId() + "'>" + timers.get(0) + ":" + timers.get(1)
-														+ ":" + timers.get(2) + "</p>";
+												html += "\n<p id='countdown" + t.getId() + "'>"  + "</p>";
 												html += "\n<div class='small text-white'></div>";
 
 												html += "</div>"; // fin 4
@@ -225,7 +227,9 @@
 
 	<script>
 
-<% for (Timer t : arrT) {%>
+<% 
+//por cada timer crea un interval en un javascrip que crea una cuenta atras
+for (Timer t : arrT) {%>
 
 	var <%out.print("distance"+t.getId()); %> = <% out.print(t.getTiempo_restante());%>*1000;
 
@@ -235,9 +239,10 @@
 		  var seconds = Math.floor((<%out.print("distance"+t.getId()); %> % (1000 * 60)) / 1000);
 		  document.getElementById('<%out.print("countdown" + t.getId());%>').innerHTML = hours + "h "+ minutes + "m " + seconds + "s ";
 		  
+		  //si la cuenta atras llega a 0 pasa a estar expirada
 		  if (<%out.print("distance"+t.getId()); %> <= 0) {
 			    clearInterval(<%out.print("countdown"+t.getId()); %>);
-			    document.getElementById(<%out.print("'countdown"+t.getId()+"'"); %>).innerHTML = "EXPIRED";
+			    document.getElementById(<%out.print("'countdown"+t.getId()+"'"); %>).innerHTML = "CADUCADO";
 			  }else{
 				  <%out.print("distance"+t.getId()); %>= <%out.print("distance"+t.getId()); %> - 1000;
 			  }

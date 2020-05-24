@@ -10,6 +10,7 @@
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	Usuario userPadre = new Usuario();
 
+	//comprueba que el usuario sea valido
 	if (userNav == null) {
 	userNav = userPadre;
 	}
@@ -59,14 +60,6 @@
 											<a class="btn btn-danger">Usuario o contraseña incorrecta</a>
 										</div>
 
-										<div class="form-group">
-											<div class="custom-control custom-checkbox">
-												<input class="custom-control-input"
-													id="rememberPasswordCheck" type="checkbox" /><label
-													class="custom-control-label" for="rememberPasswordCheck">Remember
-													password</label>
-											</div>
-										</div>
 										<div
 											class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
 											<input type="submit" class="btn btn-primary" value="Log in"></input>
@@ -74,9 +67,7 @@
 									</form>
 								</div>
 								<div class="card-footer text-center">
-									<div class="small">
-										<a href="register.html">Need an account? Sign up!</a>
-									</div>
+
 								</div>
 							</div>
 						</div>
