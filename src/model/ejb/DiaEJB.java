@@ -175,4 +175,6 @@ public class DiaEJB {
 
 		return d.existeDia(us.getId(), fecha);
 	}
+	
+	
 }

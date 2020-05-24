@@ -12,32 +12,61 @@ import model.entidad.Usuario;
 import model.entidad.dao.UsuarioDAO;
 
 
-
+/**
+ * EJB de usuarios
+ * @author HIBAN
+ *
+ */
 @Stateless
 @LocalBean
 public class UsuarioEJB {
 	
+	/**
+	 * EJB para trabajar con roles
+	 */
 	@EJB
 	RolEJB rolEJB;
 	
+	/**
+	 * EJB para trabajar con restaurantes
+	 */
 	@EJB
 	RestauranteEJB restauranteEJB;
-	
+
+	/**
+	 * EJB para trabajar con usuarios
+	 */
 	@EJB
 	UsuarioEJB usuarioEJB;
 
+	/**
+	 * Devuelve un usuario segun su id
+	 * @param id id del usuario
+	 * @return Objeto usuario
+	 */
 	public Usuario UsuarioPorId(int id) {
 		UsuarioDAO u = new UsuarioDAO();
 
 		return u.UsuarioPorId(id);
 	}
 
+	/**
+	 * Busca un usuario con ese correo y esa contraseña
+	 * @param correo correo del usuario
+	 * @param pass contraseña del usuario
+	 * @return Usuario que coincide con los parametros
+	 */
 	public Usuario existeUsuario(String correo, String pass) {
 		UsuarioDAO u = new UsuarioDAO();
 
 		return u.existeUsuario(correo, pass);
 	}
 
+	/**
+	 * Busca si existe un correo en la base de datos
+	 * @param correo correo que buscar
+	 * @return un 1 o mas si encuentra algo, 0 si no encuentra nada
+	 */
 	public int existeCorreo(String correo) {
 		UsuarioDAO u = new UsuarioDAO();
 		
@@ -45,17 +74,27 @@ public class UsuarioEJB {
 		return u.existeCorreo(correo);
 	}
 
+	/**
+	 * Busca todos los usuarios de un restaurante
+	 * @param idRestaurante id del restaurante
+	 * @return Arraylist con usuarios
+	 */
 	public ArrayList<Usuario> busquedaUsuarios(int idRestaurante) {
 		UsuarioDAO u = new UsuarioDAO();
 
 		return u.busquedaUsuarios(idRestaurante);
 	}
 
+	/**
+	 * Edita un usuario y envia un correo al usuario correspondiente
+	 * @param user usuario al que editar
+	 */
 	public void editaUsuario(Usuario user) {
 
 		UsuarioDAO u = new UsuarioDAO();
 		int activo = (user.isActivo()) ? 1 : 0;
 		
+		// si el usuario esta activo envia el correo
 		if(user.isActivo()) {
 			
 			String restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante()).getNombre();
@@ -75,14 +114,20 @@ public class UsuarioEJB {
 
 		}
 		
+		//edita el usuario
 		u.editaUsuario(user.getNombre(), user.getApellido(), user.getRol(), user.getObservaciones(),
 				user.getRestaurante(), activo, user.getId(), user.getCorreo());
 
 	}
 	
+	/**
+	 * edita el perfin de un usuario
+	 * @param user usuario al que editar el perfil
+	 */
 	public void editaPerfil(Usuario user) {
 		UsuarioDAO u = new UsuarioDAO();
 
+		// si el usuario esta activo envia el correo
 		if(user.isActivo()) {
 			
 			String restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante()).getNombre();
@@ -102,6 +147,7 @@ public class UsuarioEJB {
 
 		}
 		
+		//edita el perfil
 		u.editaPerfil(user.getNombre(), user.getApellido(), user.getId(), user.getCorreo(), user.getPass());
 		
 	}
@@ -135,6 +181,10 @@ public class UsuarioEJB {
 
 	}
 	
+	/**
+	 * Elimina un usuario
+	 * @param id id del usuario que eliminar
+	 */
 	public void eliminaUsuario(int id) {
 		
 		UsuarioDAO u = new UsuarioDAO();
@@ -142,10 +192,20 @@ public class UsuarioEJB {
 		u.eliminaUsuario(id);
 	}
 	
+	/**
+	 * Hace un reset de password y envia un correo
+	 * @param id id del usuario que resetear su password
+	 */
 	public void resetPassword(int id) {
 		UsuarioDAO u = new UsuarioDAO();
+		
+		//Crea una password aleatorio
 		String pass = creaPassword();
+		
+		//Busca el usuario segun su id
 		Usuario user = usuarioEJB.UsuarioPorId(id);
+		
+		//si el usuario esta activo envia su password
 		if(user.isActivo()) {
 			
 			String cuerpo = "<p>Se ha reseteado su contraseña <p>";
@@ -159,16 +219,25 @@ public class UsuarioEJB {
 
 		}
 		
+		//edita el usuario
 		u.cambiaPass(id, pass);
 	}
 
+	/**
+	 * Crea una password aleatoria de 8 caracteres con numeros y letras
+	 * @return String con la password de 8 caracteres
+	 */
 	private String creaPassword() {
 
-		int leftLimit = 48; // numeral '0'
-		int rightLimit = 122; // letter 'z'
+		//parametros de filtrado
+		int leftLimit = 48; // numero '0'
+		int rightLimit = 122; // letra 'z'
+		
+		//tamaño
 		int targetStringLength = 8;
 		Random random = new Random();
-
+		
+		//crea la password con los random
 		String pass = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
 				.limit(targetStringLength)
 				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
@@ -176,7 +245,14 @@ public class UsuarioEJB {
 		return pass;
 	}
 	
+	/**
+	 * Envia un correo
+	 * @param cuerpo cuerpo del correo
+	 * @param titulo titulo del correo
+	 * @param mail objetivo del correo
+	 */
 	private void enviaCorreo(String cuerpo, String titulo, String mail) {
+		
 		String remitente = "basiliscoxalligator@gmail.com";
 		Mail m = new Mail("smtp.gmail.com", 587, "basiliscoxalligator@gmail.com", "Ageofempires2");
 		m.sendMail(mail, remitente, titulo, cuerpo);
