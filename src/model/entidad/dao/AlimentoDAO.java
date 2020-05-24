@@ -11,13 +11,29 @@ import model.entidad.Alimento;
 import model.entidad.dao.mapper.AlimentoMapper;
 import model.entidad.dao.mapper.UsuarioMapper;
 
+/**
+ * DAO de alimentos
+ * 
+ * @author HIBAN
+ *
+ */
 public class AlimentoDAO {
+
+	/**
+	 * Logger
+	 */
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RolDAO.class);
 
+	/**
+	 * Busca un alimento por su id
+	 * 
+	 * @param id id del alimento
+	 * @return objeto alimento
+	 */
 	public Alimento AlimentoPorId(int id) {
 		SqlSession sqlSession = null;
 		try {
-			 sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 			AlimentoMapper alimentoMapper = sqlSession.getMapper(AlimentoMapper.class);
 			return alimentoMapper.AlimentoPorId(id);
 		} catch (Exception e) {
@@ -28,12 +44,16 @@ public class AlimentoDAO {
 			sqlSession.close();
 		}
 	}
-	
-	
+
+	/**
+	 * Busca todos los alimentos
+	 * 
+	 * @return Arraylist de alimentos
+	 */
 	public ArrayList<Alimento> busquedaAlimentos() {
 		SqlSession sqlSession = null;
 		try {
-			 sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 			AlimentoMapper alimentoMapper = sqlSession.getMapper(AlimentoMapper.class);
 			return alimentoMapper.busquedaAlimentos();
 		} catch (Exception e) {
@@ -44,7 +64,14 @@ public class AlimentoDAO {
 			sqlSession.close();
 		}
 	}
-	
+
+	/**
+	 * Edita un alimento
+	 * @param nombre nombre del alimento
+	 * @param idCategoria id de la categoria
+	 * @param id id del alimento
+	 * @param tiempo tiempo en minutos
+	 */
 	public void editaAlimento(String nombre, int idCategoria, int id, int tiempo) {
 		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
@@ -56,10 +83,16 @@ public class AlimentoDAO {
 
 		} finally {
 			sqlSession.close();
-		}		
+		}
 	}
 
 
+	/**
+	 * Crea un alimento
+	 * @param nombre nombre del alimento
+	 * @param idCategoria id de la categoria
+	 * @param tiempo tiempo en minutos
+	 */
 	public void creaAlimento(String nombre, int idCategoria, int tiempo) {
 		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
@@ -73,6 +106,5 @@ public class AlimentoDAO {
 			sqlSession.close();
 		}
 	}
-	
-	
+
 }

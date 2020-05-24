@@ -2,6 +2,11 @@ package model.entidad;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Entidad categoria
+ * @author HIBAN
+ *
+ */
 @XmlRootElement
 public class Categoria {
 	private int id;

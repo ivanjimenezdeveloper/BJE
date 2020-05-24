@@ -10,9 +10,23 @@ import model.MyBatisUtil;
 import model.entidad.Categoria;
 import model.entidad.dao.mapper.CategoriaMapper;
 
+/**
+ * DAO de categoria
+ * @author HIBAN
+ *
+ */
 public class CategoriaDAO {
+	
+	/**
+	 * Logger
+	 */
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RolDAO.class);
 
+	/**
+	 * Busca una categoria por su id
+	 * @param id id de la categoria
+	 * @return Objeto categoria
+	 */
 	public Categoria CategoriaPorId(int id) {
 		SqlSession sqlSession = null;
 		try {
@@ -28,6 +42,10 @@ public class CategoriaDAO {
 		}
 	}
 	
+	/**
+	 * Busca todas las categorias
+	 * @return Arraylist de categorias
+	 */
 	public ArrayList<Categoria> busquedaCategorias() {
 		SqlSession sqlSession = null;
 		try {

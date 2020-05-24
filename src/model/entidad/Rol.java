@@ -2,6 +2,11 @@ package model.entidad;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Entidad rol
+ * @author HIBAN
+ *
+ */
 @XmlRootElement
 public class Rol {
 	private int id;

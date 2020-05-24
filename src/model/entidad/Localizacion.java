@@ -1,5 +1,10 @@
 package model.entidad;
 
+/**
+ * Entidad localizacion
+ * @author HIBAN
+ *
+ */
 public class Localizacion {
 	private int id;
 	private String nombre;

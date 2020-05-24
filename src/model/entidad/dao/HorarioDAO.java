@@ -7,14 +7,26 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
-import model.entidad.Dia;
 import model.entidad.Horario;
-import model.entidad.dao.mapper.DiaMapper;
 import model.entidad.dao.mapper.HorarioMapper;
 
+/**
+ * DAO de horarios
+ * @author HIBAN
+ *
+ */
 public class HorarioDAO {
-	private static final Logger logger = (Logger) LoggerFactory.getLogger(DiaDAO.class);
+	
+	/**
+	 * Logger
+	 */
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(HorarioDAO.class);
 
+	/**
+	 * Busca un horario general segun una id
+	 * @param id id del horario general
+	 * @return Objeto horario general
+	 */
 	public Horario horarioPorDia(int id) {
 		SqlSession sqlSession = null;
 		try {
@@ -30,6 +42,11 @@ public class HorarioDAO {
 		}
 	}
 
+	/**
+	 * Devuelve los horarios que estan conectados a un restaurante
+	 * @param idRestaurante id del restaurante por el que filtrar
+	 * @return Arraylist de horarios generales
+	 */
 	public ArrayList<Horario> horariosPorRestaurante(int idRestaurante) {
 		SqlSession sqlSession = null;
 		try {
@@ -45,6 +62,10 @@ public class HorarioDAO {
 		}
 	}
 	
+	/**
+	 * Devuelve todos los horarios generales
+	 * @return Arraylist de horarios generales
+	 */
 	public ArrayList<Horario> getHorarios() {
 		SqlSession sqlSession = null;
 		try {
@@ -61,6 +82,12 @@ public class HorarioDAO {
 	}
 	
 
+	/**
+	 * Inserta un horario general a la base de datos
+	 * @param activo boolean para determinar si esta activo o no
+	 * @param mes mes del año 
+	 * @param anyo año por el que filtrar
+	 */
 	public void creaHorarioGeneral(int activo, int mes, int anyo) {
 
 		SqlSession sqlSession = null;
@@ -77,6 +104,12 @@ public class HorarioDAO {
 
 	}
 	
+	/**
+	 * Devuelve la id de un horario segun su mes y su año
+	 * @param mes mes del año
+	 * @param anyo año por el que filtrar
+	 * @return Objeto horario
+	 */
 	public Horario horarioIdPorMesAnyo(int mes, int anyo) {
 		
 		SqlSession sqlSession = null;

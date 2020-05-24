@@ -1,5 +1,10 @@
 package model.entidad;
 
+/**
+ * Entidad restaurante
+ * @author HIBAN
+ *
+ */
 public class Restaurante {
 	private int id, localizacion;
 	private String nombre;

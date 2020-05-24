@@ -10,9 +10,23 @@ import model.MyBatisUtil;
 import model.entidad.Rol;
 import model.entidad.dao.mapper.RolMapper;
 
+/**
+ * DAO de rol
+ * @author HIBAN
+ *
+ */
 public class RolDAO {
+	
+	/**
+	 * Logger
+	 */
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RolDAO.class);
 
+	/**
+	 * Busca un rol por su id
+	 * @param id id por la que filtrar
+	 * @return Objeto rol
+	 */
 	public Rol RolPorId(int id) {
 		SqlSession sqlSession = null;
 		try {
@@ -28,6 +42,10 @@ public class RolDAO {
 		}
 	}
 	
+	/**
+	 * Busqueda de roles
+	 * @return Arraylist de roles
+	 */
 	public ArrayList<Rol> busquedaRoles() {
 		SqlSession sqlSession = null;
 		try {

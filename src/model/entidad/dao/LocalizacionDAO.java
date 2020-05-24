@@ -8,10 +8,23 @@ import model.MyBatisUtil;
 import model.entidad.Localizacion;
 import model.entidad.dao.mapper.LocalizacionMapper;
 
+/**
+ * DAO de localizacion
+ * @author HIBAN
+ *
+ */
 public class LocalizacionDAO {
 	
+	/**
+	 * Logger
+	 */
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(LocalizacionDAO.class);
 
+	/**
+	 * Busca una localizacion segun la id
+	 * @param id id de por la que filtrar
+	 * @return Objeto localizacion
+	 */
 	public Localizacion LocalizacionPorId(int id) {
 		SqlSession sqlSession = null;
 		try {

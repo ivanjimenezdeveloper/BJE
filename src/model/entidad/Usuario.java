@@ -1,5 +1,10 @@
 package model.entidad;
 
+/**
+ * Entidad de usuario
+ * @author HIBAN
+ *
+ */
 public class Usuario {
 	private int id, rol, restaurante;
 	private String correo, nombre, apellido, pass, observaciones;

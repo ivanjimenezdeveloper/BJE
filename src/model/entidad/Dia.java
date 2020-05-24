@@ -1,5 +1,10 @@
 package model.entidad;
 
+/**
+ * Entidad dia
+ * @author HIBAN
+ *
+ */
 public class Dia {
 
 	private int id, usuario, horario;

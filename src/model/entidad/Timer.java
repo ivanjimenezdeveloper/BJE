@@ -1,5 +1,10 @@
 package model.entidad;
 
+/**
+ * Entidad timer
+ * @author HIBAN
+ *
+ */
 public class Timer {
 	private int id, idAlimento, tiempo_restante, idcategoria, idRestaurante;
 

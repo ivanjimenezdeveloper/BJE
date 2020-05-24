@@ -1,5 +1,10 @@
 package model.entidad;
 
+/**
+ * Entidad Alimento
+ * @author HIBAN
+ *
+ */
 public class Alimento {
 	private int id, categoria, tiempo;
 	private String nombre;

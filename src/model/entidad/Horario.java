@@ -1,5 +1,10 @@
 package model.entidad;
 
+/**
+ * Entidad horario
+ * @author HIBAN
+ *
+ */
 public class Horario {
 	private int id, anyo, mes;
 	private boolean activo;

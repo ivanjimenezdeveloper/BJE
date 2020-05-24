@@ -9,12 +9,24 @@ import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
 import model.entidad.Timer;
 import model.entidad.dao.mapper.TimerMapper;
-import model.entidad.dao.mapper.UsuarioMapper;
 
+/**
+ * DAO de timers
+ * @author HIBAN
+ *
+ */
 public class TimerDAO {
 
+	/**
+	 * Logger
+	 */
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(UsuarioDAO.class);
 	
+	/**
+	 * Devuelve todos los timers activos por un restaurante
+	 * @param idRestaurante
+	 * @return
+	 */
 	public ArrayList<Timer> timersActivos(int idRestaurante) {
 		SqlSession sqlSession = null;
 		try {
@@ -30,6 +42,13 @@ public class TimerDAO {
 		}
 	}
 	
+	
+	/**
+	 * Añade un timer
+	 * @param idAlimento id del alimento
+	 * @param fecha fecha limite en segundos 
+	 * @param idRestaurante id del restaurante
+	 */
 	public void addTimer(int idAlimento, int fecha, int idRestaurante) {
 		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
