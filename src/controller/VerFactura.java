@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.ejb.FacturaEJB;
+import model.ejb.HoraVentaEJB;
 
 /**
  * Servlet implementation class VerFactura
@@ -22,12 +23,20 @@ public class VerFactura extends HttpServlet {
 	@EJB
 	FacturaEJB facturaEJB;
 	
+	@EJB
+	HoraVentaEJB horaVentaEJB;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
 		
 		response.getWriter().print(facturaEJB.facturaPorId(1).getFecha());
 		response.getWriter().println(facturaEJB.getFacturas().get(0).getFecha());
+		
+		response.getWriter().println(horaVentaEJB.getFacturas().get(2).getHora());
+		response.getWriter().println(horaVentaEJB.HoraVentaPorId(1, 17).getHora());
+
+
 
 	}
 

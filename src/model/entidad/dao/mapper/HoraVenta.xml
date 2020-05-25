@@ -5,8 +5,8 @@
 
 	<select resultType="HoraVenta" id="ventaPorId">
 		SELECT * FROM HORA_VENTA
-		WHERE ID =
-		#{id}
+		WHERE IDFACTURA =
+		#{id} AND HORA = #{hora}
 	</select>
 	<select id="getVentas" resultType="HoraVenta">
 	SELECT * FROM HORA_VENTA
