@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='model.entidad.dao.mapper.FacturaMapper'>
+
+	<select resultType="Factura" id="facturaPorId">
+		SELECT * FROM FACTURA
+		WHERE ID =
+		#{id}
+	</select>
+	<select id="getFacturas" resultType="Factura">
+	SELECT * FROM FACTURA
+	</select>
+	<select id="FacturasPorRestaurante" resultType="Factura">
+		SELECT DISTINCT
+		HORARIO.* FROM HORARIO, DIA, USUARIO
+		WHERE DIA.IDHORARIO = HORARIO.ID
+		AND USUARIO.ID = DIA.USUARIO
+		AND USUARIO.restaurante = #{restaurante}
+
+	</select>
+
+	<insert id="creaFactura" parameterType="Factura"
+		useGeneratedKeys="true" keyProperty="ID">
+		INSERT INTO HORARIO(ACTIVO, MES,
+		ANYO) VALUES(#{activo},#{mes},#{anyo});
+	</insert>
+	
+	<select id="facturaIdPorMesAnyo" resultType="Factura">
+	
+	SELECT * FROM HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
+	</select>
+
+</mapper>

@@ -209,6 +209,7 @@ public class EditaHorario extends HttpServlet {
 							
 							diaAdd.setUsuario(userHorario.getId());
 							
+							
 							//si no existe un dia para ese usuario con esa fecha en lugar de editar inserta
 							if(diaEJB.existeDia(userHorario, diaAdd.getFecha()) == 0) {
 								//saca el horario general al que debe pertenecer este dia

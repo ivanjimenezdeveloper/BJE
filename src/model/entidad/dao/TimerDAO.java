@@ -20,7 +20,7 @@ public class TimerDAO {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = (Logger) LoggerFactory.getLogger(UsuarioDAO.class);
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(TimerDAO.class);
 	
 	/**
 	 * Devuelve todos los timers activos por un restaurante
