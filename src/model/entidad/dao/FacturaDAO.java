@@ -80,5 +80,21 @@ public class FacturaDAO {
 		}
 	}
 	
+	public void creaFactura(String fecha) {
+		SqlSession sqlSession = null;
+		try {
+			 sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			FacturaMapper facturaMapper = sqlSession.getMapper(FacturaMapper.class);
+			facturaMapper.creaFactura(fecha);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	
 
 }

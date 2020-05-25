@@ -18,7 +18,6 @@ import model.entidad.dao.FacturaDAO;
 @LocalBean
 public class FacturaEJB {
 
-	
 	public Factura facturaPorId(int id) {
 		FacturaDAO f = new FacturaDAO();
 
@@ -32,11 +31,18 @@ public class FacturaEJB {
 		return f.getFactura();
 
 	}
-	
+
 	public ArrayList<Factura> getFacturasPorRestaurante(int idRestaurante) {
 		FacturaDAO f = new FacturaDAO();
 
 		return f.getFacturasPorRestaurante(idRestaurante);
+	}
+
+	public void insertaFecha(String fecha) {
+		FacturaDAO f = new FacturaDAO();
+
+		f.creaFactura(fecha);
+
 	}
 
 }

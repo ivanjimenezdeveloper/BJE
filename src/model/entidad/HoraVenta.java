@@ -2,24 +2,17 @@ package model.entidad;
 
 public class HoraVenta {
 
-	private int venta, hora, idFactura;
+	private int  hora, idFactura;
+	private Double venta;
 
 	public HoraVenta() {
 		super();
 	}
 
-	public HoraVenta(int venta, int hora, int idFactura) {
+	public HoraVenta(int hora, int idFactura, Double venta) {
 		super();
-		this.venta = venta;
 		this.hora = hora;
 		this.idFactura = idFactura;
-	}
-
-	public int getVenta() {
-		return venta;
-	}
-
-	public void setVenta(int venta) {
 		this.venta = venta;
 	}
 
@@ -38,7 +31,16 @@ public class HoraVenta {
 	public void setIdFactura(int idFactura) {
 		this.idFactura = idFactura;
 	}
-	
+
+	public Double getVenta() {
+		return venta;
+	}
+
+	public void setVenta(Double venta) {
+		this.venta = venta;
+	}
+
+
 	
 	
 }

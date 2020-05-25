@@ -17,14 +17,13 @@
 		FACTURA.* FROM FACTURA,HORA_VENTA
 		WHERE HORA_VENTA.IDFACTURA =
 		FACTURA.ID AND
-		IDRESTAURANTE = #{restaurante}
+		IDRESTAURANTE = #{restaurante} ORDER BY FACTURA.FECHA
+		DESC
 
 	</select>
 
-	<insert id="creaFactura" parameterType="Factura"
-		useGeneratedKeys="true" keyProperty="ID">
-		INSERT INTO HORARIO(ACTIVO, MES,
-		ANYO) VALUES(#{activo},#{mes},#{anyo});
+	<insert id="creaFactura" parameterType="Factura">
+		INSERT INTO FACTURA(FECHA) VALUES(#{fecha})
 	</insert>
 
 	<select id="facturaIdPorMesAnyo" resultType="Factura">

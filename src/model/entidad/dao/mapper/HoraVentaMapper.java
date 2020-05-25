@@ -8,8 +8,11 @@ import model.entidad.HoraVenta;
 
 public interface HoraVentaMapper {
 
-	public HoraVenta ventaPorId(@Param("id") int id,@Param("hora") int hora);
+	public HoraVenta ventaPorId(@Param("id") int id, @Param("hora") int hora);
 
 	public ArrayList<HoraVenta> getVentas();
+
+	public ArrayList<HoraVenta> getVentasPorRestauranteFecha(@Param("restaurante") int idRestaurante,
+			@Param("fecha") String fecha);
 
 }

@@ -11,12 +11,14 @@
 	<select id="getVentas" resultType="HoraVenta">
 	SELECT * FROM HORA_VENTA
 	</select>
-	<select id="ventasPorRestauranteFecha" resultType="HoraVenta">
+	
+	
+	<select id="getVentasPorRestauranteFecha" resultType="HoraVenta">
 		SELECT DISTINCT
 		HORA_VENTA.* FROM FACTURA,HORA_VENTA
 		WHERE HORA_VENTA.IDFACTURA =
 		FACTURA.ID AND
-		IDRESTAURANTE = #{restaurante} AND FECHA = #{fecha}
+		IDRESTAURANTE = #{restaurante} AND FECHA = #{fecha} ORDER BY FACTURA.FECHA ASC
 
 	</select>
 

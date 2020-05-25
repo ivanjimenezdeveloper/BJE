@@ -57,5 +57,26 @@ public class HoraVentaDAO {
 			sqlSession.close();
 		}
 	}
+	
+	/**
+	 * Devuelve todas las HoraVentas de un restaurante en una fecha
+	 * 
+	 * @return arraylist de HoraVenta
+	 */
+	public ArrayList<HoraVenta> getVentasPorRestauranteFecha(int idRestaurante, String fecha) {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			HoraVentaMapper horaVentaMapper = sqlSession.getMapper(HoraVentaMapper.class);
+			return horaVentaMapper.getVentasPorRestauranteFecha(idRestaurante, fecha);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			ArrayList<HoraVenta> t = new ArrayList<HoraVenta>();
+			return t;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 
 }

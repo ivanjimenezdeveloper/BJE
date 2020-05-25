@@ -125,7 +125,7 @@
 			<main>
 				<div class="container-fluid">
 					<h1 class="mt-4">Horarios</h1>
-					<a class='btn btn-primary' href="CreaHorarioGeneral">Nueva
+					<a class='btn btn-primary' href="CrearFactura">Nueva
 						Factura</a>
 
 					<%
@@ -135,7 +135,7 @@
 									for (Factura f : arrF) {
 
 										html += "\n<div class='col-xl-3 col-md-3'>"; // i1
-										html += "\n<a class='small text-white stretched-link' href='VerFactura?anyo="
+										html += "\n<a class='small text-white stretched-link' href='VerFactura?fecha="
 												+ f.getFecha()+"'>";
 										html += "<div class='card bg-success text-white mb-4'>"; // i2
 										html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3

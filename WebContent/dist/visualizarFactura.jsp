@@ -14,13 +14,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-
 	HoraVentaEJB horaVentaEJB = new HoraVentaEJB();
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
-	
-	
+
 	//comprueba que este en modo trabajo
 	int modoTrabajo;
 	try {
@@ -29,7 +27,7 @@
 	} catch (Exception e) {
 		modoTrabajo = 0;
 	}
-	
+
 	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0 || modoTrabajo == 1) {
 		response.sendRedirect("Main");
@@ -39,10 +37,11 @@
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
 		String fecha = "";
-		
-		
+
 		//recupera los parametros
 		fecha = sesion.getAttribute("fecha").toString();
+
+		ArrayList<HoraVenta> arrV = horaVentaEJB.getVentasPorRestauranteFecha(userNav.getRestaurante(), fecha);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -148,91 +147,48 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-										<th></th>
-											<th>Trabajador</th>
-											<%
-											
-												String htmlDia = "";
-											//por cada dia hace un header con el nombre del dia 
-											for (int i =1; i<= diaMaximo; i++) {
-														htmlDia += "<th colspan='4'>" + d.NombreDia(anyo+"-"+mes+"-"+i) + "</th>";
-													}
+											<th>Hora</th>
+											<th>Ventas</th>
 
-													out.print(htmlDia);
-											%>
 
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
-											<th></th>									
-											<th>Trabajador</th>
-											<%
-												out.print(htmlDia);
-											%>
+											<th>Hora</th>
+											<th>Ventas</th>
+
+
 										</tr>
 									</tfoot>
 									<tbody>
-										<%
-											String htmlEnt = "<tr>";
-											htmlEnt += "<td></td>";
-											htmlEnt += "<td></td>";
 
-											//por cada dia crea una seccion de entradas y salidas
-												for (int i =1; i<= diaMaximo; i++) {
-													htmlEnt += "<td>ENT</td>";
-													htmlEnt += "<td>SAL</td>";
-													htmlEnt += "<td>ENT</td>";
-													htmlEnt += "<td>SAL</td>";
-
-												}
-
-												htmlEnt += "</tr>";
-
-												out.print(htmlEnt);
-										%>
-										
 										<%
 											String html = "";
-										
-										//por cada usuario hace una fila
-												for (Usuario u : arrUs) {
+											Double total = 0.0;
 
+												//por cada hora crea una celda
+												for (HoraVenta h : arrV) {
 													html += "<tr>";
-													html += "<td><a class='btn btn-primary' href='EditaHorario?idUsuario="+u.getId()+"&mes="+mes+"&anyo="+anyo+"'>EDITA</a></td>";
-													html += "<td>" + u.getNombre() + " " + u.getApellido() + "</td>";
+													
+													
+													total = total + h.getVenta();
 
-													//por cada dia crea una celda
-													for (Dia dia : arrD) {
-
-														if (u.getId() == dia.getUsuario()) {
-
-															if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
-																html += "<td colspan='4'> LIBRE </td>";
-															} else if(dia.getEntrada_1().equals(dia.getEntrada_2())){
-																
-																html += "<td colspan='4'> LIBRE </td>";
-
-															}
-															else {
-																html += "<td>" + dia.getEntrada_1() + "</td>";
-																html += "<td>" + dia.getSalida_1() + "</td>";
-																html += "<td>" + dia.getEntrada_2() + "</td>";
-																html += "<td>" + dia.getSalida_2() + "</td>";
-															}
-
-														}
-
-													}
-
+													html += "<td>" + String.format("%02d", h.getHora()) + ":00</td>";
+													html += "<td>" + h.getVenta() + "</td>";
 													html += "</tr>";
+
 												}
+
+												html += "<tr><td>Total</td><td>"+total+"</td></tr>";
 												out.print(html);
 										%>
 
 									</tbody>
 								</table>
 							</div>
+							
+							<a class="btn btn-primary" href="EditaFactura?fecha=<% out.print(fecha);%>">Editar</a>
 						</div>
 					</div>
 				</div>

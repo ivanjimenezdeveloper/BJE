@@ -32,4 +32,12 @@ public class HoraVentaEJB {
 		return f.getVentas();
 
 	}
+
+
+	public ArrayList<HoraVenta> getVentasPorRestauranteFecha(int idRestaurante,String fecha) {
+		HoraVentaDAO f = new HoraVentaDAO();
+
+		return f.getVentasPorRestauranteFecha(idRestaurante, fecha);
+
+	}
 }
