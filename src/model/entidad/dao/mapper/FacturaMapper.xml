@@ -26,10 +26,10 @@
 		INSERT INTO FACTURA(FECHA) VALUES(#{fecha})
 	</insert>
 
-	<select id="facturaIdPorMesAnyo" resultType="Factura">
+	<select id="facturaIdFecha" resultType="Factura">
 
-		SELECT * FROM
-		HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
+		SELECT ID FROM
+		FACTURA WHERE FECHA = #{fecha}
 	</select>
 
 </mapper>

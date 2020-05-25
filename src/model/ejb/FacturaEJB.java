@@ -44,5 +44,14 @@ public class FacturaEJB {
 		f.creaFactura(fecha);
 
 	}
+	
+	public Factura facturaIdFecha(String fecha) {
+		FacturaDAO f = new FacturaDAO();
+
+		return f.facturaIdFecha(fecha);
+
+	}
+	
+	
 
 }

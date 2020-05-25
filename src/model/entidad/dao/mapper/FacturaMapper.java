@@ -15,4 +15,6 @@ public interface FacturaMapper {
 	public ArrayList<Factura> FacturasPorRestaurante(@Param("restaurante") int idRestaurante);
 	
 	public void creaFactura(@Param("fecha")String fecha);
+	
+	public Factura facturaIdFecha(@Param("fecha")String fecha);
 }

@@ -5,32 +5,44 @@
 
 	<select resultType="HoraVenta" id="ventaPorId">
 		SELECT * FROM HORA_VENTA
-		WHERE IDFACTURA =
+		WHERE
+		IDFACTURA =
 		#{id} AND HORA = #{hora}
 	</select>
 	<select id="getVentas" resultType="HoraVenta">
-	SELECT * FROM HORA_VENTA
+		SELECT * FROM HORA_VENTA
 	</select>
-	
-	
+
+
 	<select id="getVentasPorRestauranteFecha" resultType="HoraVenta">
-		SELECT DISTINCT
+		SELECT
+		DISTINCT
 		HORA_VENTA.* FROM FACTURA,HORA_VENTA
-		WHERE HORA_VENTA.IDFACTURA =
+		WHERE HORA_VENTA.IDFACTURA
+		=
 		FACTURA.ID AND
-		IDRESTAURANTE = #{restaurante} AND FECHA = #{fecha} ORDER BY FACTURA.FECHA ASC
+		IDRESTAURANTE = #{restaurante} AND FECHA = #{fecha}
+		ORDER BY FACTURA.FECHA ASC
 
 	</select>
 
-	<insert id="creaHoraVenta" parameterType="HoraVenta"
-		useGeneratedKeys="true" keyProperty="ID">
-		INSERT INTO HORARIO(ACTIVO, MES,
-		ANYO) VALUES(#{activo},#{mes},#{anyo});
+	<insert id="insertaHoraVenta" parameterType="HoraVenta">
+		INSERT INTO
+		HORA_VENTA(VENTA,HORA, IDFACTURA, IDRESTAURANTE)
+		VALUES(#{venta},#{hora}, #{idFactura}, #{idRestaurante})
 	</insert>
-	
-	<select id="ventaIdPorMesAnyo" resultType="HoraVenta">
-	
-	SELECT * FROM HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
+
+	<update id="editaHoraVenta">
+		UPDATE HORA_VENTA SET VENTA = #{venta} WHERE
+		IDFACTURA = #{idFactura} AND HORA = #{hora} AND IDRESTAURANTE = #{idRestaurante}
+
+	</update>
+
+	<select id="existeVenta" resultType="HoraVenta">
+		SELECT * from HORA_VENTA
+		WHERE IDFACTURA = #{idFactura} AND IDRESTAURANTE = #{idRestaurante}
+		AND HORA
+		= #{hora}
 	</select>
 
 </mapper>

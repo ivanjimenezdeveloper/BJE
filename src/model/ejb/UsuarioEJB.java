@@ -221,7 +221,7 @@ public class UsuarioEJB {
 
 			String cuerpo = "<p>Se ha reseteado su contraseña <p>";
 			cuerpo += "<p>Correo: " + user.getCorreo() + "</p>";
-			cuerpo += "<p>Password: " + user.getPass() + "</p>";
+			cuerpo += "<p>Password: " + pass + "</p>";
 			cuerpo += "<br><p>Si ha recibido este correo de forma erronea le pedimos que lo borre." + "</p>";
 			cuerpo += "<p>Atentamente, el equipo de Better Job Environment" + "</p>";
 

@@ -1,6 +1,7 @@
 <%@page import="model.ejb.HoraVentaEJB"%>
 <%@page import="model.entidad.HoraVenta"%>
 <%@page import="java.util.Calendar"%>
+<%@page import="model.ejb.TimerEJB"%>
 <%@page import="model.entidad.Dia"%>
 <%@page import="model.ejb.UsuarioEJB"%>
 <%@page import="model.ejb.DiaEJB"%>
@@ -15,6 +16,8 @@
 	pageEncoding="UTF-8"%>
 <%
 	HoraVentaEJB horaVentaEJB = new HoraVentaEJB();
+	UsuarioEJB us = new UsuarioEJB();
+
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
@@ -29,19 +32,30 @@
 	}
 
 	//comprueba que el usuario sea valido
-	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0 || modoTrabajo == 1) {
+	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
-	} else if (userNav.getRol() == 1) {
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
-		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
-		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
-		String fecha = "";
+	} else {
 
-		//recupera los parametros
-		fecha = sesion.getAttribute("fecha").toString();
+		// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
+		// jsp del modo trabajo
+		if (modoTrabajo == 1) {
+			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
+			rs.forward(request, response);
+		} else {
 
-		ArrayList<HoraVenta> arrV = horaVentaEJB.getVentasPorRestauranteFecha(userNav.getRestaurante(), fecha);
+			if (userNav.getRol() == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+				rs.forward(request, response);
+			} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+				ArrayList<Integer> arrT = new ArrayList<Integer>();
+				String fecha = "";
+
+				//saca los parametros
+
+				fecha = sesion.getAttribute("fecha").toString();
+
+				ArrayList<HoraVenta> arrV = horaVentaEJB.getVentasPorRestauranteFecha(userNav.getRestaurante(),
+						fecha);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,12 +127,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-							if (userNav == null) {
-								out.print("Usuario");
-							} else {
-								out.print(userNav.getNombre());
+									if (userNav == null) {
+										out.print("Usuario");
+									} else {
+										out.print(userNav.getNombre());
 
-							}
+									}
 					%>
 					</div>
 				</div>
@@ -143,50 +157,58 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
-									<thead>
-										<tr>
-											<th>Hora</th>
-											<th>Ventas</th>
+								<form action="EditaFactura" method="POST">
+									<table class="table table-bordered" id="dataTable" width="100%"
+										cellspacing="0">
+										<thead>
+											<tr>
+												<th>Hora</th>
+												<th>Ventas</th>
 
 
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-											<th>Hora</th>
-											<th>Ventas</th>
-										</tr>
-									</tfoot>
-									<tbody>
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th>Hora</th>
+												<th>Ventas</th>
+											</tr>
+										</tfoot>
+										<tbody>
+											<%
+												String html = "";
+												int size = arrV.size();
+												int ultimo=-1;
+															for (int i = 0; i <= 30; i++) {
 
-										<%
-											String html = "";
-											Double total = 0.0;
+																
+																for (HoraVenta h : arrV) {
+																	
+																	if(h.getHora() == i){
+																		ultimo = i;
+																		html += "<td>" + String.format("%02d", i) + ":00</td>";
+																		html += "<td><input type='number' placeholder='0.00' step='0.10' name='venta"+i+"' value='"+h.getVenta()+"'/></td>";
+																		html += "</tr>";
+																	}
+																}
 
-												//por cada hora crea una celda
-												for (HoraVenta h : arrV) {
-													html += "<tr>";
-													
-													
-													total = total + h.getVenta();
+																
+																if (ultimo != i ) {
+																	html += "<td>" + String.format("%02d", i) + ":00</td>";
+																	html += "<td><input type='number' placeholder='0.00' step='0.10' name='venta"+i+"'/></td>";
+																	html += "</tr>";
+																}
 
-													html += "<td>" + String.format("%02d", h.getHora()) + ":00</td>";
-													html += "<td>" + h.getVenta() + "</td>";
-													html += "</tr>";
+															}
 
-												}
+															out.print(html);
+											%>
 
-												html += "<tr><td>Total</td><td>"+total+"</td></tr>";
-												out.print(html);
-										%>
-
-									</tbody>
-								</table>
+										</tbody>
+									</table>
+									<input type="submit" value="Editar">
+								</form>
 							</div>
-							
-							<a class="btn btn-primary" href="EditaFactura?fecha=<% out.print(fecha);%>">Editar</a>
 						</div>
 					</div>
 				</div>
@@ -228,6 +250,8 @@
 </html>
 <%
 	} else {
-		response.sendRedirect("Main");
+				response.sendRedirect("Main");
+			}
+		}
 	}
 %>

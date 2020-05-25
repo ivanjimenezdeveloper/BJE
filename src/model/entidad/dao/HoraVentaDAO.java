@@ -57,7 +57,7 @@ public class HoraVentaDAO {
 			sqlSession.close();
 		}
 	}
-	
+
 	/**
 	 * Devuelve todas las HoraVentas de un restaurante en una fecha
 	 * 
@@ -77,6 +77,49 @@ public class HoraVentaDAO {
 			sqlSession.close();
 		}
 	}
-	
 
+	public HoraVenta existeVenta(int idFactura, int idRestaurante, int hora) {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			HoraVentaMapper horaVentaMapper = sqlSession.getMapper(HoraVentaMapper.class);
+			return horaVentaMapper.existeVenta(idFactura, idRestaurante, hora);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return new HoraVenta();
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	public void insertaHoraVenta(Double venta, int idFactura, int idRestaurante, int hora) {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			HoraVentaMapper horaVentaMapper = sqlSession.getMapper(HoraVentaMapper.class);
+			horaVentaMapper.insertaHoraVenta(venta, hora, idFactura, idRestaurante);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	
+	public void editaHoraVenta(Double venta, int idFactura, int idRestaurante, int hora) {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			HoraVentaMapper horaVentaMapper = sqlSession.getMapper(HoraVentaMapper.class);
+			horaVentaMapper.editaHoraVenta(venta, hora, idFactura, idRestaurante);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}
+	}
 }
