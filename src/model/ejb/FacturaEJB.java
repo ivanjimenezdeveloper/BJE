@@ -32,4 +32,11 @@ public class FacturaEJB {
 		return f.getFactura();
 
 	}
+	
+	public ArrayList<Factura> getFacturasPorRestaurante(int idRestaurante) {
+		FacturaDAO f = new FacturaDAO();
+
+		return f.getFacturasPorRestaurante(idRestaurante);
+	}
+
 }

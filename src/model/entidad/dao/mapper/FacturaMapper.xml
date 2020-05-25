@@ -9,14 +9,15 @@
 		#{id}
 	</select>
 	<select id="getFacturas" resultType="Factura">
-	SELECT * FROM FACTURA
+		SELECT * FROM FACTURA
 	</select>
+
 	<select id="FacturasPorRestaurante" resultType="Factura">
 		SELECT DISTINCT
-		HORARIO.* FROM HORARIO, DIA, USUARIO
-		WHERE DIA.IDHORARIO = HORARIO.ID
-		AND USUARIO.ID = DIA.USUARIO
-		AND USUARIO.restaurante = #{restaurante}
+		FACTURA.* FROM FACTURA,HORA_VENTA
+		WHERE HORA_VENTA.IDFACTURA =
+		FACTURA.ID AND
+		IDRESTAURANTE = #{restaurante}
 
 	</select>
 
@@ -25,10 +26,11 @@
 		INSERT INTO HORARIO(ACTIVO, MES,
 		ANYO) VALUES(#{activo},#{mes},#{anyo});
 	</insert>
-	
+
 	<select id="facturaIdPorMesAnyo" resultType="Factura">
-	
-	SELECT * FROM HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
+
+		SELECT * FROM
+		HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
 	</select>
 
 </mapper>

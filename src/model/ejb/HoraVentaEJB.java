@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import model.entidad.Factura;
 import model.entidad.HoraVenta;
-import model.entidad.dao.FacturaDAO;
 import model.entidad.dao.HoraVentaDAO;
 
 /**

@@ -1,10 +1,25 @@
+<%@page import="model.ejb.HoraVentaEJB"%>
+<%@page import="model.entidad.HoraVenta"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="model.entidad.Dia"%>
+<%@page import="model.ejb.UsuarioEJB"%>
+<%@page import="model.ejb.DiaEJB"%>
+<%@page import="model.entidad.Restaurante"%>
+<%@page import="model.ejb.RolEJB"%>
 <%@page import="model.entidad.Usuario"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.entidad.Rol"%>
+
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+
+	HoraVentaEJB horaVentaEJB = new HoraVentaEJB();
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
+	
 	
 	//comprueba que este en modo trabajo
 	int modoTrabajo;
@@ -15,21 +30,19 @@
 		modoTrabajo = 0;
 	}
 	
-	
 	//comprueba que el usuario sea valido
-	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
+	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0 || modoTrabajo == 1) {
 		response.sendRedirect("Main");
-	} else {
-		
-		// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
-		// jsp del modo trabajo
-		if (modoTrabajo == 1) {
-			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
-			rs.forward(request, response);
-		} else { if (userNav.getRol() == 1) {
+	} else if (userNav.getRol() == 1) {
 		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
 		rs.forward(request, response);
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
+		String fecha = "";
+		
+		
+		//recupera los parametros
+		fecha = sesion.getAttribute("fecha").toString();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -115,84 +128,112 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-					<h1 class="mt-4">Menu</h1>
-
-
-					<div class="row">
-						<!-- PRIMERA ROW DE CARDS -->
-						<!-- PRIMERA CARD -->
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="GestionUsuario">
-								<div class="card bg-primary text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-user-96-white.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Gestión de usuarios
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
+					<h1 class="mt-4">Tables</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item"><a href="Main">Home</a></li>
+						<li class="breadcrumb-item active">Gestión de usuarios ></li>
+					</ol>
+					<div class="card mb-4">
+						<div class="card-body">
+							Horario del mes y el año del restaurante </a>.
 						</div>
-						<!-- SEGUNDA CARD -->
-
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="VisualizarHorario">
-								<div class="card bg-warning text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-watch-98.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Horarios
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
+					</div>
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table mr-1"></i>Usuarios del restaurante:
 						</div>
-						<!-- TERCERA CARD -->
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%"
+									cellspacing="0">
+									<thead>
+										<tr>
+										<th></th>
+											<th>Trabajador</th>
+											<%
+											
+												String htmlDia = "";
+											//por cada dia hace un header con el nombre del dia 
+											for (int i =1; i<= diaMaximo; i++) {
+														htmlDia += "<th colspan='4'>" + d.NombreDia(anyo+"-"+mes+"-"+i) + "</th>";
+													}
 
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="VerFactura">
-								<div class="card bg-success text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-paper-98.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Facturas
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
+													out.print(htmlDia);
+											%>
+
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th></th>									
+											<th>Trabajador</th>
+											<%
+												out.print(htmlDia);
+											%>
+										</tr>
+									</tfoot>
+									<tbody>
+										<%
+											String htmlEnt = "<tr>";
+											htmlEnt += "<td></td>";
+											htmlEnt += "<td></td>";
+
+											//por cada dia crea una seccion de entradas y salidas
+												for (int i =1; i<= diaMaximo; i++) {
+													htmlEnt += "<td>ENT</td>";
+													htmlEnt += "<td>SAL</td>";
+													htmlEnt += "<td>ENT</td>";
+													htmlEnt += "<td>SAL</td>";
+
+												}
+
+												htmlEnt += "</tr>";
+
+												out.print(htmlEnt);
+										%>
+										
+										<%
+											String html = "";
+										
+										//por cada usuario hace una fila
+												for (Usuario u : arrUs) {
+
+													html += "<tr>";
+													html += "<td><a class='btn btn-primary' href='EditaHorario?idUsuario="+u.getId()+"&mes="+mes+"&anyo="+anyo+"'>EDITA</a></td>";
+													html += "<td>" + u.getNombre() + " " + u.getApellido() + "</td>";
+
+													//por cada dia crea una celda
+													for (Dia dia : arrD) {
+
+														if (u.getId() == dia.getUsuario()) {
+
+															if (dia.getEntrada_1() == null && dia.getEntrada_2() == null) {
+																html += "<td colspan='4'> LIBRE </td>";
+															} else if(dia.getEntrada_1().equals(dia.getEntrada_2())){
+																
+																html += "<td colspan='4'> LIBRE </td>";
+
+															}
+															else {
+																html += "<td>" + dia.getEntrada_1() + "</td>";
+																html += "<td>" + dia.getSalida_1() + "</td>";
+																html += "<td>" + dia.getEntrada_2() + "</td>";
+																html += "<td>" + dia.getSalida_2() + "</td>";
+															}
+
+														}
+
+													}
+
+													html += "</tr>";
+												}
+												out.print(html);
+										%>
+
+									</tbody>
+								</table>
+							</div>
 						</div>
-						<!-- CUARTA CARD -->
-
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link"
-								href="GestionaAlimentos">
-								<div class="card bg-danger text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-bread-98-white.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Alimentos
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-
 					</div>
 				</div>
 			</main>
@@ -229,12 +270,10 @@
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"
 		crossorigin="anonymous"></script>
 	<script src="dist/assets/demo/datatables-demo.js"></script>
-
-
 </body>
 </html>
 <%
 	} else {
 		response.sendRedirect("Main");
-	}}}
+	}
 %>

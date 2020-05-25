@@ -1,3 +1,7 @@
+<%@page import="model.entidad.Factura"%>
+<%@page import="model.ejb.HorarioEJB"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.entidad.Horario"%>
 <%@page import="model.entidad.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -6,16 +10,17 @@
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 	
+	
 	//comprueba que este en modo trabajo
 	int modoTrabajo;
+	HorarioEJB horarioEJB = new HorarioEJB();
 	try {
 		modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
 
 	} catch (Exception e) {
 		modoTrabajo = 0;
 	}
-	
-	
+
 	//comprueba que el usuario sea valido
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
@@ -26,10 +31,14 @@
 		if (modoTrabajo == 1) {
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 			rs.forward(request, response);
-		} else { if (userNav.getRol() == 1) {
-		RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
-		rs.forward(request, response);
-	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+		} else {
+			if (userNav.getRol() == 1) {
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexUsuario.jsp");
+				rs.forward(request, response);
+			} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
+
+				//recoge el parametro horario
+				ArrayList<Factura> arrF = (ArrayList) sesion.getAttribute("facturas");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,12 +110,12 @@
 						Logged in as:
 						<%
 						//Muestro el nombre del usuario o en caso contrario Muestro el nombre estandar
-							if (userNav == null) {
-								out.print("Usuario");
-							} else {
-								out.print(userNav.getNombre());
+									if (userNav == null) {
+										out.print("Usuario");
+									} else {
+										out.print(userNav.getNombre());
 
-							}
+									}
 					%>
 					</div>
 				</div>
@@ -115,85 +124,35 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-					<h1 class="mt-4">Menu</h1>
+					<h1 class="mt-4">Horarios</h1>
+					<a class='btn btn-primary' href="CreaHorarioGeneral">Nueva
+						Factura</a>
 
+					<%
+						String html = "";
+									html += "<div class='row'>";
+									//por cada Factura general se crea una tarjeta
+									for (Factura f : arrF) {
 
-					<div class="row">
-						<!-- PRIMERA ROW DE CARDS -->
-						<!-- PRIMERA CARD -->
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="GestionUsuario">
-								<div class="card bg-primary text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-user-96-white.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Gestión de usuarios
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<!-- SEGUNDA CARD -->
+										html += "\n<div class='col-xl-3 col-md-3'>"; // i1
+										html += "\n<a class='small text-white stretched-link' href='VerFactura?anyo="
+												+ f.getFecha()+"'>";
+										html += "<div class='card bg-success text-white mb-4'>"; // i2
+										html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
+										html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+										html += "<p>" + f.getFecha() + "</p>";
 
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="VisualizarHorario">
-								<div class="card bg-warning text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-watch-98.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Horarios
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<!-- TERCERA CARD -->
+										html += "</div>"; //f4
+										html += "</div>"; // f3
+										html += "</div>"; // f2
+										html += "</a>";
+										html += "</div>"; // f1
 
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="VerFactura">
-								<div class="card bg-success text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-paper-98.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Facturas
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<!-- CUARTA CARD -->
+									}
 
-						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link"
-								href="GestionaAlimentos">
-								<div class="card bg-danger text-white mb-4">
-									<div
-										class="card-body d-flex align-items-center justify-content-center">
-										<img alt="Icono de usuario"
-											src="dist/../img/icons8-bread-98-white.png">
-									</div>
-									<div
-										class="card-footer d-flex align-items-center justify-content-center">
-										Alimentos
-										<div class="small text-white"></div>
-									</div>
-								</div>
-							</a>
-						</div>
-
-					</div>
+									html += "</div>";
+									out.print(html);
+					%>
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
@@ -235,6 +194,8 @@
 </html>
 <%
 	} else {
-		response.sendRedirect("Main");
-	}}}
+				response.sendRedirect("Main");
+			}
+		}
+	}
 %>

@@ -3,7 +3,6 @@ package model.entidad.dao.mapper;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
 import model.entidad.HoraVenta;
 

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.LoggerFactory;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
-
 import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
 import model.entidad.Factura;
@@ -60,5 +58,27 @@ public class FacturaDAO {
 			sqlSession.close();
 		}
 	}
+	
+
+	/**
+	 * Devuelve facturas por restaurante
+	 * @param restaurante id de restaurante
+	 * @return arraylist de facturas
+	 */
+	public ArrayList<Factura> getFacturasPorRestaurante(int restaurante) {
+		SqlSession sqlSession = null;
+		try {
+			 sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			FacturaMapper facturaMapper = sqlSession.getMapper(FacturaMapper.class);
+			return facturaMapper.FacturasPorRestaurante(restaurante);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			ArrayList<Factura> t = new  ArrayList<Factura>();
+			return t;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 
 }
