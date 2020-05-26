@@ -11,6 +11,7 @@
 	<select id="getHorarios" resultType="Horario">
 	SELECT * FROM HORARIO ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC
 	</select>
+	
 	<select id="horariosPorRestaurante" resultType="Horario">
 		SELECT DISTINCT
 		HORARIO.* FROM HORARIO, DIA, USUARIO
@@ -39,5 +40,11 @@
 	
 	SELECT * FROM HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
 	</select>
+	
+	<update id="activaHorario" parameterType='Horario'>
+	
+	UPDATE HORARIO SET ACTIVO = 1 WHERE HORARIO.ID = #{horario}
+	
+	</update>
 
 </mapper>

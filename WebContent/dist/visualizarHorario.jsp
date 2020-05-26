@@ -1,3 +1,5 @@
+<%@page import="model.entidad.Horario"%>
+<%@page import="model.ejb.HorarioEJB"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="model.entidad.Dia"%>
 <%@page import="model.ejb.UsuarioEJB"%>
@@ -14,6 +16,8 @@
 <%
 	DiaEJB d = new DiaEJB();
 	UsuarioEJB us = new UsuarioEJB();
+	HorarioEJB horarioEJB = new HorarioEJB();
+	
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
@@ -37,7 +41,7 @@
 	} else if (userNav.getRol() == 2 || userNav.getRol() == 3) {
 		ArrayList<Usuario> arrUs = (ArrayList) sesion.getAttribute("usuarios");
 		Integer mes = 0, anyo = 0;
-		
+		Horario horario = new Horario();
 		//recupera los dias maximos de esta mes
 		Calendar c = new Calendar.Builder().setCalendarType("iso8601")
 				.setDate(anyo, mes-1, 1).build();
@@ -47,7 +51,11 @@
 		//recupera los parametros
 		mes = Integer.parseInt(sesion.getAttribute("mes").toString());
 		anyo = Integer.parseInt(sesion.getAttribute("anyo").toString());
+		horario = horarioEJB.horarioIdPorMesAnyo(mes, anyo);
+		
 		ArrayList<Dia> arrD = d.horarioRestaurante(mes, anyo, userNav.getRestaurante());
+		
+		
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -148,6 +156,17 @@
 							<i class="fas fa-table mr-1"></i>Usuarios del restaurante:
 						</div>
 						<div class="card-body">
+						<p>Activo: <% 
+						
+						if(horario.isActivo()){
+							out.print("SI");
+						}else{
+							out.print("NO");
+							out.print("<a class='btn btn-primary' href='ActivarHorario?id="+horario.getId()+"'> ACTIVAR</a>");
+
+						}
+						
+						%> </p>
 							<div class="table-responsive">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">

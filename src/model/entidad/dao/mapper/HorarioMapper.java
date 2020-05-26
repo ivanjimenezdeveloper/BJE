@@ -19,4 +19,6 @@ public interface HorarioMapper {
 	public void creaHorarioGeneral(@Param("activo") int activo, @Param("mes") int mes, @Param("anyo") int anyo);
 
 	public Horario horarioIdPorMesAnyo(@Param("mes") int mes, @Param("anyo") int anyo);
+	
+	public void activaHorario(@Param("horario")int id);
 }

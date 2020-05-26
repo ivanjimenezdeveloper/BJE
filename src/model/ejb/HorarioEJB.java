@@ -87,5 +87,11 @@ public class HorarioEJB {
 		return h.horarioIdPorMesAnyo(mes, anyo);
 	}
 	
+	public void activaHorario(int id) {
+		HorarioDAO h = new HorarioDAO();
+
+		h.activaHorario(id);
+	}
+	
 	
 }
