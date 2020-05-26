@@ -21,4 +21,7 @@ public interface HorarioMapper {
 	public Horario horarioIdPorMesAnyo(@Param("mes") int mes, @Param("anyo") int anyo);
 	
 	public void activaHorario(@Param("horario")int id);
+	
+	public void desactivaHorario(@Param("horario")int id);
+
 }

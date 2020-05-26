@@ -93,5 +93,10 @@ public class HorarioEJB {
 		h.activaHorario(id);
 	}
 	
+	public void desactivaHorario(int id) {
+		HorarioDAO h = new HorarioDAO();
+
+		h.desactivaHorario(id);
+	}
 	
 }

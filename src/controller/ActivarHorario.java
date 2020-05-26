@@ -26,7 +26,7 @@ public class ActivarHorario extends HttpServlet {
 	Sesiones sesionEJB;
 	@EJB
 	HorarioEJB horarioEJB;
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// recuperamos la sesion
@@ -64,17 +64,29 @@ public class ActivarHorario extends HttpServlet {
 				} else if (user.getRol() == 2 || user.getRol() == 3) {
 
 					// si los datos son correctos envia al selector de horario
-						int id;
-						try {
-							id = Integer.parseInt(request.getParameter("id").toString());
+					int id, desactivar;
 
-						} catch (Exception e) {
-							id = 0;
-						}
-						
+					try {
+						desactivar = Integer.parseInt(request.getParameter("desactivar").toString());
+
+					} catch (Exception e) {
+						desactivar = 0;
+
+					}
+					try {
+						id = Integer.parseInt(request.getParameter("id").toString());
+					} catch (Exception e) {
+						id = 0;
+					}
+
+					if (desactivar != 0) {
+						horarioEJB.desactivaHorario(id);
+
+					} else {
 						horarioEJB.activaHorario(id);
+					}
 
-						response.sendRedirect("Main");
+					response.sendRedirect("Main");
 
 				} else {
 

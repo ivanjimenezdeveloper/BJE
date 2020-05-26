@@ -160,6 +160,8 @@
 						
 						if(horario.isActivo()){
 							out.print("SI");
+							out.print("<a class='btn btn-primary' href='ActivarHorario?id="+horario.getId()+"&desactivar=1'> DESACTIVAR</a>");
+
 						}else{
 							out.print("NO");
 							out.print("<a class='btn btn-primary' href='ActivarHorario?id="+horario.getId()+"'> ACTIVAR</a>");

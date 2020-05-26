@@ -141,6 +141,23 @@ public class HorarioDAO {
 
 	}
 	
+	
+	public void desactivaHorario(int id) {
+
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			HorarioMapper horarioMapper = sqlSession.getMapper(HorarioMapper.class);
+			horarioMapper.desactivaHorario(id);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			sqlSession.close();
+		}
+
+	}
+	
 	/**
 	 * Devuelve la id de un horario segun su mes y su año
 	 * @param mes mes del año

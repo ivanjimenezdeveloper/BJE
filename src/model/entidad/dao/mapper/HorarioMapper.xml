@@ -46,5 +46,11 @@
 	UPDATE HORARIO SET ACTIVO = 1 WHERE HORARIO.ID = #{horario}
 	
 	</update>
+	
+		<update id="desactivaHorario" parameterType='Horario'>
+	
+	UPDATE HORARIO SET ACTIVO = 0 WHERE HORARIO.ID = #{horario}
+	
+	</update>
 
 </mapper>
