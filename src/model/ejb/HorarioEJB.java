@@ -40,6 +40,17 @@ public class HorarioEJB {
 	}
 	
 	/**
+	 * Devuelve los horarios que estan conectados a un restaurante activos
+	 * @param idRestaurante id del restaurante por el que filtrar
+	 * @return Arraylist de horarios generales
+	 */
+	public ArrayList<Horario> horariosPorRestauranteActivo(int idRestaurante) {
+		HorarioDAO h = new HorarioDAO();
+		
+		return h.horariosPorRestauranteActivo(idRestaurante);
+	}
+	
+	/**
 	 * Devuelve todos los horarios generales
 	 * @return Arraylist de horarios generales
 	 */

@@ -19,6 +19,15 @@
 		AND USUARIO.restaurante = #{restaurante} ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC 
 
 	</select>
+	
+		<select id="horariosPorRestauranteActivo" resultType="Horario">
+		SELECT DISTINCT
+		HORARIO.* FROM HORARIO, DIA, USUARIO
+		WHERE DIA.IDHORARIO = HORARIO.ID
+		AND USUARIO.ID = DIA.USUARIO
+		AND USUARIO.restaurante = #{restaurante} AND HORARIO.ACTIVO = 1 ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC 
+
+	</select>
 
 	<insert id="creaHorarioGeneral" parameterType="Horario"
 		useGeneratedKeys="true" keyProperty="ID">

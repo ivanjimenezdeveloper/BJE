@@ -62,6 +62,27 @@ public class HorarioDAO {
 		}
 	}
 	
+	
+	/**
+	 * Devuelve los horarios que estan conectados a un restaurante y estan activos
+	 * @param idRestaurante id del restaurante por el que filtrar
+	 * @return Arraylist de horarios generales
+	 */
+	public ArrayList<Horario> horariosPorRestauranteActivo(int idRestaurante) {
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+			HorarioMapper horarioMapper = sqlSession.getMapper(HorarioMapper.class);
+			return horarioMapper.horariosPorRestauranteActivo(idRestaurante);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			ArrayList<Horario> t = new ArrayList<Horario>();
+			return t;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 	/**
 	 * Devuelve todos los horarios generales
 	 * @return Arraylist de horarios generales

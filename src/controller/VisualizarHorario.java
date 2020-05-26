@@ -22,6 +22,7 @@ import model.entidad.Usuario;
 
 /**
  * Servlet que visualiza el horario
+ * 
  * @author HIBAN
  *
  */
@@ -53,16 +54,15 @@ public class VisualizarHorario extends HttpServlet {
 	@EJB
 	UsuarioEJB usuarioEJB;
 
-
 	/**
 	 * Muestra el selector de horario
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
-		
+
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		String mes, anyo;
@@ -87,20 +87,33 @@ public class VisualizarHorario extends HttpServlet {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
-				
+
 				// Segun el rol redirige al main o continua con la operacion
 				if (user.getRol() == 1) {
 
-					response.sendRedirect("Main");
+					if (mes == null && anyo == null || mes.equals("") && anyo.equals("")) {
+
+						// recupera los horarios
+						ArrayList<Horario> arrH = horarioEJB.horariosPorRestauranteActivo(user.getRestaurante());
+
+						// guarda los horarios en la sesion
+						sesion.setAttribute("horarios", arrH);
+
+						RequestDispatcher rs = getServletContext()
+								.getRequestDispatcher("/dist/selectorHorarioUsuario.jsp");
+						rs.forward(request, response);
+					} else {
+						doPost(request, response);
+					}
 				} else if (user.getRol() == 2 || user.getRol() == 3) {
 
-					//si los datos son correctos envia al selector de horario
+					// si los datos son correctos envia al selector de horario
 					if (mes == null && anyo == null || mes.equals("") && anyo.equals("")) {
-						
-						//recupera los horarios
+
+						// recupera los horarios
 						ArrayList<Horario> arrH = horarioEJB.getHorarios();
 
-						//guarda los horarios en la sesion
+						// guarda los horarios en la sesion
 						sesion.setAttribute("horarios", arrH);
 
 						RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/selectorHorario.jsp");
@@ -124,7 +137,7 @@ public class VisualizarHorario extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
 		// Obtenemos el usuario de la sesion si existe
@@ -150,28 +163,42 @@ public class VisualizarHorario extends HttpServlet {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
-				
+				String mes, anyo;
+
 				// Segun el rol redirige al main o continua con la operacion
 				if (user.getRol() == 1) {
 
-					response.sendRedirect("Main");
-				} else if (user.getRol() == 2 || user.getRol() == 3) {
-					
-					//recupera los parametros
-					String mes, anyo;
+					// recupera los parametros
 					mes = request.getParameter("mes");
 					anyo = request.getParameter("anyo");
-					//guarda los usuarios por restaurante y recupera el resturante
+					Restaurante restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante());
+
+					// guarda los atributos
+					sesion.setAttribute("usuario", user);
+					sesion.setAttribute("restaurante", restaurante);
+					sesion.setAttribute("mes", mes);
+					sesion.setAttribute("anyo", anyo);
+
+					// redirige
+					RequestDispatcher rs = getServletContext()
+							.getRequestDispatcher("/dist/visualizarHorarioUsuario.jsp");
+					rs.forward(request, response);
+				} else if (user.getRol() == 2 || user.getRol() == 3) {
+
+					// recupera los parametros
+					mes = request.getParameter("mes");
+					anyo = request.getParameter("anyo");
+					// guarda los usuarios por restaurante y recupera el resturante
 					ArrayList<Usuario> usuarios = usuarioEJB.busquedaUsuarios(user.getRestaurante());
 					Restaurante restaurante = restauranteEJB.RestaurantePorId(user.getRestaurante());
-					
-					//guarda los atributos
+
+					// guarda los atributos
 					sesion.setAttribute("usuarios", usuarios);
 					sesion.setAttribute("restaurante", restaurante);
 					sesion.setAttribute("mes", mes);
 					sesion.setAttribute("anyo", anyo);
 
-					//redirige
+					// redirige
 					RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/visualizarHorario.jsp");
 					rs.forward(request, response);
 				} else {
