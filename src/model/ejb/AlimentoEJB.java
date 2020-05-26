@@ -88,4 +88,13 @@ public class AlimentoEJB {
 		a.creaAlimento(alimento.getNombre(), alimento.getCategoria(), alimento.getTiempo());		
 	}
 
+	/**
+	 * Elimina un alimento
+	 * @param idAlimento id del alimento que eliminar
+	 */
+	public void eliminaAlimento(int idAlimento) {
+		AlimentoDAO a = new AlimentoDAO();
+
+		a.eliminaAlimento(idAlimento);
+	}
 }

@@ -99,6 +99,9 @@ public class CreaAlimento extends HttpServlet {
 		}
 	}
 
+	/**
+	 * Inserta el alimento
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession sesion = request.getSession(true);
@@ -106,6 +109,7 @@ public class CreaAlimento extends HttpServlet {
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
 		String nombre, categoria, tiempo;
 
+		// comprueba el modo trabajo
 		int modoTrabajo;
 		try {
 			modoTrabajo = (int) sesion.getAttribute("modoTrabajo");
@@ -114,14 +118,18 @@ public class CreaAlimento extends HttpServlet {
 			modoTrabajo = 0;
 		}
 
+		// comprueba que el usuario sea valido
 		if (user == null || user.getId() == 0 && user.getRol() == 0) {
 			response.sendRedirect("Main");
 
 		} else {
+			// si es modo trabajo ira al index de modo trabajo
 			if (modoTrabajo == 1) {
 				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/indexTrabajo.jsp");
 				rs.forward(request, response);
 			} else {
+
+				// si el usuario es correcto seguira con la operacion o parara
 				if (user.getRol() == 1) {
 
 					response.sendRedirect("Main");
@@ -129,6 +137,7 @@ public class CreaAlimento extends HttpServlet {
 
 					Alimento alimento = new Alimento();
 
+					// recupera los parametros
 					nombre = request.getParameter("nombre");
 					categoria = request.getParameter("categoria");
 					tiempo = request.getParameter("tiempo");
@@ -142,8 +151,16 @@ public class CreaAlimento extends HttpServlet {
 						logger.error(e.getMessage());
 					}
 
-					alimentoEJB.creaAlimento(alimento);
-					response.sendRedirect("GestionaAlimentos");
+					// comprueba que sea valido
+					if (alimento.getNombre() == null || alimento.getNombre().equals("") || alimento.getTiempo() == 0
+							|| alimento.getCategoria() == 0) {
+						response.sendRedirect("GestionaAlimentos");
+
+					} else {
+						alimentoEJB.creaAlimento(alimento);
+						response.sendRedirect("GestionaAlimentos");
+					}
+
 				} else {
 
 					response.sendRedirect("Main");

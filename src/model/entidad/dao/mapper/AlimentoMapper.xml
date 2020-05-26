@@ -27,5 +27,9 @@
 		INSERT INTO ALIMENTO(NOMBRE,IDCATEGORIA, TIEMPO)
 		VALUES(#{nombre},#{idCategoria}, #{tiempo})
 	</insert>
+	
+	<delete id="eliminaAlimento">
+	DELETE FROM ALIMENTO WHERE ID = #{id}
+	</delete>
 
 </mapper>

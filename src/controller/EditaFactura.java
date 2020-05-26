@@ -163,6 +163,7 @@ public class EditaFactura extends HttpServlet {
 						h.setIdFactura(f.getId());
 						
 						HoraVenta horaComparation = horaVentaEJB.existeVenta(h.getIdFactura(), user.getRestaurante(), h.getHora());
+						
 						// si no existe un dia para ese usuario con esa fecha en lugar de editar inserta
 						if ( horaComparation == null || horaComparation.getIdFactura() == 0 ) {
 

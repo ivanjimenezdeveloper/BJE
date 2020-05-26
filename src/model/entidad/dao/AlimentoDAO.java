@@ -9,7 +9,6 @@ import ch.qos.logback.classic.Logger;
 import model.MyBatisUtil;
 import model.entidad.Alimento;
 import model.entidad.dao.mapper.AlimentoMapper;
-import model.entidad.dao.mapper.UsuarioMapper;
 
 /**
  * DAO de alimentos
@@ -98,6 +97,24 @@ public class AlimentoDAO {
 		try {
 			AlimentoMapper alimentoMapper = sqlSession.getMapper(AlimentoMapper.class);
 			alimentoMapper.creaAlimento(nombre, idCategoria, tiempo);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	/**
+	 * elimina un alimento
+	 * @param idAlimento id del alimento que eliminar
+	 */
+	public void eliminaAlimento(int idAlimento) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			AlimentoMapper alimentoMapper = sqlSession.getMapper(AlimentoMapper.class);
+			alimentoMapper.eliminaAlimento(idAlimento);
 			sqlSession.commit();
 		} catch (Exception e) {
 			logger.error(e.getMessage());

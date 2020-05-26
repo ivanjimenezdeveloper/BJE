@@ -9,21 +9,21 @@
 		#{id}
 	</select>
 	<select id="getHorarios" resultType="Horario">
-	SELECT * FROM HORARIO
+	SELECT * FROM HORARIO ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC
 	</select>
 	<select id="horariosPorRestaurante" resultType="Horario">
 		SELECT DISTINCT
 		HORARIO.* FROM HORARIO, DIA, USUARIO
 		WHERE DIA.IDHORARIO = HORARIO.ID
 		AND USUARIO.ID = DIA.USUARIO
-		AND USUARIO.restaurante = #{restaurante}
+		AND USUARIO.restaurante = #{restaurante} ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC 
 
 	</select>
 
 	<insert id="creaHorarioGeneral" parameterType="Horario"
 		useGeneratedKeys="true" keyProperty="ID">
 		INSERT INTO HORARIO(ACTIVO, MES,
-		ANYO) VALUES(#{activo},#{mes},#{anyo});
+		ANYO) VALUES(#{activo},#{mes},#{anyo})
 	</insert>
 	
 	<select id="horarioIdPorMesAnyo" resultType="Horario">

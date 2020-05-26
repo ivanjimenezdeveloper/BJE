@@ -13,10 +13,12 @@ import javax.servlet.http.HttpSession;
 
 import model.ejb.HorarioEJB;
 import model.ejb.Sesiones;
+import model.entidad.Horario;
 import model.entidad.Usuario;
 
 /**
  * Servlet que muestra el formulario para crear un horario general y lo inserta
+ * 
  * @author HIBAN
  *
  */
@@ -41,13 +43,13 @@ public class CreaHorarioGeneral extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
-		
+
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
-		
+
 		// recupera si esta o no en modo trabajo
 		int modoTrabajo;
 		try {
@@ -62,7 +64,7 @@ public class CreaHorarioGeneral extends HttpServlet {
 			response.sendRedirect("Main");
 
 		} else {
-			
+
 			// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
 			// jsp del modo trabajo
 			if (modoTrabajo == 1) {
@@ -141,18 +143,23 @@ public class CreaHorarioGeneral extends HttpServlet {
 						anyo = 0;
 					}
 
-					//si activo no tiene nada dentro pasara a ser true
+					// si activo no tiene nada dentro pasara a ser true
 					if (activo != null) {
 
 						activoBol = true;
 
 					}
 
-					// TODO: comprobar horario
+					// Comprueba que el horario sea valido y no exista otro
 
-					//Inserta el horario general
-					horarioEJB.creaHorarioGeneral(activoBol, mes, anyo);
+					if (mes > 0 && anyo >= 1940) {
+						Horario horarioPrueba = horarioEJB.horarioIdPorMesAnyo(mes, anyo);
 
+						if (horarioPrueba == null || horarioPrueba.getAnyo() == 0) {
+							// Inserta el horario general
+							horarioEJB.creaHorarioGeneral(activoBol, mes, anyo);
+						}
+					}
 					response.sendRedirect("VisualizarHorario");
 
 				} else {

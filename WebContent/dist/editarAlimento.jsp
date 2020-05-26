@@ -161,7 +161,7 @@
 											</div>
 											<div class="col-md-6">
 												<label>Categoria</label> <select class="selectpicker"
-													name="categoria">
+													name="categoria" required>
 													<%
 													
 													
@@ -191,7 +191,7 @@
 										</div>
 										<div class="form-group mt-4 mb-0">
 											<input type="submit" class="btn btn-primary btn-block"
-												value="Editar" />
+												value="Editar" /><a class="btn btn-danger btn-block" href="EliminaAlimento?id=<% out.print(alimentoEdit.getId());%>"> ELIMINA</a>
 										</div>
 									</form>
 								</div>

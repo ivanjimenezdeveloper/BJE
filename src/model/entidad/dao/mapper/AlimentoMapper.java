@@ -16,4 +16,6 @@ public interface AlimentoMapper {
 
 	public void creaAlimento(@Param("nombre")String nombre, @Param("idCategoria")int idCategoria, 
 			@Param("tiempo")int tiempo);
+	
+	public void eliminaAlimento(@Param("id")int idAlimento);
 }
