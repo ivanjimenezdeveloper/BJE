@@ -51,7 +51,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Home</title>
+<title>Alimentos</title>
 <link href="dist/css/styles.css" rel="stylesheet" />
 <link
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
@@ -96,7 +96,10 @@
 
 						<a class="nav-link" href="Main"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Home</a> <a class="nav-link" href="Login?logout=1"><div
+							</div> Home</a> <a class="nav-link" href="ModoTrabajo?logoutTrabajo=1"><div
+								class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div> Desactivar Modo Trabajo</a> <a class="nav-link" href="Login?logout=1"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Log Out</a>
@@ -143,7 +146,7 @@
 										timers = timerEJB.getHMS(a.getTiempo()*60);
 										html += "<div class='col-xl-3 col-md-3'>"; // i1
 										html += "<a class='small text-white stretched-link' href='AnyadeTimer?timer="+a.getId()+"'>";
-										html += "<div class='card bg-warning text-white mb-4'>"; // i2
+										html += "<div class='card bg-success text-white mb-4'>"; // i2
 										html += "<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
 										html += "<h1>"+a.getNombre()+"</h1>";
 										html += "<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4

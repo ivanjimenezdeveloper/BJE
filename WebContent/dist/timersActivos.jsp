@@ -95,7 +95,10 @@
 
 						<a class="nav-link" href="Main"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Home</a> <a class="nav-link" href="Login?logout=1"><div
+							</div> Home</a> <a class="nav-link" href="ModoTrabajo?logoutTrabajo=1"><div
+								class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div> Desactivar Modo Trabajo</a> <a class="nav-link" href="Login?logout=1"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Log Out</a>
