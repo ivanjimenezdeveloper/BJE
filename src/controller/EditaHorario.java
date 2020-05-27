@@ -184,6 +184,15 @@ public class EditaHorario extends HttpServlet {
 
 					}
 					
+					String cuerpo;
+					
+					
+					cuerpo = "<p>Se ha creado o editado un horario en nuestra plataforma BJE <p>";
+					cuerpo += "<p>Correo: " + user.getCorreo() + "</p>";
+					cuerpo += "<p>Fecha " +mes +" de " + anyo + "</p>";
+					cuerpo += "<br><p>Si ha recibido este correo de forma erronea le pedimos que lo borre." + "</p>";
+					cuerpo += "<p>Atentamente, el equipo de Better Job Environment" + "</p>";
+					
 					//si los parametros son validos sigue
 					if(userHorario != null || userHorario.getId() != 0 || mes != 0 || anyo != 0) {
 						
@@ -215,6 +224,7 @@ public class EditaHorario extends HttpServlet {
 								//saca el horario general al que debe pertenecer este dia
 								Horario h =horarioEJB.horarioIdPorMesAnyo(mes, anyo);
 								
+								
 								diaEJB.insertarDia(diaAdd, h.getId());
 							}else {
 								//edita el dia
@@ -223,6 +233,9 @@ public class EditaHorario extends HttpServlet {
 							
 
 						}
+						
+						diaEJB.enviaCorreo(cuerpo, "Se ha creado o editado un horario suyo", userHorario.getCorreo());
+
 						
 						response.sendRedirect("VisualizarHorario");
 				

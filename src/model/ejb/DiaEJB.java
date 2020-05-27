@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import model.Mail;
 import model.entidad.Dia;
 import model.entidad.Usuario;
 import model.entidad.dao.DiaDAO;
@@ -159,7 +160,7 @@ public class DiaEJB {
 		DiaDAO d = new DiaDAO();
 		
 		//desglosa el dia en parametros
-		d.editaDia(dia.getFecha(), dia.getEntrada_1(), dia.getSalida_1(), dia.getEntrada_2(), dia.getSalida_2(), dia.getUsuario());;
+		d.editaDia(dia.getFecha(), dia.getEntrada_1(), dia.getSalida_1(), dia.getEntrada_2(), dia.getSalida_2(), dia.getUsuario());
 		
 		
 	}
@@ -176,5 +177,20 @@ public class DiaEJB {
 		return d.existeDia(us.getId(), fecha);
 	}
 	
+	
+	/**
+	 * Envia un correo
+	 * 
+	 * @param cuerpo cuerpo del correo
+	 * @param titulo titulo del correo
+	 * @param mail   objetivo del correo
+	 */
+	public void enviaCorreo(String cuerpo, String titulo, String mail) {
+
+		String remitente = "basiliscoxalligator@gmail.com";
+		Mail m = new Mail("smtp.gmail.com", 587, "basiliscoxalligator@gmail.com", "Ageofempires2");
+		m.sendMail(mail, remitente, titulo, cuerpo);
+
+	}
 	
 }
