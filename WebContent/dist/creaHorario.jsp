@@ -177,12 +177,12 @@
 							<%
 							out.print(user.getRestaurante());
 						%>
-							</a>.
+							
 						</div>
 					</div>
 					<div class="card mb-4">
 						<div class="card-header">
-							<i class="fas fa-table mr-1"></i>Usuarios del restaurante:
+							<i class="fas fa-table mr-1"></i>Usuarios del restaurante
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -257,7 +257,7 @@
 
 										</tbody>
 									</table>
-									<input type="submit" value="Editar">
+									<input type="submit"  class="btn btn-primary" value="Editar">
 								</form>
 							</div>
 						</div>

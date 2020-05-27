@@ -8,8 +8,7 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
-	
-	
+
 	//comprueba que este en modo trabajo
 	int modoTrabajo;
 	HorarioEJB horarioEJB = new HorarioEJB();
@@ -24,7 +23,7 @@
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
 	} else {
-		
+
 		// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
 		// jsp del modo trabajo
 		if (modoTrabajo == 1) {
@@ -123,35 +122,40 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-					<h1 class="mt-4">Horarios</h1>
-					<a class='btn btn-primary' href="CreaHorarioGeneral">Nuevo
-						Horario</a>
+					<div class="card-header">
+						<h1 class="mt-4">Horarios</h1>
+					</div>
+					<div class="card-body">
+						<a class='btn btn-primary' href="CreaHorarioGeneral">Nuevo
+							Horario</a>
+					</div>
+					<div class="card-body">
+						<%
+							String html = "";
+										html += "<div class='row'>";
+										//por cada horario general se crea una tarjeta
+										for (Horario h : arrH) {
 
-					<%
-						String html = "";
-									html += "<div class='row'>";
-									//por cada horario general se crea una tarjeta
-									for (Horario h : arrH) {
+											html += "\n<div class='col-xl-3 col-md-3'>"; // i1
+											html += "\n<a class='small text-white stretched-link' href='VisualizarHorario?mes="
+													+ h.getMes() + "&anyo=" + h.getAnyo() + "'>";
+											html += "<div class='card bg-success text-white mb-4'>"; // i2
+											html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
+											html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+											html += "<p>" + h.getMes() + "/" + h.getAnyo() + "</p>";
 
-										html += "\n<div class='col-xl-3 col-md-3'>"; // i1
-										html += "\n<a class='small text-white stretched-link' href='VisualizarHorario?mes="
-												+ h.getMes() + "&anyo=" + h.getAnyo() + "'>";
-										html += "<div class='card bg-success text-white mb-4'>"; // i2
-										html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
-										html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-										html += "<p>" + h.getMes() + "/" + h.getAnyo() + "</p>";
+											html += "</div>"; //f4
+											html += "</div>"; // f3
+											html += "</div>"; // f2
+											html += "</a>";
+											html += "</div>"; // f1
 
-										html += "</div>"; //f4
-										html += "</div>"; // f3
-										html += "</div>"; // f2
-										html += "</a>";
-										html += "</div>"; // f1
+										}
 
-									}
-
-									html += "</div>";
-									out.print(html);
-					%>
+										html += "</div>";
+										out.print(html);
+						%>
+					</div>
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

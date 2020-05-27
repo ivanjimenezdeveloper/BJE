@@ -125,6 +125,9 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
+				
+				<div class="card-header"><h1>TIMERS</h1></div>
+						<div class="card-body">
 
 
 					<%
@@ -133,7 +136,9 @@
 							for (Categoria c : arrC) {
 
 								html += "<div class='row'>";
-								html += "<h1>" + c.getNombre() + "</h1>";
+								html += "<div class='card-body'> ";
+								html += "<h2>" + c.getNombre() + "</h2>";
+								html += "</div>";
 								html += "</div>"; // row nombre categoria
 								html += "<div class='row'>";
 
@@ -169,13 +174,15 @@
 
 												}
 												html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
-												html += "\n<h1>" + a.getNombre() + "</h1>";
-												html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-												html += "\n<p id='countdown" + t.getId() + "'>"  + "</p>";
+												html += "\n<h3>" + a.getNombre() + "</h3>";
+
 												html += "\n<div class='small text-white'></div>";
 
-												html += "</div>"; // fin 4
 												html += "</div>"; // fin 3
+												html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+												html += "\n<p id='countdown" + t.getId() + "'>"  + "</p>";
+												html += "</div>"; // fin 4
+
 												html += "</div>"; // fin 2
 												html += "</a>";
 												html += "</div>"; // fin 1
@@ -189,8 +196,11 @@
 
 							out.print(html);
 					%>
+					</div>
+											<div class="card-body">
+					
 					<a class='btn btn-primary' style="margin-bottom: 5px;"
-						role='button' href='MuestraAlimentos'>NUEVO TIMER</a>
+						role='button' href='MuestraAlimentos'>NUEVO TIMER</a></div>
 					<!-- Fin container fluid -->
 				</div>
 			</main>

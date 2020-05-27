@@ -159,19 +159,27 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-					<h1 class="mt-4">Tables</h1>
+					<h1 class="mt-4">Horario</h1>
 					<ol class="breadcrumb mb-4">
 						<li class="breadcrumb-item"><a href="Main">Home</a></li>
-						<li class="breadcrumb-item active">Gestión de usuarios ></li>
+						<li class="breadcrumb-item active">Horario></li>
 					</ol>
 					<div class="card mb-4">
 						<div class="card-body">
-							Horario del mes y el año del restaurante </a>.
+							Horario del mes
+							<%
+							out.print(mesFecha);
+						%>
+							y el año
+							<%
+							out.print(anyoFecha);
+						%>
+
 						</div>
 					</div>
 					<div class="card mb-4">
 						<div class="card-header">
-							<i class="fas fa-table mr-1"></i>Usuarios del restaurante:
+							<i class="fas fa-table mr-1"></i>Usuarios del restaurante
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -208,7 +216,7 @@
 										<tbody>
 											<%
 												htmlDia = "<tr>";
-												//muestra las entradas y salidas
+															//muestra las entradas y salidas
 															htmlDia += "<td></td>";
 
 															for (Dia dia : arrD) {
@@ -228,7 +236,7 @@
 
 															html += "<tr>";
 															html += "<td>" + user.getNombre() + " " + user.getApellido() + "</td>";
-															
+
 															//si la array esta vacia crea inputs vacios si tiene algo creara inputs con el valor
 															if (arrD.isEmpty()) {
 																for (int i = 1; i <= diaMaximo; i++) {

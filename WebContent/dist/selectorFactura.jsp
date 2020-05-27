@@ -9,8 +9,7 @@
 	//recupero el usuario de la sesion
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
-	
-	
+
 	//comprueba que este en modo trabajo
 	int modoTrabajo;
 	HorarioEJB horarioEJB = new HorarioEJB();
@@ -25,7 +24,7 @@
 	if (userNav == null || userNav.getId() == 0 && userNav.getRol() == 0) {
 		response.sendRedirect("Main");
 	} else {
-		
+
 		// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
 		// jsp del modo trabajo
 		if (modoTrabajo == 1) {
@@ -124,36 +123,40 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-					<h1 class="mt-4">Horarios</h1>
-					<a class='btn btn-primary' href="CrearFactura">Nueva
-						Factura</a>
+					<div class="card-header">
+						<h1 class="mt-4">Facturas</h1>
+					</div>
+					<div class="card-body">
+						<a class='btn btn-primary' href="CrearFactura">Nueva Factura</a>
+					</div>
+					<div class="card-body">
 
-					<%
-						String html = "";
-									html += "<div class='row'>";
-									//por cada Factura general se crea una tarjeta
-									for (Factura f : arrF) {
+						<%
+							String html = "";
+										html += "<div class='row'>";
+										//por cada Factura general se crea una tarjeta
+										for (Factura f : arrF) {
 
-										html += "\n<div class='col-xl-3 col-md-3'>"; // i1
-										html += "\n<a class='small text-white stretched-link' href='VerFactura?fecha="
-												+ f.getFecha()+"'>";
-										html += "<div class='card bg-success text-white mb-4'>"; // i2
-										html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
-										html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-										html += "<p>" + f.getFecha() + "</p>";
+											html += "\n<div class='col-xl-3 col-md-3'>"; // i1
+											html += "\n<a class='small text-white stretched-link' href='VerFactura?fecha="
+													+ f.getFecha() + "'>";
+											html += "<div class='card bg-success text-white mb-4'>"; // i2
+											html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
+											html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+											html += "<p>" + f.getFecha() + "</p>";
 
-										html += "</div>"; //f4
-										html += "</div>"; // f3
-										html += "</div>"; // f2
-										html += "</a>";
-										html += "</div>"; // f1
+											html += "</div>"; //f4
+											html += "</div>"; // f3
+											html += "</div>"; // f2
+											html += "</a>";
+											html += "</div>"; // f1
 
-									}
+										}
 
-									html += "</div>";
-									out.print(html);
-					%>
-				</div>
+										html += "</div>";
+										out.print(html);
+						%></div>
+					</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
 				<div class="container-fluid">

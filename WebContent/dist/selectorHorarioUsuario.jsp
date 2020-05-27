@@ -121,7 +121,10 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
+									<div class="card-header">
+				
 					<h1 class="mt-4">Horarios</h1>
+</div>					<div class="card-body">
 
 					<%
 						String html = "";
@@ -148,7 +151,7 @@
 									html += "</div>";
 									out.print(html);
 					%>
-				</div>
+				</div></div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
 				<div class="container-fluid">

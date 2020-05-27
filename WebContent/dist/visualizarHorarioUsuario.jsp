@@ -131,16 +131,16 @@
 					<h1 class="mt-4">Tables</h1>
 					<ol class="breadcrumb mb-4">
 						<li class="breadcrumb-item"><a href="Main">Home</a></li>
-						<li class="breadcrumb-item active">Gestión de usuarios ></li>
+						<li class="breadcrumb-item active">Horario ></li>
 					</ol>
 					<div class="card mb-4">
 						<div class="card-body">
-							Horario del mes y el año del restaurante </a>.
+							Horario del mes y el año del restaurante 
 						</div>
 					</div>
 					<div class="card mb-4">
 						<div class="card-header">
-							<i class="fas fa-table mr-1"></i>Usuarios del restaurante:
+							<i class="fas fa-table mr-1"></i>Usuarios del restaurante
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
