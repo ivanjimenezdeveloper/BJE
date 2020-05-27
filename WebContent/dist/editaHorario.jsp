@@ -298,7 +298,7 @@
 
 										</tbody>
 									</table>
-									<input type="submit" value="Editar">
+									<input class="btn btn-primary" type="submit" value="Editar">
 								</form>
 							</div>
 						</div>

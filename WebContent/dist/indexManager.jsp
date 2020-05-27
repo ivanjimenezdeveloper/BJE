@@ -127,7 +127,7 @@
 									<div
 										class="card-body d-flex align-items-center justify-content-center">
 										<img alt="Icono de usuario"
-											src="dist/../img/icons8-user-96-white.png">
+											src="dist/../img/icons8-user-96.png">
 									</div>
 									<div
 										class="card-footer d-flex align-items-center justify-content-center">

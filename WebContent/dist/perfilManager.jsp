@@ -12,7 +12,6 @@
 	HttpSession sesion = request.getSession(true);
 	Usuario userNav = (Usuario) sesion.getAttribute("user");
 
-	
 	//comprueba que este en modo trabajo
 	int modoTrabajo;
 	try {
@@ -21,8 +20,7 @@
 	} catch (Exception e) {
 		modoTrabajo = 0;
 	}
-	
-	
+
 	//comprueba que el usuario sea valido
 	// Si el modo trabajo es 1 es que el modo trabajo esta activado y redirige al
 	// jsp del modo trabajo
@@ -196,7 +194,15 @@
 
 										<div class="form-row">
 											<label style="width: 100%;" name="observaciones"> <%
- 	out.print(userNav.getObservaciones());
+ 	String observacion = userNav.getObservaciones();
+
+ 		if (userNav.getObservaciones() == null) {
+ 			out.print("");
+
+ 		} else {
+ 			out.print(observacion);
+
+ 		}
  %>
 											</label>
 										</div>

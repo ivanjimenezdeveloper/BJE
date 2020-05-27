@@ -181,7 +181,16 @@
 
 										<div class="form-row">
 											<label style="width: 100%;" name="observaciones"> <%
- 	out.print(userNav.getObservaciones());
+											
+											String observacion =  	userNav.getObservaciones();
+
+											if(userNav.getObservaciones() == null){
+											 	out.print("");
+
+											}else{
+											 	out.print(observacion);
+
+											}
  %>
 											</label>
 										</div>
