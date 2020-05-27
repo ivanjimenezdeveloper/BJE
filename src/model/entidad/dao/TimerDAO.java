@@ -63,4 +63,18 @@ public class TimerDAO {
 		}		
 	}
 	
+	public void eliminaTimer(int id) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			TimerMapper timerMapper = sqlSession.getMapper(TimerMapper.class);
+			timerMapper.eliminaTimer(id);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+
+		} finally {
+			sqlSession.close();
+		}		
+	}
+	
 }

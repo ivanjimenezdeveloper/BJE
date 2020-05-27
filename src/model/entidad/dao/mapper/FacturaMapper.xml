@@ -9,7 +9,7 @@
 		#{id}
 	</select>
 	<select id="getFacturas" resultType="Factura">
-		SELECT * FROM FACTURA
+		SELECT * FROM FACTURA ORDER BY FACTURA.FECHA DESC
 	</select>
 
 	<select id="FacturasPorRestaurante" resultType="Factura">
@@ -17,8 +17,7 @@
 		FACTURA.* FROM FACTURA,HORA_VENTA
 		WHERE HORA_VENTA.IDFACTURA =
 		FACTURA.ID AND
-		IDRESTAURANTE = #{restaurante} ORDER BY FACTURA.FECHA
-		DESC
+		IDRESTAURANTE = #{restaurante} ORDER BY FACTURA.FECHA DESC
 
 	</select>
 

@@ -129,8 +129,10 @@
 			<main>
 				<div class="container-fluid">
 
-					<a class='btn btn-primary' style="margin-bottom: 5px;"
-						role='button' href='CreaAlimento'>Nuevo Alimento</a>
+				<div class="card-header"><h1>Alimentos</h1></div>
+
+					<div class="card-body"> <a class='btn btn-primary' style="margin-bottom: 5px;"
+						role='button' href='CreaAlimento'>Nuevo Alimento</a></div>
 					<%
 						String html = "";
 					
@@ -138,7 +140,9 @@
 							for (Categoria c : arrC) {
 
 								html += "<div class='row'>";
-								html += "<h1>" + c.getNombre() + "</h1>";
+								html += "<div class='card-body'> ";
+								html += "<h2>" + c.getNombre() + "</h2>";
+								html += "</div>";
 								html += "</div>"; // row nombre categoria
 								html += "<div class='row'>";
 
@@ -151,15 +155,17 @@
 										html += "<div class='col-xl-3 col-md-3'>"; // i1
 										html += "<a class='small text-white stretched-link' href='EditaAlimento?timer=" + a.getId()
 												+ "'>";
-										html += "<div class='card bg-warning text-white mb-4'>"; // i2
+										html += "<div class='card bg-success text-white mb-4'>"; // i2
 										html += "<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
-										html += "<h1>" + a.getNombre() + "</h1>";
-										html += "<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-										html += timers.get(0) + ":" + timers.get(1) + ":" + timers.get(2);
+										html += "<h3>" + a.getNombre() + "</h3>";
+
 										html += "<div class='small text-white'></div>";
 
-										html += "</div>"; // fin 4
 										html += "</div>"; // fin 3
+										html += "<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
+										html += timers.get(0) + ":" + timers.get(1) + ":" + timers.get(2);
+										html += "</div>"; // fin 4
+
 										html += "</div>"; // fin 2
 										html += "</a>";
 										html += "</div>"; // fin 1

@@ -148,7 +148,14 @@
 					</ol>
 					<div class="card mb-4">
 						<div class="card-body">
-							Horario del mes y el año del restaurante 
+							Horario del
+							<%
+							out.print(mes);
+						%>
+							del
+							<%
+							out.print(anyo);
+						%>
 						</div>
 					</div>
 					<div class="card mb-4">
@@ -160,11 +167,11 @@
 						
 						if(horario.isActivo()){
 							out.print("SI");
-							out.print("<a class='btn btn-primary' href='ActivarHorario?id="+horario.getId()+"&desactivar=1'> DESACTIVAR</a>");
+							out.print("<p>    </p><a class='btn btn-primary' href='ActivarHorario?id="+horario.getId()+"&desactivar=1'> DESACTIVAR</a>");
 
 						}else{
 							out.print("NO");
-							out.print("<a class='btn btn-primary' href='ActivarHorario?id="+horario.getId()+"'> ACTIVAR</a>");
+							out.print("<p>    </p><a class='btn btn-primary' href='ActivarHorario?id="+horario.getId()+"'> ACTIVAR</a>");
 
 						}
 						

@@ -158,7 +158,7 @@
 												}
 												timers = timerEJB.getHMS(tiempo);
 												html += "\n<div class='col-xl-3 col-md-3'>"; // i1
-												html += "\n<a class='small text-white stretched-link' href='#'>";
+												html += "\n<a class='small text-white stretched-link' href='EliminaTimer?id="+t.getId()+"'>";
 
 												if (t.getTiempo_restante() <= 0) {
 													html += "\n<div class='card bg-danger text-white mb-4'>"; // i2

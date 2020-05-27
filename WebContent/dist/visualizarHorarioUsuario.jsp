@@ -135,7 +135,14 @@
 					</ol>
 					<div class="card mb-4">
 						<div class="card-body">
-							Horario del mes y el año del restaurante 
+							Horario del
+							<%
+							out.print(mes);
+						%>
+							del
+							<%
+							out.print(anyo);
+						%>
 						</div>
 					</div>
 					<div class="card mb-4">

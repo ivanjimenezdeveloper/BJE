@@ -13,16 +13,13 @@ import javax.servlet.http.HttpSession;
 
 import model.ejb.Sesiones;
 import model.ejb.TimerEJB;
-import model.ejb.UsuarioEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet que muestra los timers activos
- * @author HIBAN
- *
+ * Servlet implementation class EliminaTimer
  */
-@WebServlet("/MuestraTimers")
-public class MuestraTimers extends HttpServlet {
+@WebServlet("/EliminaTimer")
+public class EliminaTimer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -30,32 +27,21 @@ public class MuestraTimers extends HttpServlet {
 	 */
 	@EJB
 	TimerEJB timerEJB;
-	
+
 	/**
 	 * EJB para trabajar con sesiones
 	 */
 	@EJB
 	Sesiones sesionEJB;
-	
-	/**
-	 * EJB para trabajar con usuarios
-	 */
-	@EJB
-	UsuarioEJB usuarioEJB;
 
-	/**
-	 * Muestra el JSP de timers activos
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		
 		// recuperamos la sesion
 		HttpSession sesion = request.getSession(true);
 
 		// Obtenemos el usuario de la sesion si existe
 		Usuario user = sesionEJB.usuarioLogeado(sesion);
-		
+
 		// recupera si esta o no en modo trabajo
 		int modoTrabajo;
 		try {
@@ -73,18 +59,24 @@ public class MuestraTimers extends HttpServlet {
 			if (user.getRol() == 1) {
 				response.sendRedirect("Main");
 			} else if (modoTrabajo == 1 && user.getRol() == 2 || modoTrabajo == 1 && user.getRol() == 3) {
+				int id;
 
-				RequestDispatcher rs = getServletContext().getRequestDispatcher("/dist/timersActivos.jsp");
-				rs.forward(request, response);
+				try {
+					id = Integer.parseInt(request.getParameter("id"));
+				} catch (Exception e) {
+					id = 0;
+				}
+				
+				timerEJB.eliminaTimer(id);
+				
+				response.sendRedirect("MuestraTimers");
+
 			} else {
 
 				response.sendRedirect("Main");
 			}
 
 		}
-
-
 	}
-
 
 }

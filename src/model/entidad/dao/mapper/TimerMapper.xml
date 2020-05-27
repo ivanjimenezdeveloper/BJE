@@ -18,5 +18,11 @@
 		INSERT INTO TIMER(IDALIMENTO,FECHA, IDRESTAURANTE) VALUES(#{idAlimento},from_unixtime(unix_timestamp(now()) + #{fecha}), #{idRestaurante})
 
 	</insert>
+	
+	<delete id="eliminaTimer" parameterType="Timer">
+	
+	DELETE FROM TIMER WHERE TIMER.ID = #{timer}
+	
+	</delete>
 
 </mapper>
