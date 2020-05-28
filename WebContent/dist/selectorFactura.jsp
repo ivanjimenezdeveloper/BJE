@@ -141,11 +141,10 @@
 											html += "\n<a class='small text-white stretched-link' href='VerFactura?fecha="
 													+ f.getFecha() + "'>";
 											html += "<div class='card bg-success text-white mb-4'>"; // i2
-											html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
-											html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-											html += "<p>" + f.getFecha() + "</p>";
+											html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; //in 3
+											html += "<h3>" + f.getFecha() + "</h3>";
 
-											html += "</div>"; //f4
+
 											html += "</div>"; // f3
 											html += "</div>"; // f2
 											html += "</a>";

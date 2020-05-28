@@ -141,10 +141,9 @@
 													+ h.getMes() + "&anyo=" + h.getAnyo() + "'>";
 											html += "<div class='card bg-success text-white mb-4'>"; // i2
 											html += "\n<div class='card-body d-flex align-items-center justify-content-center'>"; // in 3
-											html += "\n<div class='card-footer d-flex align-items-center justify-content-center'>"; // in 4
-											html += "<p>" + h.getMes() + "/" + h.getAnyo() + "</p>";
+											html += "<h3>" + h.getMes() + "/" + h.getAnyo() + "</h3>";
 
-											html += "</div>"; //f4
+
 											html += "</div>"; // f3
 											html += "</div>"; // f2
 											html += "</a>";

@@ -188,7 +188,7 @@ public class EditaHorario extends HttpServlet {
 					
 					
 					cuerpo = "<p>Se ha creado o editado un horario en nuestra plataforma BJE <p>";
-					cuerpo += "<p>Correo: " + user.getCorreo() + "</p>";
+					cuerpo += "<p>Correo: " + userHorario.getCorreo() + "</p>";
 					cuerpo += "<p>Fecha " +mes +" de " + anyo + "</p>";
 					cuerpo += "<br><p>Si ha recibido este correo de forma erronea le pedimos que lo borre." + "</p>";
 					cuerpo += "<p>Atentamente, el equipo de Better Job Environment" + "</p>";
