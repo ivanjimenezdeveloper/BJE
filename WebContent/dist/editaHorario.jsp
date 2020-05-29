@@ -282,7 +282,7 @@
 																				+ "' value='" + String.format("%02d", arrT.get(0)) + ":"
 																				+ String.format("%02d", arrT.get(1)) + "'></td>";
 
-																		arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_1()));
+																		arrT = timerEJB.getHMS(timerEJB.getSeconds(dia.getSalida_2()));
 																		html += "<td><input type='time' name='salida2" + d.getDia(dia.getFecha())
 																				+ "' value='" + String.format("%02d", arrT.get(0)) + ":"
 																				+ String.format("%02d", arrT.get(1)) + "'></td>";

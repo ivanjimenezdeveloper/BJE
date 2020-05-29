@@ -2,7 +2,8 @@ CREATE DATABASE BJE;
 USE BJE;
 CREATE USER 'gamelandIvan'@'localhost' IDENTIFIED BY 'Ageofempires2';
 
-GRANT INSERT, UPDATE, SELECT, UPDATE ON BJE.* TO 'imcivan'@'localhost';
+GRANT INSERT, UPDATE, SELECT, DELETE ON BJE.* TO 'gamelandIvan'@'localhost';
+
 
 CREATE TABLE ROL(
 ID INT NOT NULL auto_increment,
@@ -43,7 +44,7 @@ PASS varchar(20) NOT NULL,
 ROL INT,
 OBSERVACIONES VARCHAR(300),
 RESTAURANTE INT,
-ACTIVO INT(1) NOT NULL DEFAULT(0),
+ACTIVO INT(1)  NOT NULL DEFAULT 0 ,
 
 primary key (ID),
 foreign key (ROL) references ROL(ID),
