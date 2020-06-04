@@ -133,9 +133,7 @@
 						<li class="breadcrumb-item active">Factura</li>
 					</ol>
 					<div class="card mb-4">
-						<div class="card-body">
-							Factura
-						</div>
+						<div class="card-body">Factura</div>
 					</div>
 					<div class="card mb-4">
 						<div class="card-header">
@@ -185,8 +183,9 @@
 									</tbody>
 								</table>
 							</div>
-							
-							<a class="btn btn-primary" href="EditaFactura?fecha=<% out.print(fecha);%>">Editar</a>
+
+							<a class="btn btn-primary"
+								href="EditaFactura?fecha=<% out.print(fecha);%>">Editar</a>
 						</div>
 					</div>
 				</div>

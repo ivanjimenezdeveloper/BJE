@@ -4,7 +4,8 @@
 <mapper namespace='model.entidad.dao.mapper.UsuarioMapper'>
 
 	<select id="busquedaUsuarios" resultType="Usuario">
-		SELECT * FROM USUARIO WHERE RESTAURANTE = #{restaurante}
+		SELECT * FROM USUARIO
+		WHERE RESTAURANTE = #{restaurante}
 	</select>
 
 	<select resultType="Usuario" id="UsuarioPorId">
@@ -20,7 +21,8 @@
 
 	<select id='existeCorreo' resultType="int">
 		SELECT * FROM USUARIO
-		WHERE CORREO = #{correo}
+		WHERE
+		CORREO = #{correo}
 	</select>
 
 	<delete id='eliminaUsuario'>

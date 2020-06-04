@@ -99,8 +99,8 @@
 							</div> Home</a> <a class="nav-link" href="ModoTrabajo?logoutTrabajo=1"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Desactivar Modo Trabajo</a> <a class="nav-link" href="Login?logout=1"><div
-								class="sb-nav-link-icon">
+							</div> Desactivar Modo Trabajo</a> <a class="nav-link"
+							href="Login?logout=1"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Log Out</a>
 					</div>
@@ -127,7 +127,9 @@
 			<main>
 				<div class="container-fluid">
 
-				<div class="card-header"><h1>TIMERS</h1></div>
+					<div class="card-header">
+						<h1>TIMERS</h1>
+					</div>
 
 					<%
 						String html = "";

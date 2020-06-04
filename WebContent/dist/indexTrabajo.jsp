@@ -80,8 +80,8 @@
 							</div> Home</a> <a class="nav-link" href="ModoTrabajo?logoutTrabajo=1"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Desactivar Modo Trabajo</a> <a class="nav-link" href="Login?logout=1"><div
-								class="sb-nav-link-icon">
+							</div> Desactivar Modo Trabajo</a> <a class="nav-link"
+							href="Login?logout=1"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Log Out</a>
 					</div>
@@ -113,7 +113,7 @@
 					<div class="row">
 						<!-- PRIMERA ROW DE CARDS -->
 						<!-- PRIMERA CARD -->
-							<div class="col-xl-3 col-md-6">
+						<div class="col-xl-3 col-md-6">
 							<a class="small text-white stretched-link" href="MuestraTimers">
 								<div class="card bg-danger text-white mb-4">
 									<div

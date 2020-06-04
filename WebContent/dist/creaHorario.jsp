@@ -177,7 +177,7 @@
 							<%
 							out.print(user.getRestaurante());
 						%>
-							
+
 						</div>
 					</div>
 					<div class="card mb-4">
@@ -257,7 +257,7 @@
 
 										</tbody>
 									</table>
-									<input type="submit"  class="btn btn-primary" value="Editar">
+									<input type="submit" class="btn btn-primary" value="Editar">
 								</form>
 							</div>
 						</div>

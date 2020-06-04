@@ -9,7 +9,8 @@
 		#{id}
 	</select>
 	<select id="getFacturas" resultType="Factura">
-		SELECT * FROM FACTURA ORDER BY FACTURA.FECHA DESC
+		SELECT * FROM FACTURA ORDER
+		BY FACTURA.FECHA DESC
 	</select>
 
 	<select id="FacturasPorRestaurante" resultType="Factura">
@@ -17,18 +18,21 @@
 		FACTURA.* FROM FACTURA,HORA_VENTA
 		WHERE HORA_VENTA.IDFACTURA =
 		FACTURA.ID AND
-		IDRESTAURANTE = #{restaurante} ORDER BY FACTURA.FECHA DESC
+		IDRESTAURANTE = #{restaurante} ORDER BY FACTURA.FECHA
+		DESC
 
 	</select>
 
 	<insert id="creaFactura" parameterType="Factura">
-		INSERT INTO FACTURA(FECHA) VALUES(#{fecha})
+		INSERT INTO
+		FACTURA(FECHA) VALUES(#{fecha})
 	</insert>
 
 	<select id="facturaIdFecha" resultType="Factura">
 
 		SELECT ID FROM
-		FACTURA WHERE FECHA = #{fecha}
+		FACTURA
+		WHERE FECHA = #{fecha}
 	</select>
 
 </mapper>

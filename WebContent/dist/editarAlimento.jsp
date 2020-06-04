@@ -151,7 +151,8 @@
 								<div class="card-body">
 									<form action="EditaAlimento" method="POST">
 										<div class="form-row">
-											<div class="col-md-6" style="display: flex;align-items: center;">
+											<div class="col-md-6"
+												style="display: flex; align-items: center;">
 												<div class="form-group">
 													<label class="small mb-1" for="inputFirstName">Nombre</label><input
 														class="form-control py-4" name="nombre"
@@ -182,8 +183,10 @@
 										</div>
 										<div class="form-row">
 											<div class="col-md-12">
-												<label style="padding-left: 52%;">Tiempo</label> 
-												<input type="time" name="tiempo" value="<% out.print(String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1)));%>" required>
+												<label style="padding-left: 52%;">Tiempo</label> <input
+													type="time" name="tiempo"
+													value="<% out.print(String.format("%02d", arrT.get(0))+":"+String.format("%02d", arrT.get(1)));%>"
+													required>
 
 											</div>
 
@@ -191,7 +194,9 @@
 										</div>
 										<div class="form-group mt-4 mb-0">
 											<input type="submit" class="btn btn-primary btn-block"
-												value="Editar" /><a class="btn btn-danger btn-block" href="EliminaAlimento?id=<% out.print(alimentoEdit.getId());%>"> ELIMINA</a>
+												value="Editar" /><a class="btn btn-danger btn-block"
+												href="EliminaAlimento?id=<% out.print(alimentoEdit.getId());%>">
+												ELIMINA</a>
 										</div>
 									</form>
 								</div>

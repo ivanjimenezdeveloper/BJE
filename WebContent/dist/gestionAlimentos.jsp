@@ -129,10 +129,14 @@
 			<main>
 				<div class="container-fluid">
 
-				<div class="card-header"><h1>Alimentos</h1></div>
+					<div class="card-header">
+						<h1>Alimentos</h1>
+					</div>
 
-					<div class="card-body"> <a class='btn btn-primary' style="margin-bottom: 5px;"
-						role='button' href='CreaAlimento'>Nuevo Alimento</a></div>
+					<div class="card-body">
+						<a class='btn btn-primary' style="margin-bottom: 5px;"
+							role='button' href='CreaAlimento'>Nuevo Alimento</a>
+					</div>
 					<%
 						String html = "";
 					

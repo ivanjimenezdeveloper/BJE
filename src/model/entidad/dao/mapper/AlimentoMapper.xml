@@ -24,12 +24,14 @@
 
 	<insert id="creaAlimento" parameterType="Alimento"
 		useGeneratedKeys="true" keyProperty="ID">
-		INSERT INTO ALIMENTO(NOMBRE,IDCATEGORIA, TIEMPO)
-		VALUES(#{nombre},#{idCategoria}, #{tiempo})
+		INSERT INTO
+		ALIMENTO(NOMBRE,IDCATEGORIA, TIEMPO)
+		VALUES(#{nombre},#{idCategoria},
+		#{tiempo})
 	</insert>
-	
+
 	<delete id="eliminaAlimento">
-	DELETE FROM ALIMENTO WHERE ID = #{id}
+		DELETE FROM ALIMENTO WHERE ID = #{id}
 	</delete>
 
 </mapper>

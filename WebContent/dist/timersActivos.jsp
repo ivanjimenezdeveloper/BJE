@@ -98,8 +98,8 @@
 							</div> Home</a> <a class="nav-link" href="ModoTrabajo?logoutTrabajo=1"><div
 								class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Desactivar Modo Trabajo</a> <a class="nav-link" href="Login?logout=1"><div
-								class="sb-nav-link-icon">
+							</div> Desactivar Modo Trabajo</a> <a class="nav-link"
+							href="Login?logout=1"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Log Out</a>
 					</div>
@@ -125,12 +125,14 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-				
-				<div class="card-header"><h1>TIMERS</h1></div>
-						<div class="card-body">
+
+					<div class="card-header">
+						<h1>TIMERS</h1>
+					</div>
+					<div class="card-body">
 
 
-					<%
+						<%
 						String html = "";
 					//por cada categoria una row
 							for (Categoria c : arrC) {
@@ -197,10 +199,11 @@
 							out.print(html);
 					%>
 					</div>
-											<div class="card-body">
-					
-					<a class='btn btn-primary' style="margin-bottom: 5px;"
-						role='button' href='MuestraAlimentos'>NUEVO TIMER</a></div>
+					<div class="card-body">
+
+						<a class='btn btn-primary' style="margin-bottom: 5px;"
+							role='button' href='MuestraAlimentos'>NUEVO TIMER</a>
+					</div>
 					<!-- Fin container fluid -->
 				</div>
 			</main>

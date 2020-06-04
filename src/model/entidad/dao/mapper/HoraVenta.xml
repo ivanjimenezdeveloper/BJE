@@ -17,11 +17,13 @@
 	<select id="getVentasPorRestauranteFecha" resultType="HoraVenta">
 		SELECT
 		DISTINCT
-		HORA_VENTA.* FROM FACTURA,HORA_VENTA
-		WHERE HORA_VENTA.IDFACTURA
+		HORA_VENTA.*, FACTURA.FECHA FROM FACTURA,HORA_VENTA
+		WHERE
+		HORA_VENTA.IDFACTURA
 		=
 		FACTURA.ID AND
-		IDRESTAURANTE = #{restaurante} AND FECHA = #{fecha}
+		IDRESTAURANTE = #{restaurante} AND
+		FECHA = #{fecha}
 		ORDER BY FACTURA.FECHA ASC
 
 	</select>
@@ -34,7 +36,8 @@
 
 	<update id="editaHoraVenta">
 		UPDATE HORA_VENTA SET VENTA = #{venta} WHERE
-		IDFACTURA = #{idFactura} AND HORA = #{hora} AND IDRESTAURANTE = #{idRestaurante}
+		IDFACTURA = #{idFactura} AND HORA = #{hora} AND IDRESTAURANTE =
+		#{idRestaurante}
 
 	</update>
 

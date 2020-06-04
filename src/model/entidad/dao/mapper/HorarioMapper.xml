@@ -9,24 +9,29 @@
 		#{id}
 	</select>
 	<select id="getHorarios" resultType="Horario">
-	SELECT * FROM HORARIO ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC
+		SELECT * FROM HORARIO ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC
 	</select>
-	
+
 	<select id="horariosPorRestaurante" resultType="Horario">
 		SELECT DISTINCT
 		HORARIO.* FROM HORARIO, DIA, USUARIO
 		WHERE DIA.IDHORARIO = HORARIO.ID
 		AND USUARIO.ID = DIA.USUARIO
-		AND USUARIO.restaurante = #{restaurante} ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC 
+		AND USUARIO.restaurante = #{restaurante}
+		ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC
 
 	</select>
-	
-		<select id="horariosPorRestauranteActivo" resultType="Horario">
-		SELECT DISTINCT
+
+	<select id="horariosPorRestauranteActivo" resultType="Horario">
+		SELECT
+		DISTINCT
 		HORARIO.* FROM HORARIO, DIA, USUARIO
-		WHERE DIA.IDHORARIO = HORARIO.ID
+		WHERE DIA.IDHORARIO =
+		HORARIO.ID
 		AND USUARIO.ID = DIA.USUARIO
-		AND USUARIO.restaurante = #{restaurante} AND HORARIO.ACTIVO = 1 ORDER BY HORARIO.ANYO DESC, HORARIO.MES DESC 
+		AND USUARIO.restaurante =
+		#{restaurante} AND HORARIO.ACTIVO = 1 ORDER BY HORARIO.ANYO DESC,
+		HORARIO.MES DESC
 
 	</select>
 
@@ -35,22 +40,22 @@
 		INSERT INTO HORARIO(ACTIVO, MES,
 		ANYO) VALUES(#{activo},#{mes},#{anyo})
 	</insert>
-	
+
 	<select id="horarioIdPorMesAnyo" resultType="Horario">
-	
-	SELECT * FROM HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
+
+		SELECT * FROM HORARIO WHERE MES = #{mes} AND ANYO = #{anyo}
 	</select>
-	
+
 	<update id="activaHorario" parameterType='Horario'>
-	
-	UPDATE HORARIO SET ACTIVO = 1 WHERE HORARIO.ID = #{horario}
-	
+
+		UPDATE HORARIO SET ACTIVO = 1 WHERE HORARIO.ID = #{horario}
+
 	</update>
-	
-		<update id="desactivaHorario" parameterType='Horario'>
-	
-	UPDATE HORARIO SET ACTIVO = 0 WHERE HORARIO.ID = #{horario}
-	
+
+	<update id="desactivaHorario" parameterType='Horario'>
+
+		UPDATE HORARIO SET ACTIVO = 0 WHERE HORARIO.ID = #{horario}
+
 	</update>
 
 </mapper>

@@ -143,8 +143,8 @@
 
 											</div>
 											<div class="col-md-6">
-											<input type="submit" class="btn btn-primary btn-block"
-												value="Crear" />
+												<input type="submit" class="btn btn-primary btn-block"
+													value="Crear" />
 
 											</div>
 										</div>

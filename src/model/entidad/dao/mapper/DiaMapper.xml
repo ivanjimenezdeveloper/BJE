@@ -29,7 +29,8 @@
 
 	<select resultType="Dia" id="horarioUsuarioFecha">
 
-		SELECT * FROM DIA WHERE MONTH(FECHA) = #{mes} AND YEAR(FECHA) = #{anyo} AND
+		SELECT * FROM DIA WHERE MONTH(FECHA)
+		= #{mes} AND YEAR(FECHA) = #{anyo} AND
 		USUARIO = #{usuario}
 
 	</select>
@@ -37,18 +38,23 @@
 	<insert id="insertaDia" parameterType="Dia"
 		useGeneratedKeys="true" keyProperty="ID">
 
-		INSERT INTO DIA (FECHA, ENTRADA_1, SALIDA_1, ENTRADA_2, SALIDA_2, USUARIO, IDHORARIO)
-		VALUES(#{fecha}, #{entrada1}, #{salida1}, #{entrada2},#{salida2},
-		#{usuario}, #{idHorario})
+		INSERT INTO DIA (FECHA, ENTRADA_1,
+		SALIDA_1, ENTRADA_2, SALIDA_2, USUARIO, IDHORARIO)
+		VALUES(#{fecha},
+		#{entrada1}, #{salida1}, #{entrada2},#{salida2},
+		#{usuario},
+		#{idHorario})
 
 	</insert>
 
 	<select id="existeDia" resultType="int">
-		SELECT * FROM DIA WHERE USUARIO = #{usuario} AND FECHA = #{fecha};
+		SELECT * FROM DIA WHERE
+		USUARIO = #{usuario} AND FECHA = #{fecha};
 	</select>
 
 	<update id="editaDia">
-		UPDATE DIA SET ENTRADA_1 = #{entrada_1}, SALIDA_1 = #{salida_1},
+		UPDATE DIA SET ENTRADA_1 = #{entrada_1}, SALIDA_1 =
+		#{salida_1},
 		ENTRADA_2 = #{entrada_2}, SALIDA_2 = #{salida_2}
 		WHERE
 		USUARIO = #{idUsuario} AND FECHA = #{fecha}

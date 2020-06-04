@@ -91,8 +91,7 @@
 						<!-- INICIO DE LA BARRA LATERAL -->
 						<div class="sb-sidenav-menu-heading">Inicio</div>
 
-						<a class="nav-link" href="Main"><div
-								class="sb-nav-link-icon">
+						<a class="nav-link" href="Main"><div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> Home</a> <a class="nav-link" href="Login?logout=1"><div
 								class="sb-nav-link-icon">
@@ -121,12 +120,13 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid">
-									<div class="card-header">
-				
-					<h1 class="mt-4">Horarios</h1>
-</div>					<div class="card-body">
+					<div class="card-header">
 
-					<%
+						<h1 class="mt-4">Horarios</h1>
+					</div>
+					<div class="card-body">
+
+						<%
 						String html = "";
 									html += "<div class='row'>";
 									//por cada horario general se crea una tarjeta
@@ -151,7 +151,8 @@
 									html += "</div>";
 									out.print(html);
 					%>
-				</div></div>
+					</div>
+				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
 				<div class="container-fluid">

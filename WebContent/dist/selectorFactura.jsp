@@ -154,8 +154,9 @@
 
 										html += "</div>";
 										out.print(html);
-						%></div>
+						%>
 					</div>
+				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
 				<div class="container-fluid">

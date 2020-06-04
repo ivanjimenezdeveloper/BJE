@@ -9,7 +9,8 @@
 	</select>
 
 	<select id="busquedaRestaurantes" resultType="Restaurante">
-		SELECT * FROM RESTAURANTE
+		SELECT * FROM
+		RESTAURANTE
 	</select>
 
 </mapper>

@@ -163,7 +163,9 @@
 							<i class="fas fa-table mr-1"></i>Usuarios del restaurante
 						</div>
 						<div class="card-body">
-						<p>Activo: <% 
+							<p>
+								Activo:
+								<% 
 						
 						if(horario.isActivo()){
 							out.print("SI");
@@ -175,13 +177,14 @@
 
 						}
 						
-						%> </p>
+						%>
+							</p>
 							<div class="table-responsive">
 								<table class="table table-bordered" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
-										<th></th>
+											<th></th>
 											<th>Trabajador</th>
 											<%
 											
@@ -198,7 +201,7 @@
 									</thead>
 									<tfoot>
 										<tr>
-											<th></th>									
+											<th></th>
 											<th>Trabajador</th>
 											<%
 												out.print(htmlDia);
@@ -224,7 +227,7 @@
 
 												out.print(htmlEnt);
 										%>
-										
+
 										<%
 											String html = "";
 										

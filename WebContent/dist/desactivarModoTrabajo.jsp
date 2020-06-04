@@ -49,7 +49,8 @@
 						<div class="col-lg-5">
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
 								<div class="card-header">
-									<h3 class="text-center font-weight-light my-4">Activar Modo Trabajo</h3>
+									<h3 class="text-center font-weight-light my-4">Desactivar
+										Modo Trabajo</h3>
 								</div>
 								<div class="card-body">
 
@@ -62,7 +63,8 @@
 										</div>
 										<div
 											class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-											<input type="submit" class="btn btn-primary" value="Comprobar"></input>
+											<input type="submit" class="btn btn-primary"
+												value="Comprobar"></input>
 										</div>
 									</form>
 								</div>

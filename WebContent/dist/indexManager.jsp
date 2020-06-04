@@ -140,7 +140,8 @@
 						<!-- SEGUNDA CARD -->
 
 						<div class="col-xl-3 col-md-6">
-							<a class="small text-white stretched-link" href="VisualizarHorario">
+							<a class="small text-white stretched-link"
+								href="VisualizarHorario">
 								<div class="card bg-warning text-white mb-4">
 									<div
 										class="card-body d-flex align-items-center justify-content-center">

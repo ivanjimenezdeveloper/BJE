@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <configuration>
- <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-      <file>  bje.log </file>
-      <append>true</append>
-      <encoder>
-         <pattern>%-4relative %d{yyyy-MM-dd HH:mm:ss}[%thread] %-5level %logger{35} - %msg%n</pattern>
-      </encoder>
-   </appender>
-   
-  <root level="debug">
-    <appender-ref ref="FILE" />
-  </root>
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file> bje.log </file>
+		<append>true</append>
+		<encoder>
+			<pattern>%-4relative %d{yyyy-MM-dd HH:mm:ss}[%thread] %-5level
+				%logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="debug">
+		<appender-ref ref="FILE" />
+	</root>
 </configuration>
