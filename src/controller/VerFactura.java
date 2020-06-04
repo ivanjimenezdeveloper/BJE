@@ -19,7 +19,9 @@ import model.entidad.Factura;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class VerFactura
+ * Muestra una factura
+ * @author HIBAN
+ *
  */
 @WebServlet("/VerFactura")
 public class VerFactura extends HttpServlet {
@@ -35,6 +37,9 @@ public class VerFactura extends HttpServlet {
 	@EJB
 	Sesiones sesionEJB;
 	
+	/**
+	 * Muestra una factura
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		

@@ -78,6 +78,13 @@ public class HoraVentaDAO {
 		}
 	}
 
+	/**
+	 * Comprueba que exista una venta
+	 * @param idFactura id de la factura
+	 * @param idRestaurante id del restaurante
+	 * @param hora hora por la que filtrar
+	 * @return objeto HoraVenta
+	 */
 	public HoraVenta existeVenta(int idFactura, int idRestaurante, int hora) {
 		SqlSession sqlSession = null;
 		try {
@@ -92,6 +99,11 @@ public class HoraVentaDAO {
 		}
 	}
 
+	/**
+	 * Inserta una venta
+	 * @param h objeto HoraVenta que introducir
+	 * @param idRestaurante id del restaurante
+	 */
 	public void insertaHoraVenta(Double venta, int idFactura, int idRestaurante, int hora) {
 		SqlSession sqlSession = null;
 		try {
@@ -107,7 +119,11 @@ public class HoraVentaDAO {
 		}
 	}
 
-	
+	/**
+	 * Edita una venta
+	 * @param h objeto que editar
+	 * @param idRestaurante id del restaurante
+	 */
 	public void editaHoraVenta(Double venta, int idFactura, int idRestaurante, int hora) {
 		SqlSession sqlSession = null;
 		try {

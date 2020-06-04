@@ -22,7 +22,9 @@ import model.entidad.Restaurante;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class GestionUsuario
+ * Muestra la gestion de usuarios
+ * @author HIBAN
+ *
  */
 @WebServlet("/GestionUsuario")
 public class GestionUsuario extends HttpServlet {
@@ -49,6 +51,9 @@ public class GestionUsuario extends HttpServlet {
 	@EJB
 	Sesiones sesionEJB;
 
+	/**
+	 * Muestra la gestion de usuarios
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

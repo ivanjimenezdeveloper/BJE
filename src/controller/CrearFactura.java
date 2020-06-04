@@ -31,6 +31,9 @@ public class CrearFactura extends HttpServlet {
 	@EJB
 	FacturaEJB facturaEJB;
 
+	/**
+	 * Muestra el formulario de creacion
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// recuperamos la sesion
@@ -78,8 +81,7 @@ public class CrearFactura extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * Crea la factura
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

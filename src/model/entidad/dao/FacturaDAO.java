@@ -79,6 +79,10 @@ public class FacturaDAO {
 		}
 	}
 
+	/**
+	 * Crea una factura
+	 * @param fecha fecha de la factura
+	 */
 	public void creaFactura(String fecha) {
 		SqlSession sqlSession = null;
 		try {
@@ -94,6 +98,11 @@ public class FacturaDAO {
 		}
 	}
 
+	/**
+	 * Busca una factura por su fecha
+	 * @param fecha fecha de la factura
+	 * @return Objeto factura
+	 */
 	public Factura facturaIdFecha(String fecha) {
 		SqlSession sqlSession = null;
 		try {

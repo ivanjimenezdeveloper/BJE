@@ -148,6 +148,8 @@ public class EditaFactura extends HttpServlet {
 					Factura f = new Factura();
 					
 					f = facturaEJB.facturaIdFecha(fecha);
+					
+					//por cada hora muestra una row
 					for (int i = 0; i <= 30; i++) {
 						Double venta;
 						HoraVenta h = new HoraVenta();

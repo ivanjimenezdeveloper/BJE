@@ -16,17 +16,29 @@ import model.ejb.Sesiones;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class ActivarHorario
+ * Activa horario
+ * @author HIBAN
+ *
  */
 @WebServlet("/ActivarHorario")
 public class ActivarHorario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * EJB para trabajar con sesiones
+	 */
 	@EJB
 	Sesiones sesionEJB;
+	
+	/**
+	 * EJB para trabajar con horarios
+	 */
 	@EJB
 	HorarioEJB horarioEJB;
 
+	/**
+	 * Activa horario
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// recuperamos la sesion

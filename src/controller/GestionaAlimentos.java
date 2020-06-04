@@ -30,6 +30,9 @@ public class GestionaAlimentos extends HttpServlet {
 	@EJB
 	Sesiones sesionEJB;
 
+	/**
+	 * Muestra los alimentos
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		

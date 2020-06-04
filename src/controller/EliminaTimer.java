@@ -16,7 +16,9 @@ import model.ejb.TimerEJB;
 import model.entidad.Usuario;
 
 /**
- * Servlet implementation class EliminaTimer
+ * Elimina un timer
+ * @author HIBAN
+ *
  */
 @WebServlet("/EliminaTimer")
 public class EliminaTimer extends HttpServlet {
@@ -34,6 +36,9 @@ public class EliminaTimer extends HttpServlet {
 	@EJB
 	Sesiones sesionEJB;
 
+	/**
+	 * Elimina el timer
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// recuperamos la sesion
